@@ -1,0 +1,47 @@
+  google_actions:
+    filter:
+      include_entities:
+        - input_boolean.automazioniluci
+        - input_boolean.autocucina
+        - input_boolean.autoscale
+        - input_boolean.autocorridoio
+        - input_boolean.autobagno
+        - input_boolean.autocamera
+        - input_boolean.autoterrazzo
+        - input_boolean.allarmediurno
+        - input_boolean.allarmenotturno
+        - input_boolean.pausaskyappletv
+        - input_boolean.ambilight
+        - input_boolean.tvcamera
+        - input_boolean.sky
+        - input_boolean.appletv
+        - input_boolean.dtt
+        - input_boolean.pc
+        - input_boolean.tvsala
+        - input_boolean.telecamere
+        - input_boolean.acasa
+        - input_boolean.cromoterrazzo
+        - input_boolean.cromocamera
+        - input_boolean.cromosala
+        - input_boolean.franchinogoogle
+        - cover.apri_basculante
+        - switch.switch_3 # Cucina
+        - light.faretto
+        - light.flos
+        - switch.fibaro_system_fgs223_double_relay_switch_3 # Parete Sala
+        - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
+        - switch.switch_2 # Corridoio
+        - switch.switch # Bagno
+        - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
+        - switch.fibaro_system_fgs223_double_relay_switch_2 #Camera
+        - light.led
+        - light.led_2
+        - light.led_3
+        - switch.plug_158d00015ef7bc # Lampada Sale
+        - light.terrazzo_1
+        - light.terrazzo_2
+        - light.terrazzo_3
+        - light.gateway_light_f0b429cc390b
+        - light.garage_1
+        - light.garage_2
+        - fan.xiaomi_miio_device

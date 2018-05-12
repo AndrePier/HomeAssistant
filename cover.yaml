@@ -1,0 +1,23 @@
+# Cover Garagw
+  - platform: template
+    covers:
+     apri_basculante:
+        friendly_name: "Basculante"
+        value_template: >-
+          {% if is_state('switch.sonoff_garage', 'on') %}
+            open
+          {% else %}
+            closed
+          {% endif %}
+        open_cover:
+          service: script.apertura_basculante
+        close_cover:
+          service: script.apertura_basculante
+        stop_cover:
+          service: script.apertura_basculante
+        icon_template: >-
+          {% if is_state('switch.sonoff_garage', 'on') %}
+            mdi:garage-open
+          {% else %}
+            mdi:garage
+          {% endif %}

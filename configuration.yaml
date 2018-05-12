@@ -1,0 +1,390 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 140
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Rome
+  # Customization file
+  customize: !include customize.yaml
+  packages: !include_dir_named ../packages
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  api_password: !secret api_password
+  base_url: !secret base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+panel_iframe:
+
+ios:
+
+device_tracker:
+
+notify:
+  platform: ios
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - yeelight
+    - harmony
+    - denonavr
+
+coinbase:
+  api_key: !secret coinbase_api_key
+  api_secret: !secret coinbase_api_secret
+  exchange_rate_currencies:
+    - ETH
+    - LTC
+    - BTC
+    - BCH
+
+recorder:
+  db_url: !secret db_url
+
+zone:
+  - name: Ufficio
+    latitude: !secret ufficio_latitude
+    longitude: !secret ufficio_longitude
+    radius: 100
+    icon: mdi:worker
+
+  - name: Genitori
+    latitude: !secret genitori_latitude
+    longitude: !secret genitori_longitude
+    radius: 100
+    icon: mdi:account-multiple
+
+remote:
+  - platform: harmony
+    name: Harmony Sala
+    host: 192.168.10.9
+    activity: Sky
+
+hue:
+  bridges:
+    - host: 192.168.10.13
+      allow_unreachable: true
+      allow_hue_groups: false
+
+xiaomi_aqara:
+  gateways:
+    - mac: F0:B4:29:CC:39:0B
+      key: 6691EE8A790D4D7B
+    - mac: 3C:CE:00:88:B7:29
+      key: 39301E7220274FBC
+
+light:
+  - platform: yeelight
+    devices:
+      192.168.10.22:
+        name: Led 3
+        transition: 350
+        use_music_mode: True #(defaults to False)
+        save_on_change: False #(defaults to True)
+      192.168.10.35:
+        name: Terrazzo 1
+        transition: 350
+        use_music_mode: True #(defaults to False)
+        save_on_change: False #(defaults to True)
+      192.168.10.36:
+        name: Terrazzo 2
+        transition: 350
+        use_music_mode: True #(defaults to False)
+        save_on_change: False #(defaults to True)
+      192.168.10.23:
+        name: Terrazzo 3
+        transition: 350
+        use_music_mode: True #(defaults to False)
+        save_on_change: False #(defaults to True)
+      192.168.10.26:
+        name: Garage 1
+        transition: 350
+        use_music_mode: True #(defaults to False)
+        save_on_change: False #(defaults to True)
+      192.168.10.27:
+        name: Garage 2
+        transition: 350
+        use_music_mode: True #(defaults to False)
+        save_on_change: False #(defaults to True)
+
+media_player:
+  - platform: spotify
+    client_id: !secret spotify_client_id
+    client_secret: !secret spotify_client_secret
+
+  - platform: denonavr
+    host: 192.168.10.32
+    name: Ampli Denon
+    show_all_sources: True
+
+  - platform: plex
+
+  - platform: lg_netcast
+    host: 192.168.10.29
+    access_token: 791905
+    name: Tv Camera
+
+mqtt:
+  broker: core-mosquitto
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  discovery: true
+  discovery_prefix: homeassistant
+  birth_message:
+    topic: "tele/hass1/LWT"
+    payload: "Online"
+    qos: 1
+    retain: true
+  will_message:
+    topic: "tele/hass1/LWT"
+    payload: "Offline"
+    qos: 1
+    retain: true
+
+zwave:
+  usb_path: /dev/ttyACM0
+
+camera:
+- platform: mjpeg
+  mjpeg_url: http://192.168.10.16/image.jpg
+  name: Cam Sala Dx
+
+- platform: mjpeg
+  mjpeg_url: http://192.168.10.18/image.jpg
+  name: Cam Sala Sx
+
+- platform: mjpeg
+  mjpeg_url: http://192.168.10.19/image.jpg
+  name: Cam Cucina
+
+- platform: mjpeg
+  mjpeg_url: http://192.168.10.25/image.jpg
+  name: Cam Garage
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+weather:
+  - platform: yweather
+    name: Meteo
+
+sensor:
+
+  - platform: template
+    sensors:
+      consumo_luci:
+        friendly_name: "Cosumo Luci"
+        icon_template: mdi:chart-bar
+        unit_of_measurement: 'W'
+        value_template: "{{ states.sensor.fibaro_system_fgs223_double_relay_power.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_4.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_3.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_5.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_2.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_6.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_8.state | int }} "
+
+  - platform: template
+    sensors:
+      qualita_aria:
+        friendly_name: "Qualità Aria"
+        icon_template: mdi:air-conditioner
+        value_template: '{{ states.fan.xiaomi_miio_device.attributes.aqi }}'
+        unit_of_measurement: 'pm25'
+
+  - platform: template
+    sensors:
+      consumo_tvsala:
+        friendly_name: "Consumo TV Sala"
+        icon_template: mdi:flash
+        value_template: '{{ states.switch.plug_158d00015db991.attributes.load_power }}'
+        unit_of_measurement: 'W'
+
+  - platform: template
+    sensors:
+      consumo_htcamera:
+        friendly_name: "Consumo HT Camera"
+        icon_template: mdi:flash
+        value_template: '{{ states.switch.plug_158d000154ae55.attributes.load_power }}'
+        unit_of_measurement: 'W'
+
+
+  - platform: template
+    sensors:
+      portafoglio_eth:
+        friendly_name: "Portafoglio ETH"
+        icon_template: mdi:coin
+        value_template: '{{ states.sensor.coinbase_portafoglio_eth.attributes["Balance in native currency"] }}'
+
+  - platform: template
+    sensors:
+      portafoglio_ltc:
+        friendly_name: "Portafoglio LTC"
+        icon_template: mdi:coin
+        value_template: '{{ states.sensor.coinbase_portafoglio_ltc.attributes["Balance in native currency"] }}'
+
+  - platform: template
+    sensors:
+      portafoglio_bch:
+        friendly_name: "Portafoglio BCH"
+        icon_template: mdi:coin
+        value_template: '{{ states.sensor.coinbase_portafoglio_bch.attributes["Balance in native currency"] }}'
+
+  - platform: template
+    sensors:
+      portafoglio_btc:
+        friendly_name: "Portafoglio BTC"
+        icon_template: mdi:coin
+        value_template: '{{ states.sensor.coinbase_portafoglio_btc.attributes["Balance in native currency"] }}'
+
+  - platform: moon
+
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    name: Previsioni
+    monitored_conditions:
+      - summary
+      - icon
+      - apparent_temperature
+      - wind_speed
+      - cloud_cover
+
+  - platform: google_travel_time
+    api_key: !secret google_api_key
+    name: Casa - Ufficio
+    origin: !secret casa_origin
+    destination: !secret office_origin
+
+  - platform: google_travel_time
+    api_key: !secret google_api_key
+    name: Ufficio - Casa
+    origin: !secret office_origin
+    destination: !secret casa_origin
+
+  - platform: speedtest
+    minute: 50
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+
+  - platform: systemmonitor
+    resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: processor_use
+    - type: since_last_boot
+    - type: network_in
+      arg: eth0
+    - type: network_out
+      arg: eth0
+
+vacuum:
+  - platform: xiaomi_miio
+    host: 192.168.10.33
+    token: !secret mirobot_token
+
+fan:
+  - platform: xiaomi_miio
+    host: 192.168.10.17
+    token: !secret purifier_token
+
+switch:
+  - platform: mqtt
+    name: "Sonoff Garage"
+    state_topic: "/garage/rele/state"
+    command_topic: "/garage/gpio/12"
+    payload_on: "1"
+    payload_off: "0"
+    qos: 1
+    retain: true
+
+  - platform: broadlink
+    host: 192.168.10.20
+    mac: '34ea34e3b4c1'
+    friendly_name: Broadlink Sala
+    type: rm_mini
+    switches:
+      powersky:
+        friendly_name: "Power Sky"
+        command_on: 'JgA+AFYeDg8ODw4eDh4cDw4PDhANEA0QDRAODw4PHB4ODw4QDRANEA0QHBANHhwfDRANEA0QDg8cEA0eDg8OAA0FAAAAAAAAAAAAAA=='
+        command_off: 'JgA+AFYeDg8ODw4eDh4cDw4PDhANEA0QDRAODw4PHB4ODw4QDRANEA0QHBANHhwfDRANEA0QDg8cEA0eDg8OAA0FAAAAAAAAAAAAAA=='
+
+      climasala:
+        friendly_name: "Clima Sala"
+        command_on: 'JgBQAg0NDg8ODw0PDRANAANDcToOLA0PDRANDg0tDQ8NEA0PDQ8NLA0QDSsPKw4PDSwNLA0sDSwNLQ4NDRANLA0QDQ4NEA0QDQ8MEA0PDRANDw0PDSwODw0sDRAMEA0PDSwNLA4PDQ0PDw0QDRAMDw0QDQ8NDw0QDQ8NDw0QDQ8NEAwPDS0NLA0sDg8NLA0PDSwOLA0ABHxyOg0sDQ8NDw0QDSwODg0PDRANDw0tDA8NLA4sDQ8NLA0tDSwOKw4rDg8NDg0tDQ8NEA0PDBANEA0PDQ8NEAwQDQ8NDw0tDQ0PEAwPDQ8OLA0QDSwNLA0sDisNLQ4NDS0NDw0sDRANLA0sDSwOLA0PDA8PDwwQDQ8NDw0tDSwOKw0sDQAEfHM5DisNEA0PDBANLA0QDRAMDw4PDSwNEAwtDisODg0sDSwNLA0sDisODw0QDSwODg0PDRANDw0PDRANDw0PDRAMEA0QDA8ODw0PDg4NEA0PDRAMLQwQDQ8NLQ0sDisNEA0ODRANLA0sDRANLA0sDg4NEA0NDxAMDw4PDRANDg0QDQ8NEAwQDQ8NEA0PDSwNDw0tDQ8NDw0PDRANEAwPDRANDw0PDRANDw0QDBANDw0QDQ4NEA0sDisODw0PDQ8NEA0PDQ8ODw0PDQ8NEA0sDSwODQ8PDBANDw0QDQ8NDw0QDRAMDg4PDg8NDw0QDQ8NDw0QDSwNDw0QDBANDw0PDiwNLA4ODQ8NEA0QDA8NDw4QDA8NEA0PDQ8NEA0PDRAMEAwQDRANDg0QDSwODw0PDC4MDw0ADQUOKw0QDQ8MEA=='
+        command_off: 'JgBQAg0PDQ8NEAwQDQ4OAANBczsNLA0PDRANEAwtDA8NEA0QDQ4NLA0QDSwNLA0QDisNLA4sDSwNLA0PDQ8NLA0QDRAMDw0QDQ8NDw0QDQ8NEAwRDCwNDw0tDQ8NDw0PDS0NLA4ODRAMEA0PDRAMEA0PDRANDg0QDRAMEAwQDQ8NEA0PDSwNLA0sDQ8OLA0QDSwOKw0ABHxyOg0sDg4NDw0QDSwNEAwQDBANEA0sDQ8MLQ0sDg4NLQ0sDSwNLA0sDRANEAwtDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDQ8NDg8PDQ8NLA0QDSwNEAwQDBANEA0sDisNDw0sDRANLA0sDSwNLA0QDQ8NDw0sDRANEAwtDC0MLQwtDAAEfnI5DC0NDw0QDQ8NLA0PDRANDw0QDC0MEA4rDSwNEA0sDSwNLA0sDS0NDw0PDSwNEA0PDQ8NEAwQDRAMDw0QDRANDg0QDQ8NEAwQDQ8NEA0PDQ8NEA0ODRANLA0sDS0NDw0QDA8NLQ0sDQ8OLA0sDQ8NDw0QDQ8NDw4PDBANEA0ODRANEA0PDBANEAwQDC0MEA0sDQ8ODw0PDRANDw0QDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDSwNEA0PDQ8NEAwQDRAMDw0QDRAMDw0sDS0NDw0QDQ8NDw0QDQ8MEA0QDQ8NDw0PDRANEAwPDRANDw0PDSwNEA0QDBAMEA0PDS0NLA0PDQ8NEA0PDQ8NEAwQDRAMDw0QDRAMDw0QDQ8NEAwQDSwNLA4rDQ8ODw0PDSwNEA0ADQUMLQ0PDRANDw=='
+
+  - platform: broadlink
+    host: 192.168.10.21
+    mac: '34ea34e3db0e'
+    friendly_name: Broadlink Camera
+    type: rm_mini
+    switches:
+      tv_camera:
+        friendly_name: "Tv Camera"
+        command_on: 'JgBYAAABIJISExETETcSEhISEhQQFBETETcROBESEjcRNhM1EjcTNRMTERISNxEUERMSExE2EjYSNhM2EhIROBE3ETcREhITEgAFGwABH0oSAAwzAAEfShEADQU='
+        command_off: 'JgBYAAABKZQRFBEUETgRFBEUERQRFBEUETkROREUETgRORE5ETkROREUERQRFBE4ERQRFBEUERQRORE5ETkRFBA5ETkRORE5EQAFLAABKUoRAAxiAAEpShEADQU='
+
+
+      climacamera:
+        friendly_name: "Clima Camera"
+        command_on: 'JgBQAg0NDg8ODw0PDRANAANDcToOLA0PDRANDg0tDQ8NEA0PDQ8NLA0QDSsPKw4PDSwNLA0sDSwNLQ4NDRANLA0QDQ4NEA0QDQ8MEA0PDRANDw0PDSwODw0sDRAMEA0PDSwNLA4PDQ0PDw0QDRAMDw0QDQ8NDw0QDQ8NDw0QDQ8NEAwPDS0NLA0sDg8NLA0PDSwOLA0ABHxyOg0sDQ8NDw0QDSwODg0PDRANDw0tDA8NLA4sDQ8NLA0tDSwOKw4rDg8NDg0tDQ8NEA0PDBANEA0PDQ8NEAwQDQ8NDw0tDQ0PEAwPDQ8OLA0QDSwNLA0sDisNLQ4NDS0NDw0sDRANLA0sDSwOLA0PDA8PDwwQDQ8NDw0tDSwOKw0sDQAEfHM5DisNEA0PDBANLA0QDRAMDw4PDSwNEAwtDisODg0sDSwNLA0sDisODw0QDSwODg0PDRANDw0PDRANDw0PDRAMEA0QDA8ODw0PDg4NEA0PDRAMLQwQDQ8NLQ0sDisNEA0ODRANLA0sDRANLA0sDg4NEA0NDxAMDw4PDRANDg0QDQ8NEAwQDQ8NEA0PDSwNDw0tDQ8NDw0PDRANEAwPDRANDw0PDRANDw0QDBANDw0QDQ4NEA0sDisODw0PDQ8NEA0PDQ8ODw0PDQ8NEA0sDSwODQ8PDBANDw0QDQ8NDw0QDRAMDg4PDg8NDw0QDQ8NDw0QDSwNDw0QDBANDw0PDiwNLA4ODQ8NEA0QDA8NDw4QDA8NEA0PDQ8NEA0PDRAMEAwQDRANDg0QDSwODw0PDC4MDw0ADQUOKw0QDQ8MEA=='
+        command_off: 'JgBQAg0PDQ8NEAwQDQ4OAANBczsNLA0PDRANEAwtDA8NEA0QDQ4NLA0QDSwNLA0QDisNLA4sDSwNLA0PDQ8NLA0QDRAMDw0QDQ8NDw0QDQ8NEAwRDCwNDw0tDQ8NDw0PDS0NLA4ODRAMEA0PDRAMEA0PDRANDg0QDRAMEAwQDQ8NEA0PDSwNLA0sDQ8OLA0QDSwOKw0ABHxyOg0sDg4NDw0QDSwNEAwQDBANEA0sDQ8MLQ0sDg4NLQ0sDSwNLA0sDRANEAwtDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDQ8NDg8PDQ8NLA0QDSwNEAwQDBANEA0sDisNDw0sDRANLA0sDSwNLA0QDQ8NDw0sDRANEAwtDC0MLQwtDAAEfnI5DC0NDw0QDQ8NLA0PDRANDw0QDC0MEA4rDSwNEA0sDSwNLA0sDS0NDw0PDSwNEA0PDQ8NEAwQDRAMDw0QDRANDg0QDQ8NEAwQDQ8NEA0PDQ8NEA0ODRANLA0sDS0NDw0QDA8NLQ0sDQ8OLA0sDQ8NDw0QDQ8NDw4PDBANEA0ODRANEA0PDBANEAwQDC0MEA0sDQ8ODw0PDRANDw0QDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDSwNEA0PDQ8NEAwQDRAMDw0QDRAMDw0sDS0NDw0QDQ8NDw0QDQ8MEA0QDQ8NDw0PDRANEAwPDRANDw0PDSwNEA0QDBAMEA0PDS0NLA0PDQ8NEA0PDQ8NEAwQDRAMDw0QDRAMDw0QDQ8NEAwQDSwNLA4rDQ8ODw0PDSwNEA0ADQUMLQ0PDRANDw=='
+
+
+google_assistant:
+  project_id: home-assistant-2173c
+  client_id: !secret google_assistant_client_id
+  access_token: !secret google_assistant_access_token
+  agent_user_id: [a string to identify user]
+  api_key: [a Homegraph API Key generated for the Google Actions project]
+  exposed_domains:
+    - switch
+    - light
+    - fan
+
+# Text to speech
+tts:
+  platform: google
+  language: 'it'
+
+# Cloud
+cloud: !include config/cloud.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+homekit: !include config/homekit.yaml
+cover: !include cover.yaml
+input_boolean: !include config/input_boolean.yaml
+history_graph: !include config/history_graph.yaml
+

@@ -1,0 +1,150 @@
+  gr1:
+    name: Consumo Generale
+    entities:
+      - sensor.widom_ume304_energy_driven_switch_power
+    hours_to_show: 24
+    refresh: 60
+  gr2:
+    name: Consumo Luce Cucina
+    entities:
+      - sensor.fibaro_system_fgs223_double_relay_power_5
+    hours_to_show: 24
+    refresh: 60
+  gr3:
+    name: Consumo Luce Parete Sala
+    entities:
+      - sensor.fibaro_system_fgs223_double_relay_power_6
+    hours_to_show: 24
+    refresh: 60
+  gr4:
+    name: Consumo Luce Scale
+    entities:
+      - sensor.fibaro_system_fgs223_double_relay_power_8
+    hours_to_show: 24
+    refresh: 60
+  gr5:
+    name: Consumo Luce Corridoio
+    entities:
+      - sensor.fibaro_system_fgs223_double_relay_power_3
+    hours_to_show: 24
+    refresh: 60
+  gr6:
+    name: Consumo Luce Bagno
+    entities:
+      - sensor.fibaro_system_fgs223_double_relay_power
+    hours_to_show: 24
+    refresh: 60
+  gr7:
+    name: Consumo Luce Specchio
+    entities:
+      - sensor.fibaro_system_fgs223_double_relay_power_2
+    hours_to_show: 24
+    refresh: 60
+  gr8:
+    name: Consumo Luce Camera
+    entities:
+      - sensor.fibaro_system_fgs223_double_relay_power_4
+    hours_to_show: 24
+    refresh: 60
+  gr9:
+    name: Consumo Forno
+    entities:
+      - sensor.neo_coolcam_power_plug_12a_power_4
+    hours_to_show: 24
+    refresh: 60
+  gr10:
+    name: Consumo Frigo
+    entities:
+      - sensor.neo_coolcam_power_plug_12a_power
+    hours_to_show: 24
+    refresh: 60
+  gr11:
+    name: Consumo Lavastoviglie
+    entities:
+      - sensor.neo_coolcam_power_plug_12a_power_2
+    hours_to_show: 24
+    refresh: 60
+  gr12:
+    name: Consumo Lavatrice
+    entities:
+      - sensor.neo_coolcam_power_plug_12a_power_3
+    hours_to_show: 24
+    refresh: 60
+  gr13:
+    name: Consumo HT Sala
+    entities:
+      - sensor.neo_coolcam_power_plug_12a_power_5
+    hours_to_show: 24
+    refresh: 60
+  gr14:
+    name: Cosnumo HT Camera
+    entities:
+      - sensor.consumo_htcamera
+    hours_to_show: 24
+    refresh: 60
+  gr15:
+    name: Consumo TV Sala
+    entities:
+      - sensor.consumo_tvsala
+    hours_to_show: 24
+    refresh: 60
+  gr16:
+    name: Temperatura Bagno
+    entities:
+      - sensor.temperature_158d00011001fc
+    hours_to_show: 24
+    refresh: 60
+  gr17:
+    name: Temperatura Camera
+    entities:
+      - sensor.temperature_158d00015ab8a8
+    hours_to_show: 24
+    refresh: 60
+  gr18:
+    name: Temperatura Garage
+    entities:
+      - sensor.temperature_158d00020ffbbc
+    hours_to_show: 24
+    refresh: 60
+  gr19:
+    name: Temperatura Sala
+    entities:
+      - sensor.temperature_158d00015a6698
+    hours_to_show: 24
+    refresh: 60
+  gr20:
+    name: Temperatura Terrazzo
+    entities:
+      - sensor.temperature_158d0001531ac9
+    hours_to_show: 24
+    refresh: 60
+  gr21:
+    name: Umidità Bagno
+    entities:
+      - sensor.humidity_158d00011001fc
+    hours_to_show: 24
+    refresh: 60
+  gr22:
+    name: Umidità Camera
+    entities:
+      - sensor.humidity_158d00015ab8a8
+    hours_to_show: 24
+    refresh: 60
+  gr23:
+    name: Umidità Garage
+    entities:
+      - sensor.humidity_158d00020ffbbc
+    hours_to_show: 24
+    refresh: 60
+  gr24:
+    name: Umidità Sala
+    entities:
+      - sensor.humidity_158d00015a6698
+    hours_to_show: 24
+    refresh: 60
+  gr25:
+    name: Umidità Terrazzo
+    entities:
+      - sensor.humidity_158d0001531ac9
+    hours_to_show: 24
+    refresh: 60

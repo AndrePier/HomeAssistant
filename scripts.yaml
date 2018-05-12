@@ -1,0 +1,12 @@
+# Garage
+  apertura_basculante:
+    alias: "Apri-Chiudi Basculante"
+    sequence:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.sonoff_garage
+      - delay:
+          seconds: 1
+      - service: switch.turn_off
+        data:
+          entity_id: switch.sonoff_garage

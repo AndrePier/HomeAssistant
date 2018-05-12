@@ -1,0 +1,33 @@
+
+iphonex:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Andrea
+  gravatar: !secret mail_gravatar
+  picture:
+  track: true
+
+iphone7:
+  hide_if_away: false
+  icon:
+  mac:
+  name: iPhone 7
+  picture:
+  track: true
+
+ipadpro:
+  hide_if_away: false
+  icon:
+  mac:
+  name: ipadpro
+  picture:
+  track: true
+
+ipadair:
+  hide_if_away: false
+  icon:
+  mac:
+  name: ipadair
+  picture:
+  track: true

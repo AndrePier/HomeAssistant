@@ -1,0 +1,83 @@
+  pcsala:
+    name: PC Sala
+
+  sky:
+    name: Sky
+
+  appletv:
+    name: AppleTV
+
+  pc:
+    name: PC
+
+  dtt:
+    name: DTT
+
+  tvsala:
+    name: TV Sala
+
+  telecamere:
+    name: Telecamere
+
+  acasa:
+    name: A Casa
+
+  cromoterrazzo:
+    name: Cromoterapia Terrazzo
+
+  automazioniluci:
+    name: Automazioni Luci
+
+  autocucina:
+    name: Auto Cucina
+
+  autoscale:
+    name: Auto Scale
+
+  autocorridoio:
+    name: Auto Corridoio
+
+  autobagno:
+    name: Auto Bagno
+
+  autocamera:
+    name: Auto Camera
+
+  autoterrazzo:
+    name: Auto Terrazzo
+
+  allarmediurno:
+    name: Allarme Diurno
+
+  allarmenotturno:
+    name: Allarme Notturno
+
+  scattaallarme:
+    name: Scatta Allarme
+
+  cromosala:
+    name: Cromoterapia Sala
+
+  cromocamera:
+    name: Cromoterapia Camera
+
+  primoarrivo:
+    name: Primo Arrivo
+
+  franchinogoogle:
+    name: Franchino Google
+
+  purificatorecameragoogle:
+    name: Purificatore Camera Google
+
+  pausaskyappletv:
+    name: Pausa Sky ed Apple TV
+
+  ambilight:
+    name: Ambilight
+
+  tvcamera:
+    name: Tv Camera
+
+  test:
+    name: Test
