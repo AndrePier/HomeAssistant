@@ -91,13 +91,8 @@
         - Play
         device: 45682595
         delay_secs: 0.1
-    - service: remote.send_command
-      data:
-        entity_id: remote.harmony_sala
-        command:
-        - Play
-        device: 45682227
-        delay_secs: 0.1
+    - service: media_player.media_play_pause
+      entity_id: media_player.apple_tv_sala
 
   - alias: 'Pausa Sky ed Apple TV'
     trigger:
@@ -112,13 +107,8 @@
         - Play
         device: 45682595
         delay_secs: 0.1
-    - service: remote.send_command
-      data:
-        entity_id: remote.harmony_sala
-        command:
-        - Play
-        device: 45682227
-        delay_secs: 0.1
+    - service: media_player.media_play_pause
+      entity_id: media_player.apple_tv_sala
 
 # Ambilight
 
@@ -656,6 +646,57 @@
 
 ##################### Switch #####################
 
+# Switch Porta Sala Click
+  - alias: Switch Porta Sala Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210eaab
+        click_type: single
+    action:
+      - service: cover.open_cover
+        entity_id: cover.apri_basculante
+
+# Switch Porta Sala Doppio Click
+  - alias: Switch Porta Sala Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210eaab
+        click_type: double
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.acasa
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+
+# Switch Garage Click
+  - alias: Switch Garage Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210e8db
+        click_type: single
+    action:
+      - service: cover.close_cover
+        entity_id: cover.apri_basculante
+
+  - alias: Switch Porta Sala Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210e8db
+        click_type: double
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.acasa
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+
 # Switch Sala Click
   - alias: Switch Sala Click
     trigger:
@@ -818,6 +859,26 @@
 
 ##################### Notifiche #####################
 
+  - alias: Telegram Bot 
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/hey'
+    action:
+      service: notify.telegram_bot
+      data:
+        message: Ciao Andrea, dimmi tutto!
+
+  - alias: Telegram Cam
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/foto'
+    action:
+      - service: script.foto_telegram
+
 # Foto
   - alias: Invia Foto
     trigger:
@@ -825,24 +886,7 @@
       entity_id: input_boolean.test
       to: 'on'
     action:
-      - service: notify.ios_iphonex
-        data:
-           message: Test Videocamera
-           data:
-             attachment:
-               content-type: jpeg
-             push:
-              category: camera
-             entity_id: camera.cam_garage
-      - service: notify.ios_iphone7
-        data:
-           message: Test Videocamera
-           data:
-             attachment:
-               content-type: jpeg
-             push:
-              category: camera
-             entity_id: camera.cam_garage
+      service: script.foto_telegram
     
 # Fine Lavatrice
   - alias: Attiva Notifica lavatrice
@@ -869,9 +913,16 @@
       - service: automation.turn_off
         entity_id: automation.notifica_fine_lavatrice
       - service: tts.google_say
-        entity_id: media_player.sala
+        entity_id: media_player.tutta_la_casa
         data_template:
-          message: "La lavatrice ha finito!"
+          message: "La Lavatrice ha finito!"
+      - service: notify.tvsala
+        data:
+          title: "Notifica"
+          message: "La lavatrice ha fInito!"
+      - service: notify.telegram_bot
+        data:
+          message: La lavatrice ha finito!
 
 # Fine Lavastoviglie  
   - alias: Attiva Notifica lavastoviglie
@@ -900,7 +951,14 @@
       - service: tts.google_say
         entity_id: media_player.sala
         data_template:
-          message: "La lavastoviglie ha finito!"
+          message: "La Lavastoviglie ha finito!"
+      - service: notify.tvsala
+        data:
+          title: "Notifica"
+          message: "La lavastovigle ha fInito!"
+      - service: notify.telegram_bot
+        data:
+          message: La lavastoviglie ha finito!
 
 # Aggiornamento Hass.io
   - alias: Notifica aggiornamento
@@ -908,9 +966,16 @@
     - platform: state
       entity_id: updater.updater
     action:
-      service: notify.ios_iphonex
-      data_template:
-        message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
+      - service: notify.ios_iphonex
+        data_template:
+          message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
+      - service: notify.tvsala
+        data_template:
+          title: "Notifica"
+          message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
+      - service: notify.telegram_bot
+        data:
+          message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
 
 # Traffico Lavoro
   - alias: Coda da casa
@@ -918,6 +983,16 @@
       platform: numeric_state
       entity_id: sensor.casa__ufficio
       above: 20
+    condition:
+        condition: time
+        after: '07:45:00'
+        before: '09:00:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
     action:
       - service: notify.ios_iphonex
         data_template:
@@ -929,6 +1004,9 @@
           title: "Probabile Coda!"
           message: >
             Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+      - service: notify.telegram_bot
+        data:
+          message: "Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti."
 
   - alias: Coda da lavoro
     trigger:
@@ -936,7 +1014,7 @@
       entity_id: sensor.ufficio__casa
       above: 20
     condition:
-      - condition: time
+        condition: time
         after: '18:00:00'
         before: '19:30:00'
         weekday:
@@ -945,20 +1023,35 @@
           - wed
           - thu
           - fri
-      - condition: zone
-        entity_id: device_tracker.iphonex
-        zone: zone.ufficio
     action:
       - service: notify.ios_iphonex
         data_template:
           title: "Probabile Coda!"
-          message: >
-            Arrivo a casa previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+          message: Arrivo a casa previsto in {{ states.sensor.casa__ufficio.state }} minuti.
       - service: notify.ios_iphone7
         data_template:
           title: "Probabile Coda!"
           message: >
             Arrivo a casa previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+      - service: notify.telegram_bot
+        data:
+          message: "Arrivo a casa previsto in {{ states.sensor.casa__ufficio.state }} minuti."
+
+  - alias: Apertura Basculante Garage
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Garage Aperto!"
+      - service: notify.ios_iphone7
+        data:
+          message: "Garage Aperto!"
+      - service: notify.telegram_bot
+        data:
+          message: Garage Aperto!
 
 
 ##################### Utility #####################
@@ -981,10 +1074,6 @@
     action:
       - service: switch.turn_on
         entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6
-      - service: tts.google_say
-        entity_id: media_player.sala
-        data_template:
-          message: "Ok, ho acceso le telecamere!"
 
 # Power Telecamere OFF
   - alias: Telecamere OFF
@@ -995,20 +1084,12 @@
     action:
       - service: switch.turn_off
         entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6
-      - service: tts.google_say
-        entity_id: media_player.sala
-        data_template:
-          message: "Ok, ho spento le telecamere!"
 
 # Backup Automatico
   - alias: Backup Automatico
     trigger:
       platform: time
       at: '3:00:00'
-    condition:
-      - condition: time
-        weekday:
-          - mon
     action:
       - service: hassio.snapshot_full
         data_template:
@@ -1150,24 +1231,23 @@
       - service: input_boolean.turn_on
         entity_id: input_boolean.scattaallarme
 
-  - alias: Scatta Allarme
+  - alias: Scatta Allarme ON
     trigger:
       platform: state
       entity_id: input_boolean.scattaallarme
       to: 'on'
     action:
-      - service: homeassistant.turn_on
-        entity_id: group.luci
-      - service: xiaomi_aqara.play_ringtone
-        data:
-          gw_mac: F0:B4:29:CC:39:0B
-          ringtone_id: 0
-          ringtone_vol: 100
-      - delay: '00:01:00'
-      - service: homeassistant.turn_off
-        entity_id: group.luci
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.scattaallarme
+      - service: script.turn_on
+        entity_id: script.scatta_allarme
+
+  - alias: Scatta Allarme OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.scattaallarme
+      to: 'off'
+    action:
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
 
 ##################### Arrivo/Uscita da Casa #####################
 
@@ -1242,7 +1322,7 @@
         entity_id: input_boolean.primoarrivo
 
 #Andrea arriva a casa
-  - alias: Qualcuno arriva a casa
+  - alias: Andrea arriva a casa
     trigger:
         platform: zone
         event: enter
@@ -1255,7 +1335,7 @@
           title: "Home Assistant"
 
 #Andrea esce da casa
-  - alias: Qualcuno esce da casa
+  - alias: Andrea esce da casa
     trigger:
         platform: zone
         event: leave
@@ -1268,7 +1348,7 @@
           title: "Home Assistant"
 
 #Andrea arriva a San Polo
-  - alias: Qualcuno arriva a San Polo
+  - alias: Andrea arriva a San Polo
     trigger:
         platform: zone
         event: enter
@@ -1281,7 +1361,7 @@
           title: "Home Assistant"
 
 #Andrea esce da San Polo
-  - alias: Qualcuno esce da San Polo
+  - alias: Andrea esce da San Polo
     trigger:
         platform: zone
         event: leave
@@ -1293,9 +1373,8 @@
           message: "{{ trigger.to_state.attributes.friendly_name }} è uscito da San Polo alle {{ states('sensor.time') }}"
           title: "Home Assistant"
 
-
 #Andrea arriva in ufficio
-  - alias: Qualcuno arriva in ufficio
+  - alias: Andrea arriva in ufficio
     trigger:
         platform: zone
         event: enter
@@ -1308,7 +1387,7 @@
           title: "Home Assistant"
 
 #Andrea esce dall'ufficio
-  - alias: Qualcuno esce dall'ufficio
+  - alias: Andrea esce dall'ufficio
     trigger:
         platform: zone
         event: leave
@@ -1319,4 +1398,3 @@
         data_template:
           message: "{{ trigger.to_state.attributes.friendly_name }} è uscito dall'ufficio {{ states('sensor.time') }}"
           title: "Home Assistant"
-

@@ -12,7 +12,7 @@ homeassistant:
   time_zone: Europe/Rome
   # Customization file
   customize: !include customize.yaml
-  packages: !include_dir_named ../packages
+  packages: !include_dir_named /packages
 
 # Enables the frontend
 frontend:
@@ -30,10 +30,25 @@ panel_iframe:
 
 ios:
 
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_token
+    parse_mode: html
+    allowed_chat_ids:
+      - !secret telegram_chat_id_bot
+
 device_tracker:
 
 notify:
-  platform: ios
+  - platform: ios
+
+  - platform: nfandroidtv
+    name: tvSala
+    host: 192.168.10.15
+
+  - platform: telegram
+    name: telegram bot
+    chat_id: !secret telegram_chat_id_bot
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -203,6 +218,10 @@ weather:
     name: Meteo
 
 sensor:
+
+  - platform: time_date
+    display_options:
+      - 'time'
 
   - platform: template
     sensors:

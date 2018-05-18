@@ -1,7 +1,33 @@
 default_view:
-    name: Home 1
+    name: Home
     view: yes
-    icon: mdi:home
+    entities:
+    - sun.sun
+    - sensor.moon
+    - device_tracker.iphonex
+    - device_tracker.iphone7
+    - device_tracker.ipadpro
+    - device_tracker.ipadair
+    - sensor.consumo_luci
+    - sensor.widom_ume304_energy_driven_switch_power
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.speedtest_ping
+    - sensor.ufficio__casa
+    - sensor.casa__ufficio
+    - sensor.time
+    - group.cucina
+    - group.sala
+    - group.bagno
+    - group.camera
+    - group.scaleecorridoio
+    - group.terrazzo
+    - group.garage
+    - group.meteo
+
+full:
+    name: Full
+    view: yes
     entities:
     - sun.sun
     - sensor.moon
@@ -10,19 +36,15 @@ default_view:
     - device_tracker.ipadpro
     - device_tracker.ipadair
     - group.meteo
+    - media_player.spotify
     - group.temperatura
     - group.umidita
+    - group.basculante
     - group.cam
     - group.crypto
     - group.luci
-    - group.luci_piano_terra
-    - group.luci_primo_piano
-    - group.luci_terrazzo
-    - group.garage
     - group.consumo_luci
     - group.elettrodomestici
-    - group.multimedia
-    - group.raspberry
     - group.sensori
     - group.porte
     - group.pulizia
@@ -37,55 +59,8 @@ default_view:
     - sensor.speedtest_ping
     - sensor.ufficio__casa
     - sensor.casa__ufficio
-    - automation.notifica_fine_lavastoviglie
-    - automation.notifica_fine_lavatrice
-    - input_boolean.automazioniluci
-    - input_boolean.autocucina
-    - input_boolean.autoscale
-    - input_boolean.autocorridoio
-    - input_boolean.autobagno
-    - input_boolean.autocamera
-    - input_boolean.autoterrazzo
-    - input_boolean.scattaallarme
-    - input_boolean.allarmediurno
-    - input_boolean.allarmenotturno
-    - input_boolean.pcsala
-    - input_boolean.pausaskyappletv
-    - input_boolean.ambilight
-    - automation.verifica_tv_camera_on
-    - automation.verifica_tv_camera_off
     - sensor.time
-    - calendar.home_assistant
-
-Home 2:
-    name: Home 2
-    view: yes
-    icon: mdi:home
-    entities:
-    - sun.sun
-    - sensor.moon
-    - device_tracker.iphonex
-    - device_tracker.iphone7
-    - device_tracker.ipadpro
-    - device_tracker.ipadair
-    - sensor.consumo_luci
-    - sensor.widom_ume304_energy_driven_switch_power
-    - sensor.speedtest_download
-    - sensor.speedtest_upload
-    - sensor.speedtest_ping
-    - sensor.ufficio__casa
-    - sensor.casa__ufficio
-    - group.cucina
-    - group.garage
-    - group.terrazzo
-    - group.sala
-    - group.bagno
-    - group.camera
-    - group.scaleecorridoio
-    - group.meteo
-    - sensor.time
-    - calendar.home_assistant
-
+    
 Grafici:
     name: Grafici
     view: yes
@@ -218,6 +193,14 @@ Terrazzo:
     - input_boolean.autoterrazzo
     - input_boolean.cromoterrazzo
 
+Basculante:
+    name: Garage
+    control: hidden
+    entities:
+    - cover.apri_basculante
+    - binary_sensor.door_window_sensor_158d0001a348e1
+
+
 Garage:
     name: Garage
     control: hidden
@@ -247,6 +230,7 @@ Sala:
     - sensor.neo_coolcam_power_plug_12a_power_5 # HT Sala W
     - switch.plug_158d00015db991 # Power TV Sala
     - sensor.consumo_tvsala
+    - input_boolean.cromosala
     - camera.cam_sala_dx
     - camera.cam_sala_sx
 
@@ -258,11 +242,13 @@ Bagno:
     - sensor.fibaro_system_fgs223_double_relay_power #Consumo Luce Bagno
     - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
     - sensor.fibaro_system_fgs223_double_relay_power_2 #Consumo Luce Specchio Bagno
+    - switch.plug_158d000154ae22 # Led Bagno
     - sensor.temperature_158d00011001fc #Temperatura Bagno
     - sensor.humidity_158d00011001fc #Umidità Bagno
     - binary_sensor.motion_sensor_158d00013f8c44 #Sensore Bagno
     - binary_sensor.motion_sensor_158d000132e942 #Sensore Bagno 2
     - binary_sensor.motion_sensor_158d0001232507 #Sensore Bagno 3
+    - input_boolean.cromobagno
     - input_boolean.autobagno
 
 Camera:
@@ -280,6 +266,7 @@ Camera:
     - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera
     - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
     - input_boolean.tvcamera
+    - input_boolean.cromocamera
     - input_boolean.autocamera
 
 Scaleecorridoio:
@@ -341,6 +328,7 @@ Luci Primo Piano:
     - light.led_2
     - light.led_3
     - switch.plug_158d00015ef7bc # Lampada Sale
+    - switch.plug_158d000154ae22
 
 Luci Terrazzo:
     name: Luci Terrazzo
@@ -379,6 +367,8 @@ Utility:
     - sensor.speedtest_ping
     - sensor.ufficio__casa
     - sensor.casa__ufficio
+    - input_boolean.allarmediurno
+    - input_boolean.allarmenotturno
 
 Switch:
     name: Switch
@@ -400,6 +390,7 @@ Luci:
     - switch.switch_2 # Corridoio
     - switch.switch # Bagno
     - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
+    - switch.plug_158d000154ae22 # Led Bagno
     - switch.fibaro_system_fgs223_double_relay_switch_2 #Camera
     - light.led
     - light.led_2
@@ -452,6 +443,8 @@ Pulizia:
     - fan.xiaomi_miio_device
     - vacuum.xiaomi_vacuum_cleaner
     - sensor.qualita_aria
+    - switch.climasala
+    - switch.climacamera
 
 Remote:
     name: Telecomando
@@ -461,21 +454,15 @@ Remote:
     - input_boolean.appletv
     - input_boolean.dtt
     - input_boolean.pc
-    - input_boolean.tvsala
+    - input_boolean.pausaskyappletv
+    - input_boolean.ambilight
     - input_boolean.telecamere
-    - input_boolean.acasa
     - input_boolean.cromoterrazzo
     - input_boolean.cromocamera
     - input_boolean.cromosala
-    - input_boolean.primoarrivo
-    - input_boolean.test
-    - switch.tv_camera
+    - input_boolean.cromobagno
     - input_boolean.tvcamera
-    - input_boolean.purificatorecameragoogle
-    - switch.powersky
-    - switch.climasala
-    - switch.climacamera
-    
+
 Zwave:
     name: Zwave
     entities:
@@ -538,8 +525,18 @@ Contatore Elettrodomestici:
     - sensor.unknown_8 # Lavatrice K
     - sensor.unknown_10 # HT Sala K
 
-
 Automazioni Luci:
+    name: Automazioni Luci
+    entities:
+    - input_boolean.automazioniluci
+    - input_boolean.autocucina
+    - input_boolean.autoscale
+    - input_boolean.autocorridoio
+    - input_boolean.autobagno
+    - input_boolean.autocamera
+    - input_boolean.autoterrazzo
+
+Automazioni Luci Reali:
     name: Automazioni Luci
     entities:
     - automation.luci_cucina_on

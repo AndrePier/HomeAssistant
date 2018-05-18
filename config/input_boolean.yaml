@@ -72,12 +72,18 @@
 
   pausaskyappletv:
     name: Pausa Sky ed Apple TV
+    icon: mdi:remote
 
   ambilight:
     name: Ambilight
+    icon: mdi:remote
 
   tvcamera:
     name: Tv Camera
+    icon: mdi:remote
+
+  cromobagno:
+    name: Cromoterapia Bagno
 
   test:
     name: Test

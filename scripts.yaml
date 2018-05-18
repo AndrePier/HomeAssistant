@@ -1,3 +1,32 @@
+# Foto Telegram
+  foto_telegram:
+    alias: "SnapShot Cam Tramite Telegram"
+    sequence:
+      - service: notify.telegram_bot
+        data:
+          message: Foto Cam
+          data:
+            photo:
+              - url: http://192.168.10.16/image.jpg
+      - service: notify.telegram_bot
+        data:
+          message: Foto Cam
+          data:
+            photo:
+              - url: http://192.168.10.18/image.jpg
+      - service: notify.telegram_bot
+        data:
+          message: Foto Cam
+          data:
+            photo:
+              - url: http://192.168.10.19/image.jpg
+      - service: notify.telegram_bot
+        data:
+          message: Foto Cam
+          data:
+            photo:
+              - url: http://192.168.10.25/image.jpg
+
 # Garage
   apertura_basculante:
     alias: "Apri-Chiudi Basculante"
@@ -10,3 +39,56 @@
       - service: switch.turn_off
         data:
           entity_id: switch.sonoff_garage
+
+#Allarme
+  scatta_allarme:
+    alias: "Azioni da eseguire allo scattare dell'allarme"
+    sequence:
+      - service: homeassistant.turn_on
+        entity_id: group.luci
+      - service: notify.telegram_bot
+        data:
+          message: Allarme Attivato!!
+      - service: xiaomi_aqara.play_ringtone
+        data:
+          gw_mac: F0:B4:29:CC:39:0B
+          ringtone_id: 0
+          ringtone_vol: 100
+      - service: script.foto_telegram
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Intrusione Rilevata!"
+      - delay: '00:00:03'
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Intrusione Rilevata!"
+      - delay: '00:00:03'
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Intrusione Rilevata!"
+      - service: script.foto_telegram
+      - delay: '00:00:03'
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Intrusione Rilevata!"
+      - delay: '00:00:03'
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Intrusione Rilevata!"
+      - delay: '00:00:03'
+      - service: script.foto_telegram     
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Intrusione Rilevata!"
+      - delay: '00:00:30'
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+      - service: script.foto_telegram
+      - service: script.scatta_allarme # Riesegue da capo
+

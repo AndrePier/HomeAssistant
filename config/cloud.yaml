@@ -23,7 +23,9 @@
         - input_boolean.cromoterrazzo
         - input_boolean.cromocamera
         - input_boolean.cromosala
+        - input_boolean.cromobagno
         - input_boolean.franchinogoogle
+        - input_boolean.scattaallarme
         - cover.apri_basculante
         - switch.switch_3 # Cucina
         - light.faretto
@@ -33,6 +35,7 @@
         - switch.switch_2 # Corridoio
         - switch.switch # Bagno
         - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
+        - switch.plug_158d000154ae22 # Led Bagno
         - switch.fibaro_system_fgs223_double_relay_switch_2 #Camera
         - light.led
         - light.led_2
@@ -45,3 +48,5 @@
         - light.garage_1
         - light.garage_2
         - fan.xiaomi_miio_device
+        - switch.climasala
+        - switch.climacamera

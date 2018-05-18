@@ -946,3 +946,27 @@ sensor.ipad_pro_battery_state:
   name:
   platform: ios
   unique_id: state_iPadPro
+media_player.sala_2:
+  name:
+  platform: cast
+  unique_id: 2485a2ca-5577-b766-d95e-d6896dea1a90
+media_player.tutta_la_casa:
+  name:
+  platform: cast
+  unique_id: 0defbb7e-c26e-4db1-82d9-08726af4d846
+media_player.bagno:
+  name:
+  platform: cast
+  unique_id: 06f7f245-1692-b6ea-3928-874844a065c1
+binary_sensor.switch_158d000210eaab:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d000210eaab
+binary_sensor.switch_158d000210e8db:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d000210e8db
+switch.plug_158d000154ae22:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d000154ae22
