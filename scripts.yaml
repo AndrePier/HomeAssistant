@@ -86,9 +86,6 @@
         entity_id: media_player.tutta_la_casa
         data_template:
           message: "Intrusione Rilevata!"
-      - delay: '00:00:30'
-      - service: homeassistant.turn_off
-        entity_id: group.luci
-      - service: script.foto_telegram
-      - service: script.scatta_allarme # Riesegue da capo
+      - service: script.turn_on
+        entity_id: script.scatta_allarme # Riesegue da capo
 
