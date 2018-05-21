@@ -1,3 +1,5 @@
+##################### Temperatura e Umidità #####################
+
 sensor.temperature_158d00011001fc:
   friendly_name: Temperatura Bagno
   icon: mdi:temperature-celsius
@@ -48,6 +50,9 @@ sensor.humidity_158d00020ffbbc:
   icon: mdi:water-percent
   homebridge_visible: true
   homebridge_name: Umidità Garage
+
+##################### Luci #####################
+
 switch.switch_3:
   friendly_name: Cucina
   icon: mdi:lightbulb
@@ -96,6 +101,11 @@ switch.fibaro_system_fgs223_double_relay_switch:
   device_class: light
   homebridge_visible: true
   homebridge_name: Specchio Bagno
+switch.plug_158d000154ae22:
+  friendly_name: Led Bagno
+  icon: mdi:lightbulb
+  homebridge_visible: true
+  homebridge_name: Led Bagno
 switch.fibaro_system_fgs223_double_relay_switch_2:
   friendly_name: Camera
   icon: mdi:lightbulb
@@ -162,6 +172,9 @@ light.garage_2:
   device_class: light
   homebridge_visible: true
   homebridge_name: Garage 2
+
+##################### Sensori #####################
+
 binary_sensor.motion_sensor_158d00013f8c44:
   friendly_name: Sensore Bagno
   homebridge_visible: true
@@ -206,6 +219,9 @@ binary_sensor.motion_sensor_158d00011c3211:
   friendly_name: Sensore Terrazzo
   homebridge_visible: true
   homebridge_name: Sensore Terrazzo
+
+##################### Porte #####################
+
 binary_sensor.door_window_sensor_158d00013e3968:
   friendly_name: Porta Terrazzo
   icon: mdi:door
@@ -227,6 +243,9 @@ cover.apri_basculante:
   homebridge_cover_type: rollershutter
   device_class: cover
   homebridge_name: Basculante
+
+##################### Remote #####################
+
 input_boolean.sky:
   friendly_name: Sky
   icon: mdi:remote
@@ -252,6 +271,9 @@ input_boolean.tvsala:
   icon: mdi:remote
   homebridge_visible: true
   homebridge_name: TV Sala
+
+##################### Utility #####################
+
 input_boolean.telecamere:
   friendly_name: Telecamere
   icon: mdi:camcorder
@@ -309,19 +331,27 @@ input_boolean.allarmenotturno:
   homebridge_name: Allarme Notturno
 input_boolean.cromoterrazzo:
   friendly_name: Cromoterapia Terrazzo
-  icon: mdi:lightbulb
+  icon: mdi:auto-fix
   homebridge_visible: true
   homebridge_name: Cromoterapia Terrazzo
 input_boolean.cromosala:
   friendly_name: Cromoterapia Sala
-  icon: mdi:lightbulb
+  icon: mdi:auto-fix
   homebridge_visible: true
   homebridge_name: Cromoterapia Sala
 input_boolean.cromocamera:
   friendly_name: Cromoterapia Camera
-  icon: mdi:lightbulb
+  icon: mdi:auto-fix
   homebridge_visible: true
   homebridge_name: Cromoterapia Camera
+input_boolean.cromobagno:
+  friendly_name: Cromoterapia Bagno
+  icon: mdi:auto-fix
+  homebridge_visible: true
+  homebridge_name: Cromoterapia Bagno
+
+##################### Pulizia #####################
+
 vacuum.xiaomi_vacuum_cleaner:
   friendly_name: Franchino
   homebridge_visible: true
@@ -334,10 +364,105 @@ sensor.qualità_aria:
   friendly_name: Qualità Aria
   device_class: pm25
   icon: mdi:air-conditioner
+
+##################### Switch #####################
+
 binary_sensor.switch_158d000210e8db:
   friendly_name: Switch Garage
 binary_sensor.switch_158d000210eaab:
   friendly_name: Switch Porta Sala
-switch.plug_158d000154ae22:
-  friendly_name: Led Bagno
-  icon: mdi:lightbulb
+binary_sensor.switch_158d00013f6ec3:
+  friendly_name: Switch Sala
+binary_sensor.switch_158d000186e79b:
+  friendly_name: Switch Letto
+binary_sensor.switch_158d0001870de7:
+  friendly_name: Switch Camera
+binary_sensor.switch_158d0001870e3d:
+  friendly_name: Switch Cucina
+binary_sensor.switch_158d00019f8517:
+  friendly_name: Switch Bagno
+
+##################### Crypto #####################
+
+sensor.portafoglio_eth:
+  friendly_name: Portafoglio ETH
+  icon: mdi:coin
+sensor.portafoglio_ltc:
+  friendly_name: Portafoglio LTC
+  icon: mdi:coin
+sensor.portafoglio_bch:
+  friendly_name: Portafoglio BCH
+  icon: mdi:coin
+sensor.portafoglio_btc:
+  friendly_name: Portafoglio BTC
+  icon: mdi:coin
+
+##################### Consuo Luci #####################
+
+sensor.fibaro_system_fgs223_double_relay_power_5:
+  friendly_name: Consumo Luce Cucina
+  icon: mdi:flash
+sensor.fibaro_system_fgs223_double_relay_power_6:
+  friendly_name: Consumo Luce Parete Sala
+  icon: mdi:flash
+sensor.fibaro_system_fgs223_double_relay_power_8:
+  friendly_name: Consumo Luce Scale
+  icon: mdi:flash
+sensor.fibaro_system_fgs223_double_relay_power_3:
+  frienldy_name: Consumo Luce Corridoio
+  icon: mdi:flash
+sensor.fibaro_system_fgs223_double_relay_power:
+  friendly_name: Consumo Luce Bagno
+  icon: mdi:flash
+sensor.fibaro_system_fgs223_double_relay_power_2:
+  friendly_name: Consumo Luce Specchio Bagno
+  icon: mdi:flash
+sensor.fibaro_system_fgs223_double_relay_power_4:
+  friendly_name: Consumo Luce Camera
+  icon: mdi:flash
+
+##################### Consuo Elettrodomestici #####################
+
+switch.switch_9: #Forno
+  friendly_name: Forno
+  icon: mdi:stove
+sensor.neo_coolcam_power_plug_12a_power_4: # Forno W
+  friendly_name: Consumo Forno
+  icon: mdi:flash
+switch.switch_6:
+  friendly_name: Frigo
+  icon: mdi:fridge
+sensor.neo_coolcam_power_plug_12a_power: # Frigo W
+  friendly_name: Consumo Frigo
+  icon: mdi:flash
+switch.switch_7:
+  friendly_name: Lavastoviglie
+  icon: mdi:invert-colors
+sensor.neo_coolcam_power_plug_12a_power_2: # Lavastoviglie W
+  friendly_name: Consumo Lavastovliglie
+  icon: mdi:flash
+switch.switch_8:
+  friendly_name: Lavatrice
+  icon: mdi:tshirt-crew
+sensor.neo_coolcam_power_plug_12a_power_3: # Lavatrice W
+  friendly_name: Consumo Lavatrice
+  icon: mdi:flash
+switch.switch_10:
+  friendly_name: HT Sala
+  icon: mdi:high-definition
+sensor.neo_coolcam_power_plug_12a_power_5: # HT Sala W
+  friendly_name: Consumo HT Sala
+  icon: mdi:flash
+switch.plug_158d000154ae55: # HT Camera
+  friendly_name: HT Camera
+  icon: mdi:high-definition
+sensor.consumo_htcamera:
+  friendly_name: Consumo HT Camera
+  icon: mdi:flash
+switch.plug_158d00015db991: # Power TV Sala
+  friendly_name: Power TV Sala
+  icon: mdi:television
+sensor.consumo_tvsala:
+  friendly_name: Consumo HT Camera
+  icon: mdi:flash
+

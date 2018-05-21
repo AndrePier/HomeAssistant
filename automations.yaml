@@ -644,6 +644,33 @@
           entity_id: light.led, light.led_2
           effect: 'Stop'
 
+#Cromoterapia Bagno
+  - alias: Cromoterapia Bagno ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromobagno
+      to: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: switch.switch, switch.fibaro_system_fgs223_double_relay_switch
+      - service: switch.turn_on
+        entity_id: switch.plug_158d000154ae22
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.autobagno
+
+  - alias: Cromoterapia Bagno OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromobagno
+      to: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: switch.switch
+      - service: switch.turn_off
+        entity_id: switch.plug_158d000154ae22
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.autobagno
+
 ##################### Switch #####################
 
 # Switch Porta Sala Click
@@ -790,8 +817,8 @@
         entity_id: binary_sensor.switch_158d00019f8517
         click_type: double
     action:
-      - service: homeassistant.toggle
-        entity_id: switch.fibaro_system_fgs223_double_relay_switch
+      - service: input_boolean.toggle
+        entity_id: input_boolean.cromobagno
 
 # Switch Bagno Long Click
   - alias: Switch Bagno Long Click
@@ -886,7 +913,9 @@
       entity_id: input_boolean.test
       to: 'on'
     action:
-      service: script.foto_telegram
+      service: notify.notify
+      data:
+        message: test
     
 # Fine Lavatrice
   - alias: Attiva Notifica lavatrice
@@ -1064,6 +1093,45 @@
     action:
       - delay: 00:02  
       - service: homekit.start
+
+# Clima Sala
+  - alias: Clima Sala ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasala
+      to: 'on'
+    action:
+      service: switch.turn_on
+      entity_id: switch.climasala
+
+  - alias: Clima Sala OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasala
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.climasala
+
+# Clima Camera
+  - alias: Clima Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.climacamera
+      to: 'on'
+    action:
+      service: switch.turn_on
+      entity_id: switch.climacamera
+
+  - alias: Clima Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.climacamera
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.climacamera
+
 
 # Power Telecamere ON
   - alias: Telecamere ON
@@ -1321,6 +1389,8 @@
       - service: input_boolean.turn_off
         entity_id: input_boolean.primoarrivo
 
+##################### Zone #####################
+
 #Andrea arriva a casa
   - alias: Andrea arriva a casa
     trigger:
@@ -1353,7 +1423,7 @@
         platform: zone
         event: enter
         zone: zone.genitori
-        entity_id: device_tracker.iphonex, device_tracker.iphone7, device_tracker.ipadpro
+        entity_id: device_tracker.iphonex
     action:
         service: notify.ios_iphonex
         data_template:

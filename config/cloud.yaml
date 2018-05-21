@@ -24,6 +24,8 @@
         - input_boolean.cromocamera
         - input_boolean.cromosala
         - input_boolean.cromobagno
+        - input_boolean.climasala
+        - input_boolean.climacamera
         - input_boolean.franchinogoogle
         - input_boolean.scattaallarme
         - cover.apri_basculante
@@ -48,5 +50,3 @@
         - light.garage_1
         - light.garage_2
         - fan.xiaomi_miio_device
-        - switch.climasala
-        - switch.climacamera

@@ -1,8 +1,6 @@
   auto_start: False
   filter:
       include_entities:
-        - switch.climasala
-        - switch.climacamera
         - input_boolean.automazioniluci
         - input_boolean.autocucina
         - input_boolean.autoscale
@@ -29,6 +27,8 @@
         - input_boolean.ambilight
         - input_boolean.tvcamera
         - input_boolean.purificatorecameragoogle
+        - input_boolean.climasala
+        - input_boolean.climacamera
         - cover.apri_basculante
         - switch.switch_3 # Cucina
         - light.faretto

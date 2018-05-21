@@ -85,5 +85,13 @@
   cromobagno:
     name: Cromoterapia Bagno
 
+  climasala:
+    name: Clima Sala
+    icon: mdi:fan
+
+  climacamera:
+    name: Clima Camera
+    icon: mdi:fan
+
   test:
     name: Test

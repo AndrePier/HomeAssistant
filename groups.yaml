@@ -1,6 +1,7 @@
 default_view:
     name: Home
     view: yes
+    icon: mdi:home
     entities:
     - sun.sun
     - sensor.moon
@@ -18,16 +19,20 @@ default_view:
     - sensor.time
     - group.cucina
     - group.sala
+    - media_player.ampli_denon
+    - media_player.spotify
     - group.bagno
     - group.camera
     - group.scaleecorridoio
     - group.terrazzo
     - group.garage
+    - group.aria
     - group.meteo
 
-full:
+Full_View:
     name: Full
     view: yes
+    icon: mdi:format-align-center
     entities:
     - sun.sun
     - sensor.moon
@@ -35,7 +40,7 @@ full:
     - device_tracker.iphone7
     - device_tracker.ipadpro
     - device_tracker.ipadair
-    - group.meteo
+    - media_player.ampli_denon
     - media_player.spotify
     - group.temperatura
     - group.umidita
@@ -47,7 +52,7 @@ full:
     - group.elettrodomestici
     - group.sensori
     - group.porte
-    - group.pulizia
+    - group.aria
     - group.remote
     - group.automazioni_luci
     - sensor.consumo_luci
@@ -60,8 +65,16 @@ full:
     - sensor.ufficio__casa
     - sensor.casa__ufficio
     - sensor.time
-    
-Grafici:
+    - group.meteo
+
+Remote View:
+    name: Remote
+    view: yes
+    icon: mdi:remote
+    entities: 
+    - group.remote
+
+Grafici_View:
     name: Grafici
     view: yes
     icon: mdi:chart-line
@@ -70,6 +83,28 @@ Grafici:
     - group.graficielettrodomestici
     - group.graficitemperatura
     - group.graficiumidita
+
+Sensori_View:
+    name: Sensori
+    view: yes
+    icon: mdi:run
+    entities:
+    - group.sensori
+
+Media View:
+    name: MediaPlayer
+    view: yes
+    icon: mdi:movie
+    entities:
+    - group.multimedia
+
+Utility View:
+    name: Utility
+    view: yes
+    icon: mdi:settings
+    entities:
+    - group.utility
+    - group.raspberry
 
 Meteo:
     name: Meteo
@@ -151,7 +186,6 @@ Cucina Full:
     - sensor.humidity_158d00015a6698 #Umidità Sala
     - sensor.fibaro_system_fgs223_double_relay_power_5 #Consumo Luce Cucina
     - binary_sensor.motion_sensor_158d0001dac0bd # Sensore Cucina
-    - input_boolean.autocucina
     - switch.switch_9 #Forno
     - sensor.neo_coolcam_power_plug_12a_power_4 # Forno W
     - switch.switch_6 #Frigo
@@ -160,6 +194,7 @@ Cucina Full:
     - sensor.neo_coolcam_power_plug_12a_power_2 # Lavastoviglie W
     - switch.switch_8 #Lavatrice
     - sensor.neo_coolcam_power_plug_12a_power_3 # Lavatrice W
+    - input_boolean.autocucina
     - camera.cam_cucina
 
 Cucina:
@@ -171,11 +206,11 @@ Cucina:
     - sensor.temperature_158d00015a6698 #Temperatura Sala
     - sensor.humidity_158d00015a6698 #Umidità Sala
     - binary_sensor.motion_sensor_158d0001dac0bd # Sensore Cucina
-    - input_boolean.autocucina
     - sensor.neo_coolcam_power_plug_12a_power_4 # Forno W
     - sensor.neo_coolcam_power_plug_12a_power # Frigo W
     - sensor.neo_coolcam_power_plug_12a_power_2 # Lavastoviglie W
     - sensor.neo_coolcam_power_plug_12a_power_3 # Lavatrice W
+    - input_boolean.autocucina
     - camera.cam_cucina
     
 Terrazzo:
@@ -190,8 +225,8 @@ Terrazzo:
     - sensor.illumination_f0b429cc390b #Lux Terrazzo
     - binary_sensor.door_window_sensor_158d00013e3968 #Porta Terrazzo
     - binary_sensor.motion_sensor_158d00011c3211 #Sensore Terrazzo
-    - input_boolean.autoterrazzo
     - input_boolean.cromoterrazzo
+    - input_boolean.autoterrazzo
 
 Basculante:
     name: Garage
@@ -345,8 +380,11 @@ Multimedia:
     - media_player.spotify
     - media_player.tv_camera
     - media_player.65pus712012
+    - media_player.apple_tv_camera
     - media_player.sala
-    - configurator.plex_media_server
+    - media_player.sala_2
+    - media_player.bagno
+    - media_player.tutta_la_casa
 
 Raspberry:
     name: Raspberry
@@ -370,14 +408,17 @@ Utility:
     - input_boolean.allarmediurno
     - input_boolean.allarmenotturno
 
+
 Switch:
     name: Switch
     entities:
-    - binary_sensor.switch_158d00013f6ec3
-    - binary_sensor.switch_158d000186e79b
-    - binary_sensor.switch_158d0001870de7
-    - binary_sensor.switch_158d0001870e3d
-    - binary_sensor.switch_158d00019f8517
+    - binary_sensor.switch_158d000210e8db #Switch Garage
+    - binary_sensor.switch_158d000210eaab #Switch Porta Sala
+    - binary_sensor.switch_158d00013f6ec3 #Switch Sala
+    - binary_sensor.switch_158d000186e79b #Switch Letto
+    - binary_sensor.switch_158d0001870de7 #Switch Camera
+    - binary_sensor.switch_158d0001870e3d #Switch Cucina
+    - binary_sensor.switch_158d00019f8517 #Switch Bagno
 
 Luci:
     name: Luci
@@ -436,15 +477,15 @@ Porte:
     - binary_sensor.door_window_sensor_158d00013e3968 #Porta Terrazzo
     - binary_sensor.door_window_sensor_158d0001a348e1 #Basculante Garage
 
-Pulizia:
-    name: Pulizia
+Aria:
+    name: Aria
     control: hidden
     entities:
     - fan.xiaomi_miio_device
     - vacuum.xiaomi_vacuum_cleaner
     - sensor.qualita_aria
-    - switch.climasala
-    - switch.climacamera
+    - input_boolean.climasala
+    - input_boolean.climacamera
 
 Remote:
     name: Telecomando
@@ -454,6 +495,7 @@ Remote:
     - input_boolean.appletv
     - input_boolean.dtt
     - input_boolean.pc
+    - input_boolean.tvcamera
     - input_boolean.pausaskyappletv
     - input_boolean.ambilight
     - input_boolean.telecamere
@@ -461,7 +503,7 @@ Remote:
     - input_boolean.cromocamera
     - input_boolean.cromosala
     - input_boolean.cromobagno
-    - input_boolean.tvcamera
+    - input_boolean.test
 
 Zwave:
     name: Zwave
