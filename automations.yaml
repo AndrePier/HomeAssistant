@@ -428,7 +428,7 @@
   - alias: Auto Luci ON
     trigger:
       platform: state
-      entity_id: input_boolean.automazioniluci
+      entity_id: input_boolean.automazioni
       to: 'on'
     action:
       - service: input_boolean.turn_on
@@ -437,7 +437,7 @@
   - alias: Auto Luci OFF
     trigger:
       platform: state
-      entity_id: input_boolean.automazioniluci
+      entity_id: input_boolean.automazioni
       to: 'off'
     action:
       - service: input_boolean.turn_off
@@ -565,7 +565,7 @@
       to: 'on'
     condition:
       condition: state
-      entity_id: input_boolean.automazioniluci
+      entity_id: input_boolean.automazioni
       state: 'off'
     action:
       - service: homeassistant.turn_off
@@ -832,21 +832,30 @@
       - service: homeassistant.turn_off
         entity_id: group.luci
 
-# Switch Letto - Timer Lampada Sale OFF
-  - alias: Lampada Sale Timer OFF
+# Switch Letto Click
+  - alias: Switch Letto Click
     trigger:
       platform: event
       event_type: click
       event_data:
         entity_id: binary_sensor.switch_158d000186e79b
         click_type: single
-    condition:
-      condition: time
-      after: '02:00:01'
-      before: '06:59:59'
     action:
       - service: switch.toggle
         entity_id: switch.plug_158d00015ef7bc
+
+# Switch Letto Double Click
+
+  - alias: Switch Letto Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000186e79b
+        click_type: double
+    action:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.allarmenotturno
 
 # Switch Letto Long Click
   - alias: Switch Letto Long Click
@@ -859,18 +868,6 @@
     action:
       - service: homeassistant.turn_off
         entity_id: group.luci
-
-# Switch Letto Click
-  - alias: Switch Letto Click
-    trigger:
-      platform: event
-      event_type: click
-      event_data:
-        entity_id: binary_sensor.switch_158d000186e79b
-        click_type: single
-    action:
-      - service: switch.toggle
-        entity_id: switch.plug_158d00015ef7bc
 
 # Switch Camera Click
   - alias: Switch Camera Click
@@ -906,8 +903,19 @@
     action:
       - service: script.foto_telegram
 
-# Foto
-  - alias: Invia Foto
+  - alias: Telegram GPS Update
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/posizione'
+    action:
+        service: notify.ios_iphonex
+        data:
+          message: "request_location_update"
+
+# Test
+  - alias: Test Boolean
     trigger:
     - platform: state
       entity_id: input_boolean.test
@@ -1132,7 +1140,6 @@
       service: switch.turn_off
       entity_id: switch.climacamera
 
-
 # Power Telecamere ON
   - alias: Telecamere ON
     trigger:
@@ -1239,19 +1246,21 @@
       entity_id: binary_sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507, binary_sensor.motion_sensor_158d0001dac0bd, binary_sensor.motion_sensor_158d00010c24fe, binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
       to: 'on'
     condition:
-      - condition: state
-        entity_id: input_boolean.acasa
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.allarmediurno
-        state: 'on'
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.allarmediurno
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.allarmenotturno
+          state: 'on'
     action:
       - service: notify.ios_iphonex
         data:
-          message: "Rilevato movimento in casa"
+          message: "Rilevato movimento in casa!!!"
       - service: notify.ios_iphone7
         data:
-          message: "Rilevato movimento in casa"
+          message: "Rilevato movimento in casa!!!"
       - service: input_boolean.turn_on
         entity_id: input_boolean.scattaallarme
 
@@ -1261,19 +1270,21 @@
       entity_id: binary_sensor.door_window_sensor_158d000153ab76, binary_sensor.door_window_sensor_158d00013e3968
       to: 'on'
     condition:
-      - condition: state
-        entity_id: input_boolean.acasa
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.allarmediurno
-        state: 'on'
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.allarmediurno
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.allarmenotturno
+          state: 'on'
     action:
       - service: notify.ios_iphonex
         data:
-          message: "Rilevata apertura porta"
+          message: "Rilevata apertura porta!!!"
       - service: notify.ios_iphone7
         data:
-          message: "Rilevata apertura porta"
+          message: "Rilevata apertura porta!!!"
       - service: input_boolean.turn_on
         entity_id: input_boolean.scattaallarme
 
@@ -1283,21 +1294,41 @@
       entity_id: binary_sensor.door_window_sensor_158d0001a348e1
       to: 'on'
     condition:
-      - condition: state
-        entity_id: input_boolean.acasa
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.allarmediurno
-        state: 'on'
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.allarmediurno
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.allarmenotturno
+          state: 'on'
     action:
       - service: notify.ios_iphonex
         data:
-          message: "Rilevata apertura basculante"
+          message: "Rilevata apertura basculante!!!"
       - service: notify.ios_iphone7
         data:
-          message: "Rilevata apertura basculante"
+          message: "Rilevata apertura basculante!!!"
       - service: input_boolean.turn_on
         entity_id: input_boolean.scattaallarme
+
+  - alias: Allarme Notturno Inserito
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmenotturno
+      to: 'on'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.camera
+        data_template:
+          message: "Allarme Notturno Inserito"
+      - service: turn_light.on
+        data:
+          entity_id: light.led, light.led_2, light.led_3
+          color_name: red
+      - delay: '00:00:03'
+      - service: turn_light.off
+        entity_id: light.led, light.led_2, light.led_3
 
   - alias: Scatta Allarme ON
     trigger:
@@ -1316,6 +1347,21 @@
     action:
       - service: script.turn_off
         entity_id: script.scatta_allarme
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.tvsala
+
+  - alas: Spegni Allarme Dopo 5 Minuti
+    trigger:
+      platform: state
+      entity_id: input_boolean.scattaallarme
+      to: 'on'
+      for:
+        minutes: 5
+    action:
+      service: input_boolean.turn_off
+      entity_id: input_boolean.scattaallarme
 
 ##################### Arrivo/Uscita da Casa #####################
 
@@ -1331,6 +1377,8 @@
         state: 'on'
     action:
       - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmediurno
+      - service: input_boolean.turn_off
         entity_id: input_boolean.telecamere
       - service: input_boolean.turn_on
         entity_id: input_boolean.sky
@@ -1344,6 +1392,8 @@
       entity_id: input_boolean.acasa
       to: 'off'
     action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.allarmediurno
       - service: input_boolean.turn_on
         entity_id: input_boolean.telecamere
       - service: input_boolean.turn_off
