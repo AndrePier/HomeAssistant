@@ -956,7 +956,7 @@
       - service: notify.tvsala
         data:
           title: "Notifica"
-          message: "La lavatrice ha fInito!"
+          message: "La lavatrice ha finito!"
       - service: notify.telegram_bot
         data:
           message: La lavatrice ha finito!
@@ -1237,6 +1237,56 @@
         addon: core_rpc_shutdown
         input: nuc
 
+# Spazzatura
+  - alias: Reminder Martedì
+    trigger:
+      platform: time
+      at: '22:30:00'
+    condition:
+        condition: time
+        weekday:
+          - tue
+          - mon
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Ricordati di portare fuori Carta ed Indifferenziato"
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Ricordati di portare fuori Carta ed Indifferenziato"
+      - service: notify.tvsala
+        data:
+          title: "Notifica"
+          message: "Ricordati di portare fuori Carta ed Indifferenziato"
+      - service: notify.telegram_bot
+        data:
+          message: Ricordati di portare fuori Carta ed Indifferenziato
+
+  - alias: Reminder Giovedì
+    trigger:
+      platform: time
+      at: '22:31:00'
+    condition:
+        condition: time
+        weekday:
+          - thu
+          - mon
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Ricordati di portare fuori Plastica e Vetro"
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Ricordati di portare fuori Plastica e Vetro"
+      - service: notify.tvsala
+        data:
+          title: "Notifica"
+          message: "Ricordati di portare fuori Plastica e Vetro"
+      - service: notify.telegram_bot
+        data:
+          message: Ricordati di portare fuori Plastica e Vetro
 
 ##################### Allarme #####################
 
@@ -1322,12 +1372,32 @@
         entity_id: media_player.camera
         data_template:
           message: "Allarme Notturno Inserito"
-      - service: turn_light.on
+      - service: light.turn_on
         data:
           entity_id: light.led, light.led_2, light.led_3
           color_name: red
       - delay: '00:00:03'
-      - service: turn_light.off
+      - service: light.turn_off
+        entity_id: light.led, light.led_2, light.led_3
+
+  - alias: Allarme Notturno Disinserito
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
+      to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmenotturno
+      - service: tts.google_say
+        entity_id: media_player.camera
+        data_template:
+          message: "Allarme Notturno Disinserito"
+      - service: light.turn_on
+        data:
+          entity_id: light.led, light.led_2, light.led_3
+          color_name: white
+      - delay: '00:00:03'
+      - service: light.turn_off
         entity_id: light.led, light.led_2, light.led_3
 
   - alias: Scatta Allarme ON
@@ -1352,7 +1422,7 @@
       - service: input_boolean.turn_off
         entity_id: input_boolean.tvsala
 
-  - alas: Spegni Allarme Dopo 5 Minuti
+  - alias: Spegni Allarme Dopo 5 Minuti
     trigger:
       platform: state
       entity_id: input_boolean.scattaallarme
