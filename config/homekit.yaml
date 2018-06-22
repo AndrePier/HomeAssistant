@@ -1,7 +1,7 @@
   auto_start: False
   filter:
       include_entities:
-        - input_boolean.automazioniluci
+        - input_boolean.automazioni
         - input_boolean.autocucina
         - input_boolean.autoscale
         - input_boolean.autocorridoio
@@ -26,9 +26,16 @@
         - input_boolean.pausaskyappletv
         - input_boolean.ambilight
         - input_boolean.tvcamera
-        - input_boolean.purificatorecameragoogle
         - input_boolean.climasala
         - input_boolean.climacamera
+        - input_boolean.climasupersala
+        - input_boolean.climasupercamera
+        - input_boolean.inufficio
+        - media_player.spotify
+        - media_player.apple_tv_sala
+        - media_player.ampli_denon
+        - media_player.bagno
+        - switch.fluxer
         - cover.apri_basculante
         - switch.switch_3 # Cucina
         - light.faretto
@@ -44,12 +51,14 @@
         - light.led_2
         - light.led_3
         - switch.plug_158d00015ef7bc # Lampada Sale
+        - switch.plug_158d0001db024c # Led TV Camera
         - light.terrazzo_1
         - light.terrazzo_2
         - light.terrazzo_3
         - light.gateway_light_f0b429cc390b
         - light.garage_1
         - light.garage_2
+        - fan.xiaomi_miio_device
         - sensor.illumination_f0b429cc390b
         - sensor.illumination_34ce0088b729
         - sensor.temperature_158d00011001fc
@@ -57,11 +66,13 @@
         - sensor.temperature_158d00020ffbbc
         - sensor.temperature_158d00015a6698
         - sensor.temperature_158d0001531ac9
+        - sensor.temperature_158d00020ec48d
         - sensor.humidity_158d00011001fc
         - sensor.humidity_158d00015ab8a8
         - sensor.humidity_158d00020ffbbc
         - sensor.humidity_158d00015a6698
         - sensor.humidity_158d0001531ac9
+        - sensor.humidity_158d00020ec48d
         - sensor.qualità_aria
         - binary_sensor.motion_sensor_158d00013f8c44
         - binary_sensor.motion_sensor_158d000132e942

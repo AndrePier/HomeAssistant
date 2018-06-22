@@ -1,16 +1,12 @@
+#Home
 default_view:
     name: Home
     view: yes
     icon: mdi:home
     entities:
-    - sun.sun
-    - sensor.moon
     - device_tracker.iphonex
-    - device_tracker.iphone7
-    - device_tracker.ipadpro
-    - device_tracker.ipadair
-    - sensor.consumo_luci
     - sensor.widom_ume304_energy_driven_switch_power
+    - sensor.consumo_luci
     - sensor.speedtest_download
     - sensor.speedtest_upload
     - sensor.speedtest_ping
@@ -19,92 +15,140 @@ default_view:
     - sensor.time
     - group.cucina
     - group.sala
-    - media_player.ampli_denon
-    - media_player.spotify
     - group.bagno
     - group.camera
     - group.scaleecorridoio
     - group.terrazzo
     - group.garage
+    - group.spazzatura
     - group.aria
-    - group.meteo
-
-Full_View:
-    name: Full
-    view: yes
-    icon: mdi:format-align-center
-    entities:
-    - sun.sun
-    - sensor.moon
-    - device_tracker.iphonex
-    - device_tracker.iphone7
-    - device_tracker.ipadpro
-    - device_tracker.ipadair
-    - media_player.ampli_denon
-    - media_player.spotify
-    - group.temperatura
-    - group.umidita
-    - group.basculante
-    - group.cam
-    - group.crypto
-    - group.luci
-    - group.consumo_luci
-    - group.elettrodomestici
-    - group.sensori
-    - group.porte
-    - group.aria
-    - group.remote
-    - group.automazioni_luci
-    - sensor.consumo_luci
-    - sensor.widom_ume304_energy_driven_switch_power
-    - sensor.illumination_f0b429cc390b #Lux Terrazzo
-    - sensor.illumination_34ce0088b729 #Lux Garage
-    - sensor.speedtest_download
-    - sensor.speedtest_upload
-    - sensor.speedtest_ping
-    - sensor.ufficio__casa
-    - sensor.casa__ufficio
-    - sensor.time
+    - group.musicspotify
+    - group.multimedia_light
     - group.meteo
 
 Remote View:
     name: Remote
     view: yes
     icon: mdi:remote
-    entities: 
+    entities:
     - group.remote
+    - group.controllotv
 
-Grafici_View:
-    name: Grafici
+Info View:
+    name: Info
     view: yes
-    icon: mdi:chart-line
+    icon: mdi:information-outline
     entities:
-    - group.graficiluci
-    - group.graficielettrodomestici
-    - group.graficitemperatura
-    - group.graficiumidita
+    - group.franchino
+    - group.purifier
+    - group.spazzatura
+    - group.server
+    - group.devicestate
+    - group.meteocasa
+    - group.speedtest
+    - group.percorrenze
 
-Sensori_View:
-    name: Sensori
+Luci View:
+    name: Luci
     view: yes
-    icon: mdi:run
+    icon: mdi:lightbulb-on-outline
     entities:
+    - group.utility_luci
+    - group.luci_piano_terra
+    - group.luci_primo_piano
+    - group.luci_terrazzo
+    - group.luci_garage
+
+Allarme View:
+    name: Allarme
+    view: yes
+    icon: mdi:security
+    entities:
+    - group.allarme
+    - group.cam
     - group.sensori
+
+Consumi View:
+    name: Consumi
+    view: yes
+    icon: mdi:flash
+    control: hidden
+    entities:
+    - group.consumo_luci
+    - group.consumo_elettrodomestici
+    - group.ampere_elettrodomestici
+    - group.contatore_elettrodomestici
+
+
+Crypto View:
+    name: Crypto
+    view: yes
+    icon: mdi:coin
+    entities:
+    - group.crypto
 
 Media View:
     name: MediaPlayer
     view: yes
-    icon: mdi:movie
+    icon: mdi:headphones
     entities:
-    - group.multimedia
+    - group.musicspotify
+    - group.audio
+    - group.googlehome
+    - group.appletv
+    - group.televisioni
 
-Utility View:
-    name: Utility
-    view: yes
-    icon: mdi:settings
+MusicSpotify:
+    name: Spotify
+    control: hidden
     entities:
-    - group.utility
-    - group.raspberry
+      - input_select.spotify_playlist
+      - input_select.spotify_source
+      - script.spotify_music
+      - switch.shuffle_spotify
+      - input_number.spotify_volume
+      - input_number.denon_volume
+
+DeviceState:
+    name: Stato Device
+    control: hidden
+    entities:
+    - sensor.iphone_x_battery_state_2
+    - sensor.iphone_x_battery_level
+    - sensor.iphone_7_battery_state
+    - sensor.iphone_7_battery_level
+    - sensor.ipad_pro_battery_state
+    - sensor.ipad_pro_battery_level
+    - sensor.ipad_air_battery_state
+    - sensor.ipad_air_battery_level
+
+Franchino:
+    name: Franchino
+    control: hidden
+    entities:
+      - vacuum.xiaomi_vacuum_cleaner
+      - sensor.franchino_stato
+      - sensor.franchino_batteria
+      - sensor.franchino_mode
+      - sensor.franchino_area_pulita
+      - sensor.franchino_tempo_pulizia
+      - sensor.franchino_totale_mq
+      - sensor.franchino_totale_ore
+      - sensor.franchino_vita_filtro
+      - sensor.franchino_vita_spazzola_1
+      - sensor.franchino_vita_spazzola_2
+
+Purifier:
+    name: Purificatore
+    control: hidden
+    entities:
+      - fan.xiaomi_miio_device
+      - sensor.purifier_stato
+      - sensor.qualita_aria
+      - sensor.purifier_mode
+      - sensor.purifier_aria_purificata
+      - sensor.purifier_filter
+      - sensor.purifier_filter_remain
 
 Meteo:
     name: Meteo
@@ -151,11 +195,11 @@ GraficiUmidita:
     - history_graph.umidità_garage
     - history_graph.umidità_sala
     - history_graph.umidità_terrazzo
-    
-    
+
 Crypto:
     name: Crypto
     entities:
+    - sensor.saldo_crypto
     - sensor.portafoglio_eth
     - sensor.portafoglio_ltc
     - sensor.portafoglio_bch
@@ -203,8 +247,8 @@ Cucina:
     entities:
     - switch.switch_3 # Cucina
     - sensor.fibaro_system_fgs223_double_relay_power_5 #Consumo Luce Cucina
-    - sensor.temperature_158d00015a6698 #Temperatura Sala
-    - sensor.humidity_158d00015a6698 #Umidità Sala
+    - sensor.temperatura_cucina #Temperatura Cucina
+    - sensor.umidita_cucina #Umidità Cucina
     - binary_sensor.motion_sensor_158d0001dac0bd # Sensore Cucina
     - sensor.neo_coolcam_power_plug_12a_power_4 # Forno W
     - sensor.neo_coolcam_power_plug_12a_power # Frigo W
@@ -212,7 +256,7 @@ Cucina:
     - sensor.neo_coolcam_power_plug_12a_power_3 # Lavatrice W
     - input_boolean.autocucina
     - camera.cam_cucina
-    
+
 Terrazzo:
     name: Terrazzo
     control: hidden
@@ -220,8 +264,8 @@ Terrazzo:
     - light.terrazzo_1
     - light.terrazzo_2
     - light.terrazzo_3
-    - sensor.temperature_158d0001531ac9 #Temperatura Terrazzo
-    - sensor.humidity_158d0001531ac9 #Umidità Terrazzo
+    - sensor.temperature_158d00020ec48d #Temperatura Terrazzo
+    - sensor.humidity_158d00020ec48d #Umidità Terrazzo
     - sensor.illumination_f0b429cc390b #Lux Terrazzo
     - binary_sensor.door_window_sensor_158d00013e3968 #Porta Terrazzo
     - binary_sensor.motion_sensor_158d00011c3211 #Sensore Terrazzo
@@ -234,7 +278,6 @@ Basculante:
     entities:
     - cover.apri_basculante
     - binary_sensor.door_window_sensor_158d0001a348e1
-
 
 Garage:
     name: Garage
@@ -261,7 +304,7 @@ Sala:
     - sensor.humidity_158d00015a6698 #Umidità Sala
     - binary_sensor.motion_sensor_158d00010c24fe #Sensore Sala
     - binary_sensor.door_window_sensor_158d000153ab76 #Porta Sala
-    - switch.switch_10
+    - switch.switch_10 #HT Sala
     - sensor.neo_coolcam_power_plug_12a_power_5 # HT Sala W
     - switch.plug_158d00015db991 # Power TV Sala
     - sensor.consumo_tvsala
@@ -296,10 +339,14 @@ Camera:
     - light.led_2
     - light.led_3
     - switch.plug_158d00015ef7bc # Lampada Sale
+    - switch.plug_158d0001db024c # Led TV Camera
     - sensor.temperature_158d00015ab8a8 #Temperatura Camera
     - sensor.humidity_158d00015ab8a8 #Umidità Camera
     - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera
     - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
+    - binary_sensor.motion_sensor_158d0001136f8c #Sensore Led
+    - switch.plug_158d000154ae55 # HT Camera
+    - sensor.consumo_htcamera
     - input_boolean.tvcamera
     - input_boolean.cromocamera
     - input_boolean.autocamera
@@ -309,13 +356,17 @@ Scaleecorridoio:
     control: hidden
     entities:
     - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
-    - sensor.fibaro_system_fgs223_double_relay_power_8 #Consumo Luce Scale
+    - sensor.fibaro_system_fgs223_double_relay_power_8 # Consumo Luce Scale
+    - switch.fibaro_system_fgs223_double_relay_switch_6 # Atrio
+    - sensor.fibaro_system_fgs223_double_relay_power_9 # Consumo Luce Atrio
     - switch.switch_2 # Corridoio
     - sensor.fibaro_system_fgs223_double_relay_power_3 #Consumo Luce Corridoio
+    - light.gateway_light_f0b429cc390b
     - binary_sensor.motion_sensor_158d000128d5d5 #Sensore Scale Giù
     - binary_sensor.motion_sensor_158d00012cbb86 #Sensore Scale Sù
     - input_boolean.autoscale
     - input_boolean.autocorridoio
+    - camera.cam_corridoio
 
 Cam:
     name: Cam
@@ -323,6 +374,7 @@ Cam:
     - camera.cam_cucina
     - camera.cam_sala_dx
     - camera.cam_sala_sx
+    - camera.cam_corridoio
     - camera.cam_garage
 
 Temperatura:
@@ -332,7 +384,7 @@ Temperatura:
     - sensor.temperature_158d00015ab8a8 #Temperatura Camera
     - sensor.temperature_158d00020ffbbc #Temperatura Garage
     - sensor.temperature_158d00015a6698 #Temperatura Sala
-    - sensor.temperature_158d0001531ac9 #Temperatura Terrazzo
+    - sensor.temperature_158d00020ec48d #Temperatura Terrazzo
 
 Umidità:
     name: Umidità
@@ -341,7 +393,7 @@ Umidità:
     - sensor.humidity_158d00015ab8a8 #Umidità Camera
     - sensor.humidity_158d00020ffbbc #Umidità Garage
     - sensor.humidity_158d00015a6698 #Umidità Sala
-    - sensor.humidity_158d0001531ac9 #Umidità Terrazzo
+    - sensor.humidity_158d00020ec48d #Umidità Terrazzo
 
 Luci Piano Terra:
     name: Luci Piano Terra
@@ -356,14 +408,17 @@ Luci Primo Piano:
     name: Luci Primo Piano
     entities:
     - switch.switch_2 # Corridoio
+    - switch.fibaro_system_fgs223_double_relay_switch_6 #Atrio
+    - light.gateway_light_f0b429cc390b #Gateway
     - switch.switch # Bagno
     - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
+    - switch.plug_158d000154ae22 # Led Bagno
     - switch.fibaro_system_fgs223_double_relay_switch_2 #Camera
     - light.led
     - light.led_2
     - light.led_3
     - switch.plug_158d00015ef7bc # Lampada Sale
-    - switch.plug_158d000154ae22
+    - switch.plug_158d0001db024c # Led TV Camera
 
 Luci Terrazzo:
     name: Luci Terrazzo
@@ -372,42 +427,129 @@ Luci Terrazzo:
     - light.terrazzo_2
     - light.terrazzo_3
 
+Luci Garage:
+    name: Luci Garage
+    entities:
+    - light.garage_1
+    - light.garage_2
+
+Utility Luci:
+    name: Utility Luci
+    control: hidden
+    entities:
+    - input_boolean.tutteleluci
+    - input_boolean.automazioni
+    - switch.fluxer
+    - input_boolean.cromoterrazzo
+    - input_boolean.cromocamera
+    - input_boolean.cromosala
+    - input_boolean.cromobagno
+
+Multimedia Light:
+    name: Multimedia
+    entities:
+    - media_player.spotify
+
+GoogleHome:
+    name: Google Home
+    control: hidden
+    entities:
+    - media_player.tutta_la_casa
+    - media_player.cucina
+    - media_player.sala
+    - media_player.camera
+    - media_player.bagno
+
+AppleTV:
+    name: Apple TV
+    control: hidden
+    entities:
+    - media_player.apple_tv_sala
+    -  media_player.apple_tv_camera
+
+ControlloTV:
+    name: Controllo
+    control: hidden
+    entities:
+    - input_select.telecomando_select
+    - sensor.stato_harmony
+    - input_number.denon_volume
+
+Televisioni:
+    name: TV
+    control: hidden
+    entities:
+    - media_player.65pus712012
+    - media_player.tv_camera
+
+Audio:
+    name: Audio
+    control: hidden
+    entities:
+    - media_player.ampli_denon
+    - media_player.spotify
+
 Multimedia:
     name: Multimedia
     entities:
     - media_player.ampli_denon
+    - media_player.tutta_la_casa
     - media_player.apple_tv_sala
     - media_player.spotify
     - media_player.tv_camera
     - media_player.65pus712012
     - media_player.apple_tv_camera
+    - media_player.cucina
     - media_player.sala
-    - media_player.sala_2
+    - media_player.camera
     - media_player.bagno
-    - media_player.tutta_la_casa
 
-Raspberry:
-    name: Raspberry
+Server:
+    name: Stato Server
     entities:
     - sensor.processor_use
     - sensor.disk_use_percent_
     - sensor.memory_free
-    - sensor.network_in_eth0
-    - sensor.network_out_eth0
     - sensor.memory_use_percent
     - sensor.since_last_boot
+    - sensor.ha_attivo_da
 
-Utility:
-    name: Utility
+MeteoCasa:
+    name: Meteo Casa
+    control: hidden
+    entities:
+    - sensor.fasilunari
+    - sun.sun
+    - sensor.previsioni_apparent_temperature
+    - sensor.previsioni_cloud_coverage
+    - sensor.previsioni_summary
+    - sensor.previsioni_wind_speed
+
+SpeedTest:
+    name: SpeedTest
+    control: hidden
     entities:
     - sensor.speedtest_download
     - sensor.speedtest_upload
     - sensor.speedtest_ping
+
+Percorrenze:
+    name: Percorrenze
+    control: hidden
+    entities:
     - sensor.ufficio__casa
     - sensor.casa__ufficio
+
+Allarme:
+    name: Allarme
+    control: hidden
+    entities:
     - input_boolean.allarmediurno
     - input_boolean.allarmenotturno
-
+    - input_boolean.scattaallarme
+    - input_boolean.acasa
+    - input_boolean.inufficio
+    - input_boolean.telecamere
 
 Switch:
     name: Switch
@@ -429,6 +571,7 @@ Luci:
     - switch.fibaro_system_fgs223_double_relay_switch_3 # Parete Sala
     - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
     - switch.switch_2 # Corridoio
+    - switch.fibaro_system_fgs223_double_relay_switch_6 #Atrio
     - switch.switch # Bagno
     - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
     - switch.plug_158d000154ae22 # Led Bagno
@@ -437,6 +580,7 @@ Luci:
     - light.led_2
     - light.led_3
     - switch.plug_158d00015ef7bc # Lampada Sale
+    - switch.plug_158d0001db024c # Led TV Camera
     - light.terrazzo_1
     - light.terrazzo_2
     - light.terrazzo_3
@@ -444,20 +588,10 @@ Luci:
     - light.garage_1
     - light.garage_2
 
-Consumo Luci:
-    name: Consumo Luci
-    entities:
-    - sensor.fibaro_system_fgs223_double_relay_power_5 #Consumo Luce Cucina
-    - sensor.fibaro_system_fgs223_double_relay_power_6 #Consumo Luce Parete Sala
-    - sensor.fibaro_system_fgs223_double_relay_power_8 #Consumo Luce Scale
-    - sensor.fibaro_system_fgs223_double_relay_power_3 #Consumo Luce Corridoio
-    - sensor.fibaro_system_fgs223_double_relay_power #Consumo Luce Bagno
-    - sensor.fibaro_system_fgs223_double_relay_power_2 #Consumo Luce Specchio Bagno
-    - sensor.fibaro_system_fgs223_double_relay_power_4 #Consumo Luce Camera
-
 Sensori:
     name: Sensori
     entities:
+    - sensor.template_last_motion
     - binary_sensor.motion_sensor_158d00013f8c44 #Sensore Bagno
     - binary_sensor.motion_sensor_158d000132e942 #Sensore Bagno 2
     - binary_sensor.motion_sensor_158d0001232507 #Sensore Bagno 3
@@ -481,11 +615,20 @@ Aria:
     name: Aria
     control: hidden
     entities:
+    - sensor.qualita_aria
     - fan.xiaomi_miio_device
     - vacuum.xiaomi_vacuum_cleaner
-    - sensor.qualita_aria
     - input_boolean.climasala
     - input_boolean.climacamera
+    - input_boolean.climasupersala
+    - input_boolean.climasupercamera
+
+spazzatura:
+    name: Raccolta Spazzatura
+    control: hidden
+    entities:
+      - sensor.spazzatura
+      - automation.avviso_spazzatura
 
 Remote:
     name: Telecomando
@@ -495,15 +638,10 @@ Remote:
     - input_boolean.appletv
     - input_boolean.dtt
     - input_boolean.pc
+    - input_boolean.tvsala
     - input_boolean.tvcamera
     - input_boolean.pausaskyappletv
     - input_boolean.ambilight
-    - input_boolean.telecamere
-    - input_boolean.cromoterrazzo
-    - input_boolean.cromocamera
-    - input_boolean.cromosala
-    - input_boolean.cromobagno
-    - input_boolean.test
 
 Zwave:
     name: Zwave
@@ -549,6 +687,29 @@ Elettrodomestici:
     - switch.plug_158d00015db991 # Power TV Sala
     - sensor.consumo_tvsala
 
+Consumo Luci:
+    name: Consumo Luci
+    entities:
+    - sensor.fibaro_system_fgs223_double_relay_power_5 #Consumo Luce Cucina
+    - sensor.fibaro_system_fgs223_double_relay_power_6 #Consumo Luce Parete Sala
+    - sensor.fibaro_system_fgs223_double_relay_power_8 #Consumo Luce Scale
+    - sensor.fibaro_system_fgs223_double_relay_power_3 #Consumo Luce Corridoio
+    - sensor.fibaro_system_fgs223_double_relay_power #Consumo Luce Bagno
+    - sensor.fibaro_system_fgs223_double_relay_power_2 #Consumo Luce Specchio Bagno
+    - sensor.fibaro_system_fgs223_double_relay_power_4 #Consumo Luce Camera
+
+Consumo Elettrodomestici:
+    name: Consumo Elettrodomestici
+    control: hidden
+    entities:
+    - sensor.neo_coolcam_power_plug_12a_power_4 # Forno W
+    - sensor.neo_coolcam_power_plug_12a_power # Frigo W
+    - sensor.neo_coolcam_power_plug_12a_power_2 # Lavastoviglie W
+    - sensor.neo_coolcam_power_plug_12a_power_3 # Lavatrice W
+    - sensor.neo_coolcam_power_plug_12a_power_5 # HT Sala W
+    - sensor.consumo_htcamera
+    - sensor.consumo_tvsala
+
 Ampere Elettrodomestici:
     name: Ampere Elettrodomestici
     entities:
@@ -570,7 +731,7 @@ Contatore Elettrodomestici:
 Automazioni Luci:
     name: Automazioni Luci
     entities:
-    - input_boolean.automazioniluci
+    - input_boolean.automazioni
     - input_boolean.autocucina
     - input_boolean.autoscale
     - input_boolean.autocorridoio
@@ -595,4 +756,3 @@ Automazioni Luci Reali:
     - automation.luci_terrazzo_off
     - automation.led_camera_on
     - automation.led_camera_off
-

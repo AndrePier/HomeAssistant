@@ -14,18 +14,6 @@ remote.apple_tv_sala:
   name:
   platform: apple_tv
   unique_id: 35b460fe6e47b9a49eaf56943a29ce3b12466112c4ccbca363ef358958e9eae9
-media_player.sala:
-  name: Google Home
-  platform: cast
-  unique_id: c3ce441c-5ca1-a566-9be7-6b6bbd5fc45f
-sensor.temperature_158d0001531ac9:
-  name:
-  platform: xiaomi_aqara
-  unique_id: temperature158d0001531ac9
-sensor.humidity_158d0001531ac9:
-  name:
-  platform: xiaomi_aqara
-  unique_id: humidity158d0001531ac9
 sensor.temperature_158d00020ffbbc:
   name:
   platform: xiaomi_aqara
@@ -946,18 +934,6 @@ sensor.ipad_pro_battery_state:
   name:
   platform: ios
   unique_id: state_iPadPro
-media_player.sala_2:
-  name:
-  platform: cast
-  unique_id: 2485a2ca-5577-b766-d95e-d6896dea1a90
-media_player.tutta_la_casa:
-  name:
-  platform: cast
-  unique_id: 0defbb7e-c26e-4db1-82d9-08726af4d846
-media_player.bagno:
-  name:
-  platform: cast
-  unique_id: 06f7f245-1692-b6ea-3928-874844a065c1
 binary_sensor.switch_158d000210eaab:
   name:
   platform: xiaomi_aqara
@@ -970,3 +946,135 @@ switch.plug_158d000154ae22:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000154ae22
+media_player.camera:
+  name:
+  platform: cast
+  unique_id: c3ce441c-5ca1-a566-9be7-6b6bbd5fc45f
+media_player.bagno:
+  name:
+  platform: cast
+  unique_id: 06f7f245-1692-b6ea-3928-874844a065c1
+media_player.sala:
+  name:
+  platform: cast
+  unique_id: 2485a2ca-5577-b766-d95e-d6896dea1a90
+media_player.cucina:
+  name:
+  platform: cast
+  unique_id: 9d26f67c-2422-45e8-fe63-876fbbd712b1
+media_player.primo_piano:
+  name:
+  platform: cast
+  unique_id: 339c44eb-4c76-4e3b-87d9-3d38076f6a1e
+media_player.piano_terra:
+  name:
+  platform: cast
+  unique_id: 6385d38c-46b6-4bb0-a842-15f37ab57d91
+media_player.iphone_x:
+  name:
+  platform: plex
+  unique_id: 12880798-C563-47C3-8DF0-07CE9991A557
+media_player.ovunque:
+  name:
+  platform: cast
+  unique_id: af9d5d6b-e201-4abb-9cd3-9d797f4c4182
+sensor.humidity_158d00020ec48d:
+  name:
+  platform: xiaomi_aqara
+  unique_id: humidity158d00020ec48d
+sensor.temperature_158d00020ec48d:
+  name:
+  platform: xiaomi_aqara
+  unique_id: temperature158d00020ec48d
+media_player.apple_tv_sala_4:
+  name:
+  platform: apple_tv
+  unique_id: d1fb19749115dd24c0a3547db9d7bc9e68152097d12a7064e6e6556c786687b3
+remote.apple_tv_sala_2:
+  name:
+  platform: apple_tv
+  unique_id: d1fb19749115dd24c0a3547db9d7bc9e68152097d12a7064e6e6556c786687b3
+media_player.apple_tv_sala_5:
+  name:
+  platform: apple_tv
+  unique_id: 9888b44bad978f7e4710cb0ac0a12d554af22017ec4662f5e6864be590b90b4e
+remote.apple_tv_sala_3:
+  name:
+  platform: apple_tv
+  unique_id: 9888b44bad978f7e4710cb0ac0a12d554af22017ec4662f5e6864be590b90b4e
+media_player.tutta_la_casa:
+  name:
+  platform: cast
+  unique_id: 1717cf1d-f027-4711-8bc2-4a6760139e10
+zwave.fibaro_system_fgs223_double_relay_5:
+  name:
+  platform: zwave
+  unique_id: node-22
+switch.fibaro_system_fgs223_double_relay_switch_5:
+  name:
+  platform: zwave
+  unique_id: 22-144115188449755136
+sensor.fibaro_system_fgs223_double_relay_power_9:
+  name:
+  platform: zwave
+  unique_id: 22-72057594412040322
+sensor.fibaro_system_fgs223_double_relay_exporting_9:
+  name:
+  platform: zwave
+  unique_id: 22-72057594412040704
+sensor.fibaro_system_fgs223_double_relay_power_10:
+  name:
+  platform: zwave
+  unique_id: 22-144115188449968258
+sensor.fibaro_system_fgs223_double_relay_exporting_10:
+  name:
+  platform: zwave
+  unique_id: 22-144115188449968640
+sensor.fibaro_system_fgs223_double_relay_sourcenodeid_5:
+  name:
+  platform: zwave
+  unique_id: 22-72057594413072417
+sensor.fibaro_system_fgs223_double_relay_heat_5:
+  name:
+  platform: zwave
+  unique_id: 22-72057594413072497
+sensor.fibaro_system_fgs223_double_relay_power_management_5:
+  name:
+  platform: zwave
+  unique_id: 22-72057594413072561
+switch.fibaro_system_fgs223_double_relay_switch_6:
+  name:
+  platform: zwave
+  unique_id: 22-72057594411827200
+sensor.fibaro_system_fgs223_double_relay_energy:
+  name:
+  platform: zwave
+  unique_id: 22-72057594412040194
+sensor.fibaro_system_fgs223_double_relay_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 22-72057594413072385
+sensor.fibaro_system_fgs223_double_relay_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 22-72057594413072401
+sensor.fibaro_system_fgs223_double_relay_energy_2:
+  name:
+  platform: zwave
+  unique_id: 22-144115188449968130
+media_player.apple_tv_sala_6:
+  name:
+  platform: apple_tv
+  unique_id: b5ab8e0b927f1393098513aa84f8f837a45a1188bba82d008bb7d3deab6ab882
+remote.apple_tv_sala_4:
+  name:
+  platform: apple_tv
+  unique_id: b5ab8e0b927f1393098513aa84f8f837a45a1188bba82d008bb7d3deab6ab882
+media_player.apple_tv_sala_7:
+  name:
+  platform: apple_tv
+  unique_id: a66fcaaa109d39c9251d532c2556795f62ad490d7d76053505d0517189db7e75
+remote.apple_tv_sala_5:
+  name:
+  platform: apple_tv
+  unique_id: a66fcaaa109d39c9251d532c2556795f62ad490d7d76053505d0517189db7e75

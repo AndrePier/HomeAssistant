@@ -5,11 +5,6 @@ sensor.temperature_158d00011001fc:
   icon: mdi:temperature-celsius
   homebridge_visible: true
   homebridge_name: Tempertura Bagno
-sensor.temperature_158d0001531ac9:
-  friendly_name: Temperatura Terrazzo
-  icon: mdi:temperature-celsius
-  homebridge_visible: true
-  homebridge_name: Tempertura Terrazzo
 sensor.temperature_158d00015a6698:
   friendly_name: Temperatura Sala
   icon: mdi:temperature-celsius
@@ -25,16 +20,16 @@ sensor.temperature_158d00020ffbbc:
   icon: mdi:temperature-celsius
   homebridge_visible: true
   homebridge_name: Temperatura Garage
+sensor.temperature_158d00020ec48d:
+  friendly_name: Temperatura Terrazzo
+  icon: mdi:temperature-celsius
+  homebridge_visible: true
+  homebridge_name: Temperatura Terrazzo
 sensor.humidity_158d00011001fc:
   friendly_name: Umidità Bagno
   icon: mdi:water-percent
   homebridge_visible: true
   homebridge_name: Umidità Bagno
-sensor.humidity_158d0001531ac9:
-  friendly_name: Umidità Terrazzo
-  icon: mdi:water-percent
-  homebridge_visible: true
-  homebridge_name: Umidità Terrazzo
 sensor.humidity_158d00015a6698:
   friendly_name: Umidità Sala
   icon: mdi:water-percent
@@ -50,128 +45,170 @@ sensor.humidity_158d00020ffbbc:
   icon: mdi:water-percent
   homebridge_visible: true
   homebridge_name: Umidità Garage
+sensor.humidity_158d00020ec48d:
+  friendly_name: Umidità Terrazzo
+  icon: mdi:water-percent
+  homebridge_visible: true
+  homebridge_name: Umidità Terrazzo
 
 ##################### Luci #####################
 
+switch.fluxer:
+  friendly_name: Fluxer
+  icon: mdi:theme-light-dark
 switch.switch_3:
   friendly_name: Cucina
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Cucina
+  google_assistant_name: Cucina
+  google_assistant_type: light
 light.faretto:
   friendly_name: Faretto
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Faretto
+  google_assistant_name: Faretto
+  google_assistant_type: light
 light.flos:
   friendly_name: Flos
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Flos
+  google_assistant_name: Flos
+  google_assistant_type: light
 switch.fibaro_system_fgs223_double_relay_switch_3:
   friendly_name: Parete Sala
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Parete Sala
+  google_assistant_name: Parete Sala
+  google_assistant_type: light
 switch.fibaro_system_fgs223_double_relay_switch_4:
   friendly_name: Scale
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Scale
+  google_assistant_name: Scale
+  google_assistant_type: light
 switch.switch_2:
   friendly_name: Corridoio
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Corridoio
+  google_assistant_name: Corridoio
+  google_assistant_type: light
+switch.fibaro_system_fgs223_double_relay_switch_6:
+  friendly_name: Atrio
+  icon: mdi:lightbulb
+  device_class: light
+  homebridge_visible: true
+  google_assistant_name: Atrio
+  google_assistant_type: light
 switch.switch:
   friendly_name: Bagno
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Bagno
+  google_assistant_name: Bagno
+  google_assistant_type: light
 switch.fibaro_system_fgs223_double_relay_switch:
   friendly_name: Specchio Bagno
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Specchio Bagno
+  google_assistant_name: Specchio Bagno
+  google_assistant_type: light
 switch.plug_158d000154ae22:
   friendly_name: Led Bagno
   icon: mdi:lightbulb
   homebridge_visible: true
-  homebridge_name: Led Bagno
+  google_assistant_name: Led Bagno
+  google_assistant_type: light
 switch.fibaro_system_fgs223_double_relay_switch_2:
   friendly_name: Camera
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Camera
+  google_assistant_name: Camera
+  google_assistant_type: light
 light.led:
   friendly_name: Led 1
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Led 1
+  google_assistant_name: Led 1
+  google_assistant_type: light
 light.led_2:
   friendly_name: Led 2
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Led 2
+  google_assistant_name: Led 2
+  google_assistant_type: light
 light.led_3:
   friendly_name: Led 3
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Led 3
+  google_assistant_name: Led 3
+  google_assistant_type: light
 switch.plug_158d00015ef7bc:
   friendly_name: Lampada Sale
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Lampada Sale
+  google_assistant_name: Lampada Sale
+  google_assistant_type: light
+switch.plug_158d0001db024c:
+  friendly_name: Led TV Camera
+  icon: mdi:lightbulb
+  device_class: light
+  homebridge_visible: true
+  google_assistant_name: Led TV Camera
+  google_assistant_type: light
 light.terrazzo_1:
   friendly_name: Terrazzo 1
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Terrazzo 1
+  google_assistant_name: Terrazzo 1
+  google_assistant_type: light
 light.terrazzo_2:
   friendly_name: Terrazzo 2
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Terrazzo 2
+  google_assistant_name: Terrazzo 2
+  google_assistant_type: light
 light.terrazzo_3:
   friendly_name: Terrazzo 3
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Terrazzo 3
+  google_assistant_name: Terrazzo 3
+  google_assistant_type: light
 light.gateway_light_f0b429cc390b:
   friendly_name: Gateway
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Gateway
+  google_assistant_name: Gateway
+  google_assistant_type: light
 light.garage_1:
   friendly_name: Garage 1
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Garage 1
+  google_assistant_name: Garage 1
+  google_assistant_type: light
 light.garage_2:
   friendly_name: Garage 2
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  homebridge_name: Garage 2
+  google_assistant_name: Garage 2
+  google_assistant_type: light
 
 ##################### Sensori #####################
 
@@ -274,6 +311,8 @@ input_boolean.tvsala:
 
 ##################### Utility #####################
 
+sensor.time:
+  friendly_name: Orario
 input_boolean.telecamere:
   friendly_name: Telecamere
   icon: mdi:camcorder
@@ -284,8 +323,8 @@ input_boolean.acasa:
   icon: mdi:home
   homebridge_visible: true
   homebridge_name: A Casa
-input_boolean.automazioniluci:
-  friendly_name: Automazioni Luci
+input_boolean.automazioni:
+  friendly_name: Automazioni
   icon: mdi:track-light
   homebridge_visible: true
   homebridge_name: Automazioni Luci
@@ -363,7 +402,7 @@ fan.xiaomi_miio_device:
 sensor.qualità_aria:
   friendly_name: Qualità Aria
   device_class: pm25
-  icon: mdi:air-conditioner
+  icon: mdi:fan
 
 ##################### Switch #####################
 
@@ -409,7 +448,7 @@ sensor.fibaro_system_fgs223_double_relay_power_8:
   friendly_name: Consumo Luce Scale
   icon: mdi:flash
 sensor.fibaro_system_fgs223_double_relay_power_3:
-  frienldy_name: Consumo Luce Corridoio
+  friendly_name: Consumo Luce Corridoio
   icon: mdi:flash
 sensor.fibaro_system_fgs223_double_relay_power:
   friendly_name: Consumo Luce Bagno
@@ -463,6 +502,43 @@ switch.plug_158d00015db991: # Power TV Sala
   friendly_name: Power TV Sala
   icon: mdi:television
 sensor.consumo_tvsala:
-  friendly_name: Consumo HT Camera
+  friendly_name: Consumo TV Sala
   icon: mdi:flash
-
+script.spotify_music:
+  friendly_name: 'Play'
+  icon: mdi:play
+automation.avviso_spazzatura:
+  friendly_name: Avviso
+  icon: mdi:bell-ring
+sensor.previsioni_apparent_temperature:
+  friendly_name: Temperatura
+sensor.previsioni_cloud_coverage:
+  friendly_name: Cielo Coperto
+sensor.previsioni_summary:
+  friendly_name: Stato
+sensor.previsioni_wind_speed:
+  friendly_name: Vento
+sensor.iphone_x_battery_state_2:
+  friendly_name: Stato iPhone X
+sensor.iphone_x_battery_level:
+  friendly_name: Livello Batteria iPhone X
+sensor.iphone_7_battery_state:
+  friendly_name: Stato iPhone 7
+sensor.iphone_7_battery_level:
+  friendly_name: Livello Batteria iPhone 7
+sensor.ipad_pro_battery_state:
+  friendly_name: Stato iPad Pro
+sensor.ipad_pro_battery_level:
+  friendly_name: Livello Batteria iPad Pro
+sensor.ipad_air_battery_state:
+  friendly_name: Stato iPad Air
+sensor.ipad_air_battery_level:
+  friendly_name: Livello Batteria iPad Air
+sensor.disk_use_percent_:
+  friendly_name: HDD
+sensor.memory_use_percent:
+  friendly_name: RAM
+sensor.processor_use:
+  friendly_name: CPU
+sensor.since_last_boot:
+  friendly_name: PC attivo da

@@ -1,7 +1,7 @@
   google_actions:
     filter:
       include_entities:
-        - input_boolean.automazioniluci
+        - input_boolean.automazioni
         - input_boolean.autocucina
         - input_boolean.autoscale
         - input_boolean.autocorridoio
@@ -26,9 +26,11 @@
         - input_boolean.cromobagno
         - input_boolean.climasala
         - input_boolean.climacamera
+        - input_boolean.climasupersala
+        - input_boolean.climasupercamera
         - input_boolean.franchinogoogle
         - input_boolean.scattaallarme
-        - cover.apri_basculante
+        - switch.fluxer
         - switch.switch_3 # Cucina
         - light.faretto
         - light.flos
@@ -43,6 +45,7 @@
         - light.led_2
         - light.led_3
         - switch.plug_158d00015ef7bc # Lampada Sale
+        - switch.plug_158d0001db024c # Led TV Camera
         - light.terrazzo_1
         - light.terrazzo_2
         - light.terrazzo_3

@@ -4,25 +4,35 @@
     sequence:
       - service: notify.telegram_bot
         data:
-          message: Foto Cam
+          message: Foto Cam Sala Dx
           data:
             photo:
               - url: http://192.168.10.16/image.jpg
       - service: notify.telegram_bot
         data:
-          message: Foto Cam
+          message: Foto Cam Sala Sx
           data:
             photo:
               - url: http://192.168.10.18/image.jpg
       - service: notify.telegram_bot
         data:
-          message: Foto Cam
+          message: Foto Cam Cucina
           data:
             photo:
               - url: http://192.168.10.19/image.jpg
+      - service: camera.snapshot
+        data:
+          entity_id: camera.cam_corridoio
+          filename: '/config/www/foto/snapshot_corridoio.jpg'
       - service: notify.telegram_bot
         data:
-          message: Foto Cam
+          message: Foto Cam Corridoio
+          data:
+            photo:
+              - file: '/config/www/foto/snapshot_corridoio.jpg'
+      - service: notify.telegram_bot
+        data:
+          message: Foto Cam Garage
           data:
             photo:
               - url: http://192.168.10.25/image.jpg
@@ -44,6 +54,8 @@
   scatta_allarme:
     alias: "Azioni da eseguire allo scattare dell'allarme"
     sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.pc
       - service: homeassistant.turn_on
         entity_id: group.luci
       - service: notify.telegram_bot
@@ -65,6 +77,11 @@
         data_template:
           message: "Intrusione Rilevata!"
       - delay: '00:00:03'
+      - service: xiaomi_aqara.play_ringtone
+        data:
+          gw_mac: F0:B4:29:CC:39:0B
+          ringtone_id: 0
+          ringtone_vol: 100
       - service: tts.google_say
         entity_id: media_player.tutta_la_casa
         data_template:
@@ -81,11 +98,49 @@
         data_template:
           message: "Intrusione Rilevata!"
       - delay: '00:00:03'
+      - service: xiaomi_aqara.play_ringtone
+        data:
+          gw_mac: F0:B4:29:CC:39:0B
+          ringtone_id: 0
+          ringtone_vol: 100
       - service: script.foto_telegram     
       - service: tts.google_say
         entity_id: media_player.tutta_la_casa
         data_template:
           message: "Intrusione Rilevata!"
       - service: script.turn_on
-        entity_id: script.scatta_allarme # Riesegue da capo
+        entity_id: script.scatta_allarme_loop
 
+  scatta_allarme_loop:
+    alias: "Loop Scatta Allarme"
+    sequence:
+      - delay: '00:00:03'
+      - service: script.turn_on
+        entity_id: script.scatta_allarme
+
+  spotify_music:
+    sequence:
+      - service: media_player.select_source
+        data_template:
+          entity_id: media_player.spotify
+          source: >
+           {% if is_state("input_select.spotify_source", "Tutta La Casa") %} Tutta La Casa
+           {% elif is_state("input_select.spotify_source", "Piano Terra") %} Piano Terra
+           {% elif is_state("input_select.spotify_source", "Primo Piano") %} Primo Piano
+           {% elif is_state("input_select.spotify_source", "Ampli Denon") %} Denon AVR-X3300W
+           {% endif %}
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.spotify
+          media_content_type: playlist
+          media_content_id: >
+            {% if is_state("input_select.spotify_playlist", "Magnifikka") %} spotify:user:ilpierr:playlist:08eWa1ifDYLZ0ACoOh0C1W
+            {% elif is_state("input_select.spotify_playlist", "Nuove") %} spotify:user:ilpierr:playlist:5tfmhWJe50qF7D2TeB0jqX
+            {% elif is_state("input_select.spotify_playlist", "Preferiti") %} spotify:user:ilpierr:playlist:65RL7SCHu1hXmufZdvKmOa
+            {% elif is_state("input_select.spotify_playlist", "Relax") %} spotify:user:ilpierr:playlist:0JXvOdh404n9Wgxfk0nZ7o 
+            {% elif is_state("input_select.spotify_playlist", "Fabrizio") %} spotify:user:ilpierr:playlist:0STd8HxZBNrNSPewif3rtO
+            {% endif %}
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.spotify
+          volume_level: '0.4'

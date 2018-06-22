@@ -115,7 +115,7 @@
   gr20:
     name: Temperatura Terrazzo
     entities:
-      - sensor.temperature_158d0001531ac9
+      - sensor.temperature_158d00020ec48d
     hours_to_show: 24
     refresh: 60
   gr21:
@@ -145,6 +145,6 @@
   gr25:
     name: Umidità Terrazzo
     entities:
-      - sensor.humidity_158d0001531ac9
+      - sensor.humidity_158d00020ec48d
     hours_to_show: 24
     refresh: 60

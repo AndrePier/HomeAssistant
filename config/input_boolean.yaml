@@ -25,8 +25,8 @@
   cromoterrazzo:
     name: Cromoterapia Terrazzo
 
-  automazioniluci:
-    name: Automazioni Luci
+  automazioni:
+    name: Automazioni
 
   autocucina:
     name: Auto Cucina
@@ -75,7 +75,7 @@
     icon: mdi:remote
 
   ambilight:
-    name: Ambilight
+    name: Ambi
     icon: mdi:remote
 
   tvcamera:
@@ -87,11 +87,27 @@
 
   climasala:
     name: Clima Sala
-    icon: mdi:fan
+    icon: mdi:air-conditioner
+
+  climasupersala:
+    name: Clima Super Sala
+    icon: mdi:air-conditioner
 
   climacamera:
     name: Clima Camera
-    icon: mdi:fan
+    icon: mdi:air-conditioner
+
+  climasupercamera:
+    name: Clima Super Camera
+    icon: mdi:air-conditioner
+
+  inufficio:
+    name: In Ufficio
+    icon: mdi:worker
+
+  tutteleluci:
+    name: Tutte le luci
+    icon: mdi:lightbulb
 
   test:
     name: Test

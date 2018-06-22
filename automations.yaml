@@ -227,6 +227,51 @@
 
 ##################### Luci #####################
 
+# Tutte le luci
+  - alias: Tutte Le Luci ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.tutteleluci
+      to: 'on'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: group.luci
+
+  - alias: Tutte Le Luci OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.tutteleluci
+      to: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+  - alias: Verifica Tutte Le Luci ON
+    trigger:
+      platform: state
+      entity_id: group.luci
+      to: 'on'
+    action:
+      - service: automation.turn_off
+        entity_id: automation.tutte_le_luci_on
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.tutteleluci
+      - service: automation.turn_on
+        entity_id: automation.tutte_le_luci_on
+
+  - alias: Verifica Tutte Le Luci OFF
+    trigger:
+      platform: state
+      entity_id: group.luci
+      to: 'off'
+    action:
+      - service: automation.turn_off
+        entity_id: automation.tutte_le_luci_off
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.tutteleluci
+      - service: automation.turn_on
+        entity_id: automation.tutte_le_luci_off
+
 # Luci Scale
   - alias: Luci Scale ON
     trigger:
@@ -234,7 +279,10 @@
       entity_id: binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
       to: 'on'
     condition:
-      condition: state
+    - condition: state
+      entity_id: input_boolean.autoscale
+      state: 'on'
+    - condition: state
       entity_id: sun.sun
       state: "below_horizon"
     action:
@@ -246,6 +294,10 @@
       platform: state
       entity_id: binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
       to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autoscale
+      state: 'on'
     action:
       service: switch.turn_off
       entity_id: switch.fibaro_system_fgs223_double_relay_switch_4, switch.switch_2
@@ -265,6 +317,9 @@
     - condition: state
       entity_id: sun.sun
       state: "below_horizon"
+    - condition: state
+      entity_id: input_boolean.autocorridoio
+      state: 'on'
     action:
       service: switch.turn_on
       entity_id: switch.switch_2
@@ -274,6 +329,10 @@
       platform: state
       entity_id: binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
       to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocorridoio
+      state: 'on'
     action:
       service: switch.turn_off
       entity_id: switch.switch_2
@@ -285,21 +344,36 @@
       entity_id: binary_sensor.motion_sensor_158d00011c3211
       to: 'on'
     condition:
-      condition: state
+    - condition: state
+      entity_id: input_boolean.autoterrazzo
+      state: 'on'
+    - condition: state
       entity_id: sun.sun
       state: "below_horizon"
     action:
-      service: light.turn_on
-      entity_id: light.terrazzo_1, light.terrazzo_2, light.terrazzo_3
+      - service: light.turn_on
+        entity_id: light.terrazzo_1
+      - service: light.turn_on
+        entity_id: light.terrazzo_2
+      - service: light.turn_on
+        entity_id: light.terrazzo_3
 
   - alias: Luci Terrazzo OFF
     trigger:
       platform: state
       entity_id: binary_sensor.motion_sensor_158d00011c3211
       to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autoterrazzo
+      state: 'on'
     action:
-      service: light.turn_off
-      entity_id: light.terrazzo_1, light.terrazzo_2, light.terrazzo_3
+      - service: light.turn_off
+        entity_id: light.terrazzo_1
+      - service: light.turn_off
+        entity_id: light.terrazzo_2
+      - service: light.turn_off
+        entity_id: light.terrazzo_3
 
 # Luce Cucina
   - alias: Luci Cucina ON
@@ -308,7 +382,10 @@
       entity_id: binary_sensor.motion_sensor_158d0001dac0bd
       to: 'on'
     condition:
-      condition: state
+    - condition: state
+      entity_id: input_boolean.autocucina
+      state: 'on'
+    - condition: state
       entity_id: sun.sun
       state: "below_horizon"
     action:
@@ -320,6 +397,10 @@
       platform: state
       entity_id: binary_sensor.motion_sensor_158d0001dac0bd
       to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autcucina
+      state: 'on'
     action:
       service: switch.turn_off
       entity_id: switch.switch_3
@@ -331,7 +412,10 @@
       entity_id: binary_sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507
       to: 'on'
     condition:
-      condition: state
+    - condition: state
+      entity_id: input_boolean.autobagno
+      state: 'on'
+    - condition: state
       entity_id: sun.sun
       state: "below_horizon"
     action:
@@ -341,8 +425,21 @@
   - alias: Luci Bagno OFF
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507
-      to: 'off'
+      entity_id: switch.switch
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: binary_sensor.motion_sensor_158d00013f8c44
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.motion_sensor_158d000132e942
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.motion_sensor_158d0001232507
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.autobagno
+        state: 'on'
     action:
       service: switch.turn_off
       entity_id: switch.switch
@@ -354,7 +451,10 @@
       entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
       to: 'on'
     condition:
-      condition: state
+    - condition: state
+      entity_id: input_boolean.autocamera
+      state: 'on'
+    - condition: state
       entity_id: sun.sun
       state: "below_horizon"
     action:
@@ -364,8 +464,18 @@
   - alias: Luci Camera OFF
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
-      to: 'off'
+      entity_id: switch.fibaro_system_fgs223_double_relay_switch_2
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: binary_sensor.motion_sensor_158d00014dca3a
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.motion_sensor_158d000120ac8c
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.autocamera
+        state: 'on'
     action:
       service: switch.turn_off
       entity_id: switch.fibaro_system_fgs223_double_relay_switch_2
@@ -377,9 +487,9 @@
       entity_id: binary_sensor.motion_sensor_158d0001136f8c
       to: 'on'
     condition:
-      condition: state
-      entity_id: sun.sun
-      state: "below_horizon"
+    - condition: state
+      entity_id: input_boolean.autocamera
+      state: 'on'
     action:
       service: light.turn_on
       entity_id: light.led, light.led_2, light.led_3
@@ -389,6 +499,10 @@
       platform: state
       entity_id: binary_sensor.motion_sensor_158d0001136f8c
       to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocamera
+      state: 'on'
     action:
       service: light.turn_off
       entity_id: light.led, light.led_2, light.led_3
@@ -400,8 +514,11 @@
       entity_id: binary_sensor.door_window_sensor_158d0001a348e1
       to: 'on'
     action:
-      service: light.turn_on
-      entity_id: light.garage_1, light.garage_2
+      - service: light.turn_on
+        entity_id: light.garage_1
+      - delay: '00:00:01'
+      - service: light.turn_on
+        entity_id: light.garage_2
 
   - alias: Luci Garage OFF
     trigger:
@@ -409,8 +526,11 @@
       entity_id: binary_sensor.door_window_sensor_158d0001a348e1
       to: 'off'
     action:
-      service: light.turn_off
-      entity_id: light.garage_1, light.garage_2
+      - service: light.turn_off
+        entity_id: light.garage_1
+      - delay: '00:00:01'
+      - service: light.turn_off
+        entity_id: light.garage_2
 
 # Timer Lampada Sale
   - alias: Timer Lampada Sale
@@ -443,133 +563,31 @@
       - service: input_boolean.turn_off
         entity_id: input_boolean.autocucina, input_boolean.autoscale, input_boolean.autocorridoio, input_boolean.autobagno, input_boolean.autocamera, input_boolean.autoterrazzo
 
-# Auto Cucina
-  - alias: Auto Cucina ON
+  - alias: Verifica Auto Luci ON
     trigger:
       platform: state
-      entity_id: input_boolean.autocucina
+      entity_id: input_boolean.autocucina, input_boolean.autoscale, input_boolean.autocorridoio, input_boolean.autobagno, input_boolean.autocamera, input_boolean.autoterrazzo
       to: 'on'
     action:
+      - service: automation.turn_off
+        entity_id: automation.auto_luci_on
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.automazioni
       - service: automation.turn_on
-        entity_id: automation.luci_cucina_on, automation.luci_cucina_off
+        entity_id: automation.auto_luci_on
 
-  - alias: Auto Cucina OFF
+  - alias: Verifica Auto Luci OFF
     trigger:
       platform: state
-      entity_id: input_boolean.autocucina
+      entity_id: input_boolean.autocucina, input_boolean.autoscale, input_boolean.autocorridoio, input_boolean.autobagno, input_boolean.autocamera, input_boolean.autoterrazzo
       to: 'off'
     action:
       - service: automation.turn_off
-        entity_id: automation.luci_cucina_on, automation.luci_cucina_off
-
-# Auto Scale
-  - alias: Auto Scale ON
-    trigger:
-      platform: state
-      entity_id: input_boolean.autoscale
-      to: 'on'
-    action:
+        entity_id: automation.auto_luci_off
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.automazioni
       - service: automation.turn_on
-        entity_id: automation.luci_scale_on, automation.luci_scale_off
-
-  - alias: Auto Scale OFF
-    trigger:
-      platform: state
-      entity_id: input_boolean.autoscale
-      to: 'off'
-    action:
-      - service: automation.turn_off
-        entity_id: automation.luci_scale_on, automation.luci_scale_off
-
-# Auto Corridoio
-  - alias: Auto Corridoio ON
-    trigger:
-      platform: state
-      entity_id: input_boolean.autocorridoio
-      to: 'on'
-    action:
-      - service: automation.turn_on
-        entity_id: automation.luci_corridoio_on, automation.luci_corridoio_off
-
-  - alias: Auto Corridoio OFF
-    trigger:
-      platform: state
-      entity_id: input_boolean.autocorridoio
-      to: 'off'
-    action:
-      - service: automation.turn_off
-        entity_id: automation.luci_corridoio_on, automation.luci_corridoio_off
-
-# Auto Bagno
-  - alias: Auto Bagno ON
-    trigger:
-      platform: state
-      entity_id: input_boolean.autobagno
-      to: 'on'
-    action:
-      - service: automation.turn_on
-        entity_id: automation.luci_bagno_on, automation.luci_bagno_off
-
-  - alias: Auto Bagno OFF
-    trigger:
-      platform: state
-      entity_id: input_boolean.autobagno
-      to: 'off'
-    action:
-      - service: automation.turn_off
-        entity_id: automation.luci_bagno_on, automation.luci_bagno_off
-
-# Auto Camera
-  - alias: Auto Camera ON
-    trigger:
-      platform: state
-      entity_id: input_boolean.autocamera
-      to: 'on'
-    action:
-      - service: automation.turn_on
-        entity_id: automation.luci_camera_on, automation.luci_camera_off, automation.led_camera_on, automation.led_camera_off
-
-  - alias: Auto Camera OFF
-    trigger:
-      platform: state
-      entity_id: input_boolean.autocamera
-      to: 'off'
-    action:
-      - service: automation.turn_off
-        entity_id: automation.luci_camera_on, automation.luci_camera_off, automation.led_camera_on, automation.led_camera_off
-
-# Auto Terrazzo
-  - alias: Auto Terrazzo ON
-    trigger:
-      platform: state
-      entity_id: input_boolean.autoterrazzo
-      to: 'on'
-    action:
-      - service: automation.turn_on
-        entity_id: automation.luci_terrazzo_on, automation.luci_terrazzo_off
-
-  - alias: Auto Terrazzo OFF
-    trigger:
-      platform: state
-      entity_id: input_boolean.autoterrazzo
-      to: 'off'
-    action:
-      - service: automation.turn_off
-        entity_id: automation.luci_terrazzo_on, automation.luci_terrazzo_off
-
-# Correggi Auto Avvio Automazioni Luci
-  - alias: Correggi Auto Luci
-    trigger:
-      platform: state
-      entity_id: group.automazioni_luci
-      to: 'on'
-    condition:
-      condition: state
-      entity_id: input_boolean.automazioni
-      state: 'off'
-    action:
-      - service: homeassistant.turn_off
-        entity_id: group.automazioni_luci
+        entity_id: automation.auto_luci_off
 
 # Cromoterapia Terrazzo
   - alias: Cromoterapia Terrazzo ON
@@ -869,7 +887,7 @@
       - service: homeassistant.turn_off
         entity_id: group.luci
 
-# Switch Camera Click
+# Switch Camera
   - alias: Switch Camera Click
     trigger:
       platform: event
@@ -881,9 +899,31 @@
       - service: input_boolean.toggle
         entity_id: input_boolean.tvcamera
 
+  - alias: Switch Camera Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870de7
+        click_type: double
+    action:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.climacamera
+
+  - alias: Switch Camera Long Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870de7
+        click_type: long_click_press
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
 ##################### Notifiche #####################
 
-  - alias: Telegram Bot 
+  - alias: Telegram Bot
     trigger:
       platform: event
       event_type: telegram_command
@@ -892,7 +932,18 @@
     action:
       service: notify.telegram_bot
       data:
-        message: Ciao Andrea, dimmi tutto!
+        message: Hey tu!
+
+  - alias: Telegram Bot
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/hey'
+    action:
+      service: notify.telegram_genitori
+      data:
+        message: Hey tu!
 
   - alias: Telegram Cam
     trigger:
@@ -921,10 +972,10 @@
       entity_id: input_boolean.test
       to: 'on'
     action:
-      service: notify.notify
+      service: notify.telegram_andrea
       data:
         message: test
-    
+
 # Fine Lavatrice
   - alias: Attiva Notifica lavatrice
     trigger:
@@ -934,7 +985,7 @@
     action:
       - service: automation.turn_on
         entity_id: automation.notifica_fine_lavatrice
-        
+
   - alias: Notifica Fine Lavatrice
     initial_state: False
     trigger:
@@ -947,21 +998,23 @@
       - service: notify.ios_iphonex
         data:
           message: "La lavatrice ha finito!"
+          title: "Lavatrice"
       - service: automation.turn_off
         entity_id: automation.notifica_fine_lavatrice
       - service: tts.google_say
-        entity_id: media_player.tutta_la_casa
+        entity_id:  media_player.tutta_la_casa
         data_template:
           message: "La Lavatrice ha finito!"
       - service: notify.tvsala
         data:
-          title: "Notifica"
+          title: "Lavatrice"
           message: "La lavatrice ha finito!"
       - service: notify.telegram_bot
         data:
           message: La lavatrice ha finito!
+          title: "Lavatrice"
 
-# Fine Lavastoviglie  
+# Fine Lavastoviglie
   - alias: Attiva Notifica lavastoviglie
     trigger:
     - platform: numeric_state
@@ -970,7 +1023,7 @@
     action:
       - service: automation.turn_on
         entity_id: automation.notifica_fine_lavastoviglie
-        
+
   - alias: Notifica Fine Lavastoviglie
     initial_state: False
     trigger:
@@ -983,19 +1036,21 @@
       - service: notify.ios_iphonex
         data:
           message: "La lavastoviglie ha finito!"
+          title: "Lavastoviglie"
       - service: automation.turn_off
         entity_id: automation.notifica_fine_lavastoviglie
       - service: tts.google_say
-        entity_id: media_player.sala
+        entity_id: media_player.tutta_la_casa
         data_template:
           message: "La Lavastoviglie ha finito!"
       - service: notify.tvsala
         data:
-          title: "Notifica"
+          title: "Lavastoviglie"
           message: "La lavastovigle ha fInito!"
       - service: notify.telegram_bot
         data:
           message: La lavastoviglie ha finito!
+          title: "Lavastoviglie"
 
 # Aggiornamento Hass.io
   - alias: Notifica aggiornamento
@@ -1014,7 +1069,7 @@
         data:
           message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
 
-# Traffico Lavoro
+# Avviso Traffico Lavoro
   - alias: Coda da casa
     trigger:
       platform: numeric_state
@@ -1042,7 +1097,7 @@
           message: >
             Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
       - service: notify.telegram_bot
-        data:
+        data_template:
           message: "Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti."
 
   - alias: Coda da lavoro
@@ -1064,15 +1119,77 @@
       - service: notify.ios_iphonex
         data_template:
           title: "Probabile Coda!"
-          message: Arrivo a casa previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+          message: >
+            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
       - service: notify.ios_iphone7
         data_template:
           title: "Probabile Coda!"
           message: >
-            Arrivo a casa previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
       - service: notify.telegram_bot
         data:
-          message: "Arrivo a casa previsto in {{ states.sensor.casa__ufficio.state }} minuti."
+          message: "Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti."
+
+# Avviso Tempo Percorrenza Lavoro
+  - alias: Percorrenza per Lavoro
+    trigger:
+      platform: state
+      entity_id: input_boolean.acasa
+      to: 'off'
+    condition:
+        condition: time
+        after: '07:30:00'
+        before: '10:00:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          title: "Percorrenza Ufficio"
+          message: >
+            Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+      - service: notify.ios_iphone7
+        data_template:
+          title: "Percorrenza Ufficio"
+          message: >
+            Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+      - service: notify.telegram_bot
+        data_template:
+          message: "Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti."
+
+  - alias: Percorrenza da Lavoro
+    trigger:
+      platform: state
+      entity_id: input_boolean.inufficio
+      to: 'off'
+    condition:
+        condition: time
+        after: '17:30:00'
+        before: '23:50:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          title: "Percorrenza Casa"
+          message: >
+            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
+      - service: notify.ios_iphone7
+        data_template:
+          title: "Percorrenza Casa"
+          message: >
+            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
+      - service: notify.telegram_bot
+        data_template:
+          message: "Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti."
 
   - alias: Apertura Basculante Garage
     trigger:
@@ -1096,10 +1213,12 @@
 # HomeKit Start
   - alias: 'Start HomeKit'
     trigger:
-      - platform: homeassistant
-        event: start
+      - platform: event
+        event_type: zwave.network_ready
+      - platform: event
+        event_type: zwave.network_complete
     action:
-      - delay: 00:02  
+      - delay: '00:01:00'
       - service: homekit.start
 
 # Clima Sala
@@ -1121,6 +1240,27 @@
       service: switch.turn_off
       entity_id: switch.climasala
 
+  - alias: Clima Super Sala ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasupersala
+      to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.climasupersala
+      - delay: '00:05:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.climasupersala
+
+  - alias: Clima Super Sala OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasupersala
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.climasupersala
+
 # Clima Camera
   - alias: Clima Camera ON
     trigger:
@@ -1140,6 +1280,27 @@
       service: switch.turn_off
       entity_id: switch.climacamera
 
+  - alias: Clima Super Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasupercamera
+      to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.climasupercamera
+      - delay: '00:05:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.climasupercamera
+
+  - alias: Clima Super Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasupercamera
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.climasupercamera
+
 # Power Telecamere ON
   - alias: Telecamere ON
     trigger:
@@ -1148,7 +1309,7 @@
       to: 'on'
     action:
       - service: switch.turn_on
-        entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6
+        entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6, switch.fibaro_system_fgs223_double_relay_switch_5
 
 # Power Telecamere OFF
   - alias: Telecamere OFF
@@ -1158,7 +1319,7 @@
       to: 'off'
     action:
       - service: switch.turn_off
-        entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6
+        entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6, switch.fibaro_system_fgs223_double_relay_switch_5
 
 # Backup Automatico
   - alias: Backup Automatico
@@ -1170,7 +1331,7 @@
         data_template:
           name: Automated Backup {{ now().strftime('%Y-%m-%d') }}
 
-# Alert Spazio 
+# Alert Spazio
   - alias: Spazio Libero
     trigger:
       platform: numeric_state
@@ -1238,62 +1399,57 @@
         input: nuc
 
 # Spazzatura
-  - alias: Reminder Martedì
+
+  - alias: avviso_spazzatura
     trigger:
       platform: time
       at: '22:30:00'
     condition:
-        condition: time
-        weekday:
-          - tue
-          - mon
+      condition: time
+      weekday:
+        - tue
+        - thu
+        - sun
     action:
       - service: notify.ios_iphonex
-        data:
-          message: "Ricordati di portare fuori Carta ed Indifferenziato"
-      - service: tts.google_say
-        entity_id: media_player.tutta_la_casa
         data_template:
-          message: "Ricordati di portare fuori Carta ed Indifferenziato"
-      - service: notify.tvsala
-        data:
-          title: "Notifica"
-          message: "Ricordati di portare fuori Carta ed Indifferenziato"
+          title: "Spazzatura"
+          message: >
+            {% if now().strftime('%A') == 'Tuesday' %}
+              Ricordati di portare fuori Carta e Indifferenziato!
+            {% elif now().strftime('%A') == 'Thursday' %}
+              Ricordati di portare fuori Plastica e Vetro!
+            {% elif now().strftime('%A') == 'Sunday' %}
+              Ricordati di portare fuori l'organico!
+            {% endif %}
       - service: notify.telegram_bot
-        data:
-          message: Ricordati di portare fuori Carta ed Indifferenziato
-
-  - alias: Reminder Giovedì
-    trigger:
-      platform: time
-      at: '22:31:00'
-    condition:
-        condition: time
-        weekday:
-          - thu
-          - mon
-    action:
-      - service: notify.ios_iphonex
-        data:
-          message: "Ricordati di portare fuori Plastica e Vetro"
-      - service: tts.google_say
-        entity_id: media_player.tutta_la_casa
         data_template:
-          message: "Ricordati di portare fuori Plastica e Vetro"
-      - service: notify.tvsala
-        data:
-          title: "Notifica"
-          message: "Ricordati di portare fuori Plastica e Vetro"
-      - service: notify.telegram_bot
-        data:
-          message: Ricordati di portare fuori Plastica e Vetro
+          message: >
+            {% if now().strftime('%A') == 'Tuesday' %}
+              Ricordati di portare fuori Carta e Indifferenziato!
+            {% elif now().strftime('%A') == 'Thursday' %}
+              Ricordati di portare fuori Plastica e Vetro!
+            {% elif now().strftime('%A') == 'Sunday' %}
+              Ricordati di portare fuori l'organico!
+            {% endif %}
+      - service: tts.google_say
+        entity_id:  media_player.tutta_la_casa
+        data_template:
+          message: >
+            {% if now().strftime('%A') == 'Tuesday' %}
+              Ricordati di portare fuori Carta e Indifferenziato!
+            {% elif now().strftime('%A') == 'Thursday' %}
+              Ricordati di portare fuori Plastica e Vetro!
+            {% elif now().strftime('%A') == 'Sunday' %}
+              Ricordati di portare fuori l'organico!
+            {% endif %}
 
 ##################### Allarme #####################
 
   - alias: Allarme Sensori
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507, binary_sensor.motion_sensor_158d0001dac0bd, binary_sensor.motion_sensor_158d00010c24fe, binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
+      entity_id: binary_sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507, binary_sensor.motion_sensor_158d00010c24fe, binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
       to: 'on'
     condition:
       condition: or
@@ -1372,6 +1528,8 @@
         entity_id: media_player.camera
         data_template:
           message: "Allarme Notturno Inserito"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.telecamere
       - service: light.turn_on
         data:
           entity_id: light.led, light.led_2, light.led_3
@@ -1385,6 +1543,10 @@
       platform: state
       entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
       to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.allarmenotturno
+        state: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.allarmenotturno
@@ -1392,6 +1554,8 @@
         entity_id: media_player.camera
         data_template:
           message: "Allarme Notturno Disinserito"
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.telecamere
       - service: light.turn_on
         data:
           entity_id: light.led, light.led_2, light.led_3
@@ -1441,10 +1605,6 @@
       platform: state
       entity_id: input_boolean.acasa
       to: 'on'
-    condition:
-      - condition: state
-        entity_id: input_boolean.primoarrivo
-        state: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.allarmediurno
@@ -1452,8 +1612,6 @@
         entity_id: input_boolean.telecamere
       - service: input_boolean.turn_on
         entity_id: input_boolean.sky
-      - service: switch.turn_on
-        entity_id: switch.plug_158d000154ae55
 
 # A Casa OFF
   - alias: A Casa OFF
@@ -1462,14 +1620,14 @@
       entity_id: input_boolean.acasa
       to: 'off'
     action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
       - service: input_boolean.turn_on
         entity_id: input_boolean.allarmediurno
       - service: input_boolean.turn_on
         entity_id: input_boolean.telecamere
       - service: input_boolean.turn_off
         entity_id: input_boolean.tvsala
-      - service: switch.turn_off
-        entity_id: switch.plug_158d000154ae55
       - service: input_boolean.turn_on
         entity_id: input_boolean.primoarrivo
 
@@ -1514,28 +1672,50 @@
 #Andrea arriva a casa
   - alias: Andrea arriva a casa
     trigger:
-        platform: zone
-        event: enter
-        zone: zone.home
-        entity_id: device_tracker.iphonex, device_tracker.iphone7, device_tracker.ipadpro
+        platform: state
+        entity_id: input_boolean.acasa
+        to: 'on'
     action:
         service: notify.ios_iphonex
         data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name }} è arrivato a casa alle {{ states('sensor.time') }}"
-          title: "Home Assistant"
+          message: "Andrea è arrivato a casa alle {{ states('sensor.time') }}"
+          title: "A Casa"
 
 #Andrea esce da casa
   - alias: Andrea esce da casa
     trigger:
-        platform: zone
-        event: leave
-        zone: zone.home
-        entity_id: device_tracker.iphonex
+        platform: state
+        entity_id: input_boolean.inufficio
+        to: 'on'
     action:
         service: notify.ios_iphonex
         data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name }} è uscito da casa alle {{ states('sensor.time') }}"
-          title: "Home Assistant"
+          message: "Andrea è uscito da casa alle {{ states('sensor.time') }}"
+          title: "Fuori Casa"
+
+#Andrea arriva in ufficio
+  - alias: Andrea arriva in ufficio
+    trigger:
+        platform: state
+        entity_id: input_boolean.inufficio
+        to: 'on'
+    action:
+        service: notify.ios_iphonex
+        data_template:
+          message: "Andrea è arrivato in ufficio alle {{ states('sensor.time') }}"
+          title: "In Ufficio"
+
+#Andrea esce dall'ufficio
+  - alias: Andrea esce da casa
+    trigger:
+        platform: state
+        entity_id: input_boolean.inufficio
+        to: 'off'
+    action:
+        service: notify.ios_iphonex
+        data_template:
+          message: "Andrea è uscito dall'ufficio alle {{ states('sensor.time') }}"
+          title: "Fuori Ufficio"
 
 #Andrea arriva a San Polo
   - alias: Andrea arriva a San Polo
@@ -1548,7 +1728,7 @@
         service: notify.ios_iphonex
         data_template:
           message: "{{ trigger.to_state.attributes.friendly_name }} è arrivato a San Polo alle {{ states('sensor.time') }}"
-          title: "Home Assistant"
+          title: "San Polo"
 
 #Andrea esce da San Polo
   - alias: Andrea esce da San Polo
@@ -1561,30 +1741,4 @@
         service: notify.ios_iphonex
         data_template:
           message: "{{ trigger.to_state.attributes.friendly_name }} è uscito da San Polo alle {{ states('sensor.time') }}"
-          title: "Home Assistant"
-
-#Andrea arriva in ufficio
-  - alias: Andrea arriva in ufficio
-    trigger:
-        platform: zone
-        event: enter
-        zone: zone.ufficio
-        entity_id: device_tracker.iphonex
-    action:
-        service: notify.ios_iphonex
-        data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name }} è arrivato in ufficio {{ states('sensor.time') }}"
-          title: "Home Assistant"
-
-#Andrea esce dall'ufficio
-  - alias: Andrea esce dall'ufficio
-    trigger:
-        platform: zone
-        event: leave
-        zone: zone.ufficio
-        entity_id: device_tracker.iphonex
-    action:
-        service: notify.ios_iphonex
-        data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name }} è uscito dall'ufficio {{ states('sensor.time') }}"
-          title: "Home Assistant"
+          title: "San Polo"
