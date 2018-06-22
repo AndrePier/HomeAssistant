@@ -33,6 +33,17 @@ panel_iframe:
     url: !secret grafanaurl
 
 ios:
+  push:
+    categories:
+      - name: garage
+        identifier: 'garage'
+        actions:
+          - identifier: 'APRI_GARAGE'
+            title: 'Apri Garage'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
 
 telegram_bot:
   - platform: polling

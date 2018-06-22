@@ -923,6 +923,33 @@
 
 ##################### Notifiche #####################
 
+  - alias: Actionable Notification
+    initial_state: True
+    trigger:
+    - platform: state
+      entity_id: input_boolean.acasa
+      to: 'on'
+    action:
+      service: notify.ios_iphonex
+      data:
+        title: "Garage"
+        message: "Bentornato, apro il garage?"
+        data:
+          push:
+            badge: 0
+            category: 'garage'
+
+  - alias: Apertura Garage Notifica
+    initial_state: True
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: APRI_GARAGE
+    action:
+      - service: cover.open_cover
+        entity_id: cover.apri_basculante
+
   - alias: Telegram Bot
     trigger:
       platform: event
@@ -964,17 +991,6 @@
         service: notify.ios_iphonex
         data:
           message: "request_location_update"
-
-# Test
-  - alias: Test Boolean
-    trigger:
-    - platform: state
-      entity_id: input_boolean.test
-      to: 'on'
-    action:
-      service: notify.telegram_andrea
-      data:
-        message: test
 
 # Fine Lavatrice
   - alias: Attiva Notifica lavatrice
@@ -1670,52 +1686,52 @@
 ##################### Zone #####################
 
 #Andrea arriva a casa
-  - alias: Andrea arriva a casa
-    trigger:
-        platform: state
-        entity_id: input_boolean.acasa
-        to: 'on'
-    action:
-        service: notify.ios_iphonex
-        data_template:
-          message: "Andrea è arrivato a casa alle {{ states('sensor.time') }}"
-          title: "A Casa"
+#  - alias: Andrea arriva a casa
+#    trigger:
+#        platform: state
+#        entity_id: input_boolean.acasa
+#        to: 'on'
+#    action:
+#        - service: notify.ios_iphonex
+#          data_template:
+#            message: "Andrea è arrivato a casa alle {{ states('sensor.time') }}"
+#            title: "A Casa"
 
 #Andrea esce da casa
-  - alias: Andrea esce da casa
-    trigger:
-        platform: state
-        entity_id: input_boolean.inufficio
-        to: 'on'
-    action:
-        service: notify.ios_iphonex
-        data_template:
-          message: "Andrea è uscito da casa alle {{ states('sensor.time') }}"
-          title: "Fuori Casa"
+#  - alias: Andrea esce da casa
+#    trigger:
+#        platform: state
+#        entity_id: input_boolean.acasa
+#        to: 'off'
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è uscito da casa alle {{ states('sensor.time') }}"
+#          title: "Fuori Casa"
 
 #Andrea arriva in ufficio
-  - alias: Andrea arriva in ufficio
-    trigger:
-        platform: state
-        entity_id: input_boolean.inufficio
-        to: 'on'
-    action:
-        service: notify.ios_iphonex
-        data_template:
-          message: "Andrea è arrivato in ufficio alle {{ states('sensor.time') }}"
-          title: "In Ufficio"
+#  - alias: Andrea arriva in ufficio
+#    trigger:
+#        platform: state
+#        entity_id: input_boolean.inufficio
+#        to: 'on'
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è arrivato in ufficio alle {{ states('sensor.time') }}"
+#          title: "In Ufficio"
 
 #Andrea esce dall'ufficio
-  - alias: Andrea esce da casa
-    trigger:
-        platform: state
-        entity_id: input_boolean.inufficio
-        to: 'off'
-    action:
-        service: notify.ios_iphonex
-        data_template:
-          message: "Andrea è uscito dall'ufficio alle {{ states('sensor.time') }}"
-          title: "Fuori Ufficio"
+#  - alias: Andrea esce dall'ufficio
+#    trigger:
+#       platform: state
+#        entity_id: input_boolean.inufficio
+#        to: 'off'
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è uscito dall'ufficio alle {{ states('sensor.time') }}"
+#          title: "Fuori Ufficio"
 
 #Andrea arriva a San Polo
   - alias: Andrea arriva a San Polo
@@ -1727,7 +1743,7 @@
     action:
         service: notify.ios_iphonex
         data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name }} è arrivato a San Polo alle {{ states('sensor.time') }}"
+          message: "Andrea è arrivato a San Polo alle {{ states('sensor.time') }}"
           title: "San Polo"
 
 #Andrea esce da San Polo
@@ -1740,5 +1756,5 @@
     action:
         service: notify.ios_iphonex
         data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name }} è uscito da San Polo alle {{ states('sensor.time') }}"
+          message: "Andrea è uscito da San Polo alle {{ states('sensor.time') }}"
           title: "San Polo"
