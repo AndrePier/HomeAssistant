@@ -213,9 +213,9 @@ light.garage_2:
 ##################### Sensori #####################
 
 binary_sensor.motion_sensor_158d00013f8c44:
-  friendly_name: Sensore Bagno
+  friendly_name: Sensore Bagno 1
   homebridge_visible: true
-  homebridge_name: Sensore Bagno
+  homebridge_name: Sensore Bagno 1
 binary_sensor.motion_sensor_158d000132e942:
   friendly_name: Sensore Bagno 2
   homebridge_visible: true
@@ -225,9 +225,9 @@ binary_sensor.motion_sensor_158d0001232507:
   homebridge_visible: true
   homebridge_name: Sensore Bagno 3
 binary_sensor.motion_sensor_158d00014dca3a:
-  friendly_name: Sensore Camera
+  friendly_name: Sensore Camera 1
   homebridge_visible: true
-  homebridge_name: Sensore Camera
+  homebridge_name: Sensore Camera 1
 binary_sensor.motion_sensor_158d000120ac8c:
   friendly_name: Sensore Camera 2
   homebridge_visible: true
@@ -436,7 +436,7 @@ sensor.portafoglio_btc:
   friendly_name: Portafoglio BTC
   icon: mdi:coin
 
-##################### Consuo Luci #####################
+##################### Consumo Luci #####################
 
 sensor.fibaro_system_fgs223_double_relay_power_5:
   friendly_name: Consumo Luce Cucina
@@ -458,6 +458,9 @@ sensor.fibaro_system_fgs223_double_relay_power_2:
   icon: mdi:flash
 sensor.fibaro_system_fgs223_double_relay_power_4:
   friendly_name: Consumo Luce Camera
+  icon: mdi:flash
+sensor.fibaro_system_fgs223_double_relay_power_9:
+  friendly_name: Consumo Luce Atrio
   icon: mdi:flash
 
 ##################### Consuo Elettrodomestici #####################

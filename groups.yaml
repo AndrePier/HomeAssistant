@@ -58,6 +58,7 @@ Luci View:
     - group.luci_primo_piano
     - group.luci_terrazzo
     - group.luci_garage
+    - group.consumo_luci
 
 Allarme View:
     name: Allarme
@@ -323,9 +324,7 @@ Bagno:
     - switch.plug_158d000154ae22 # Led Bagno
     - sensor.temperature_158d00011001fc #Temperatura Bagno
     - sensor.humidity_158d00011001fc #Umidità Bagno
-    - binary_sensor.motion_sensor_158d00013f8c44 #Sensore Bagno
-    - binary_sensor.motion_sensor_158d000132e942 #Sensore Bagno 2
-    - binary_sensor.motion_sensor_158d0001232507 #Sensore Bagno 3
+    - binary_sensor.sensore_bagno
     - input_boolean.cromobagno
     - input_boolean.autobagno
 
@@ -342,8 +341,7 @@ Camera:
     - switch.plug_158d0001db024c # Led TV Camera
     - sensor.temperature_158d00015ab8a8 #Temperatura Camera
     - sensor.humidity_158d00015ab8a8 #Umidità Camera
-    - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera
-    - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
+    - binary_sensor.sensore_camera
     - binary_sensor.motion_sensor_158d0001136f8c #Sensore Led
     - switch.plug_158d000154ae55 # HT Camera
     - sensor.consumo_htcamera
@@ -472,7 +470,9 @@ ControlloTV:
     control: hidden
     entities:
     - input_select.telecomando_select
-    - sensor.stato_harmony
+    - sensor.stato_tv
+    - sensor.stato_denon
+    
     - input_number.denon_volume
 
 Televisioni:
@@ -546,7 +546,6 @@ Allarme:
     entities:
     - input_boolean.allarmediurno
     - input_boolean.allarmenotturno
-    - input_boolean.scattaallarme
     - input_boolean.acasa
     - input_boolean.inufficio
     - input_boolean.telecamere
@@ -592,10 +591,12 @@ Sensori:
     name: Sensori
     entities:
     - sensor.template_last_motion
-    - binary_sensor.motion_sensor_158d00013f8c44 #Sensore Bagno
+    - binary_sensor.sensore_bagno
+    - binary_sensor.motion_sensor_158d00013f8c44 #Sensore Bagno 1
     - binary_sensor.motion_sensor_158d000132e942 #Sensore Bagno 2
     - binary_sensor.motion_sensor_158d0001232507 #Sensore Bagno 3
-    - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera
+    - binary_sensor.sensore_camera
+    - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera 1
     - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
     - binary_sensor.motion_sensor_158d0001136f8c #Sensore Led
     - binary_sensor.motion_sensor_158d0001dac0bd #Sensore Cucina
@@ -638,10 +639,10 @@ Remote:
     - input_boolean.appletv
     - input_boolean.dtt
     - input_boolean.pc
-    - input_boolean.tvsala
     - input_boolean.tvcamera
     - input_boolean.pausaskyappletv
     - input_boolean.ambilight
+    - input_boolean.tvsala
 
 Zwave:
     name: Zwave

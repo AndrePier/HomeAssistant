@@ -56,6 +56,23 @@ telegram_bot:
 
 device_tracker:
 
+proximity:
+  home: 
+    devices:
+      - device_tracker.iphonex
+    tolerance: 50
+    unit_of_measurement: km
+  ufficio: 
+    devices:
+      - device_tracker.iphonex
+    tolerance: 50
+    unit_of_measurement: km
+  genitori: 
+    devices:
+      - device_tracker.iphonex
+    tolerance: 50
+    unit_of_measurement: km
+    
 notify:
   - platform: ios
 
@@ -365,6 +382,22 @@ weather:
   - platform: yweather
     name: Meteo
 
+binary_sensor:
+
+  - platform: template
+    sensors:
+      sensore_bagno_off:
+        friendly_name: "Sensore Bagno OFF"
+        device_class: motion
+        value_template: "{{ is_state('binary_sensor.motion_sensor_158d0001232507', 'off') and is_state ('binary_sensor.motion_sensor_158d000132e942', 'off') and is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'off')}}"
+        
+  - platform: template
+    sensors:
+      sensore_camera_off:
+        friendly_name: "Sensore Camera OFF"
+        device_class: motion
+        value_template: "{{ is_state('binary_sensor.motion_sensor_158d000120ac8c', 'off') and is_state ('binary_sensor.motion_sensor_158d00014dca3a', 'off')}}"
+
 sensor:
 
   - platform: uptime
@@ -394,8 +427,8 @@ sensor:
         value_template: >
           {%- set sensors = [states.binary_sensor.motion_sensor_158d00013f8c44, states.binary_sensor.motion_sensor_158d000132e942, states.binary_sensor.motion_sensor_158d0001232507, states.binary_sensor.motion_sensor_158d00014dca3a, states.binary_sensor.motion_sensor_158d000120ac8c, states.binary_sensor.motion_sensor_158d0001136f8c, states.binary_sensor.motion_sensor_158d0001dac0bd, states.binary_sensor.motion_sensor_158d00010c24fe, states.binary_sensor.motion_sensor_158d000128d5d5, states.binary_sensor.motion_sensor_158d00012cbb86, states.binary_sensor.motion_sensor_158d00011c3211] %}
           {% for sensor in sensors %}
-            {% if as_timestamp(sensor.on) == as_timestamp(sensors | map(attribute='on') | max) %}
-              {{ sensor.name }} {{sensor.on.strftime('%X')}}
+            {% if as_timestamp(sensor.last_changed) == as_timestamp(sensors | map(attribute='last_changed') | max) %}
+              {{ sensor.name }} {{sensor.last_changed.strftime('%X')}}
             {% endif %}
           {% endfor %}
 
@@ -462,6 +495,13 @@ sensor:
           {% elif is_state('sensor.stato_harmony', 'PC') %}
             PC
           {% endif %}
+
+  - platform: template
+    sensors:
+      stato_denon:
+        friendly_name: "Stato Denon"
+        icon_template: mdi:volume-high
+        value_template: '{{ states.media_player.ampli_denon.state}}'
 
   - platform: template
     sensors:

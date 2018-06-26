@@ -425,18 +425,9 @@
   - alias: Luci Bagno OFF
     trigger:
       platform: state
-      entity_id: switch.switch
+      entity_id: binary_sensor.sensore_bagno_off
       to: 'on'
     condition:
-      - condition: state
-        entity_id: binary_sensor.motion_sensor_158d00013f8c44
-        state: 'off'
-      - condition: state
-        entity_id: binary_sensor.motion_sensor_158d000132e942
-        state: 'off'
-      - condition: state
-        entity_id: binary_sensor.motion_sensor_158d0001232507
-        state: 'off'
       - condition: state
         entity_id: input_boolean.autobagno
         state: 'on'
@@ -464,15 +455,9 @@
   - alias: Luci Camera OFF
     trigger:
       platform: state
-      entity_id: switch.fibaro_system_fgs223_double_relay_switch_2
+      entity_id: binary_sensor.sensore_camera_off
       to: 'on'
     condition:
-      - condition: state
-        entity_id: binary_sensor.motion_sensor_158d00014dca3a
-        state: 'off'
-      - condition: state
-        entity_id: binary_sensor.motion_sensor_158d000120ac8c
-        state: 'off'
       - condition: state
         entity_id: input_boolean.autocamera
         state: 'on'
@@ -1565,6 +1550,10 @@
         state: 'on'
     action:
       - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
+      - service: input_boolean.turn_off
         entity_id: input_boolean.allarmenotturno
       - service: tts.google_say
         entity_id: media_player.camera
@@ -1601,6 +1590,17 @@
         entity_id: group.luci
       - service: input_boolean.turn_off
         entity_id: input_boolean.tvsala
+
+  - alias: Spegni Allarme Diurno
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmediurno
+      to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
 
   - alias: Spegni Allarme Dopo 5 Minuti
     trigger:
