@@ -1,4 +1,4 @@
 # HomeAssistant
 
 ## Home
-![SchedaHome](Images/Home.pnh)
+![SchedaHome](Images/Home.png)
