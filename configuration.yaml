@@ -45,6 +45,16 @@ ios:
             destructive: no
             behavior: 'default'
 
+      - name: buonanotte
+        identifier: 'buonanotte'
+        actions:
+          - identifier: 'BUONA_NOTTE'
+            title: 'Buona notte'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+
 telegram_bot:
   - platform: polling
     api_key: !secret telegram_token
@@ -53,6 +63,9 @@ telegram_bot:
       - !secret telegram_chat_id_bot
       - !secret telegram_chat_id_andrea
       - !secret telegram_chat_id_genitori
+
+ifttt:
+  key: gEsHrNYaPQN7wwTNtxMWkZdbJ5expaktCGsIkHeRldm
 
 device_tracker:
 
@@ -386,18 +399,32 @@ binary_sensor:
 
   - platform: template
     sensors:
-      sensore_bagno_off:
-        friendly_name: "Sensore Bagno OFF"
+      sensore_bagno_all:
         device_class: motion
-        value_template: "{{ is_state('binary_sensor.motion_sensor_158d0001232507', 'off') and is_state ('binary_sensor.motion_sensor_158d000132e942', 'off') and is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'off')}}"
+        friendly_name: "Sensore Bagno OFF"
+        value_template: "{{is_state ('binary_sensor.motion_sensor_158d0001232507', 'off') and is_state ('binary_sensor.motion_sensor_158d000132e942', 'off') and is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'off')}}"
         
   - platform: template
     sensors:
-      sensore_camera_off:
-        friendly_name: "Sensore Camera OFF"
+      sensore_camera_all:
         device_class: motion
-        value_template: "{{ is_state('binary_sensor.motion_sensor_158d000120ac8c', 'off') and is_state ('binary_sensor.motion_sensor_158d00014dca3a', 'off')}}"
+        friendly_name: "Sensore Camera OFF"
+        value_template: "{{ is_state ('binary_sensor.motion_sensor_158d000120ac8c', 'off') and is_state ('binary_sensor.motion_sensor_158d00014dca3a', 'off')}}"
 
+  - platform: template
+    sensors:
+      sensore_camera:
+        device_class: motion
+        friendly_name: "Sensore Camera"
+        value_template: "{{ is_state ('binary_sensor.motion_sensor_158d000120ac8c', 'on') or is_state ('binary_sensor.motion_sensor_158d00014dca3a', 'on')}}"
+
+  - platform: template
+    sensors:
+      sensore_bagno:
+        device_class: motion
+        friendly_name: "Sensore Bagno"
+        value_template: "{{is_state ('binary_sensor.motion_sensor_158d0001232507', 'on') or is_state ('binary_sensor.motion_sensor_158d000132e942', 'on') or is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'on')}}"
+        
 sensor:
 
   - platform: uptime
@@ -569,7 +596,7 @@ sensor:
       franchino_stato:
         friendly_name: "Stato"
         icon_template: mdi:robot-vacuum
-        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.state }}'
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.status }}'
 
   - platform: template
     sensors:
@@ -592,7 +619,7 @@ sensor:
         friendly_name: "Tempo Pulizia"
         icon_template: mdi:robot-vacuum
         value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaning_time }}'
-        unit_of_measurement: 'ore'
+        unit_of_measurement: 'minuti'
 
   - platform: template
     sensors:
@@ -637,10 +664,10 @@ sensor:
   - platform: template
     sensors:
       franchino_totale_ore:
-        friendly_name: "Totale Ore Pulizia"
+        friendly_name: "Tempo Totale Pulizia"
         icon_template: mdi:robot-vacuum
         value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.total_cleaning_time }}'
-        unit_of_measurement: 'ore'
+        unit_of_measurement: 'minuti'
 
   - platform: template
     sensors:
@@ -829,6 +856,14 @@ switch:
       - light.terrazzo_2
       - light.terrazzo_3
     name: Fluxer
+    start_colortemp: 4000
+    sunset_colortemp: 3000
+    stop_colortemp: 1900
+    brightness: 200
+    disable_brightness_adjust: false
+    mode: xy
+    transition: 5
+    interval: 60
 
 tts:
   platform: google

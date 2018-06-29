@@ -399,7 +399,7 @@
       to: 'off'
     condition:
     - condition: state
-      entity_id: input_boolean.autcucina
+      entity_id: input_boolean.autocucina
       state: 'on'
     action:
       service: switch.turn_off
@@ -425,7 +425,7 @@
   - alias: Luci Bagno OFF
     trigger:
       platform: state
-      entity_id: binary_sensor.sensore_bagno_off
+      entity_id: binary_sensor.sensore_bagno_all
       to: 'on'
     condition:
       - condition: state
@@ -455,7 +455,7 @@
   - alias: Luci Camera OFF
     trigger:
       platform: state
-      entity_id: binary_sensor.sensore_camera_off
+      entity_id: binary_sensor.sensore_camera_all
       to: 'on'
     condition:
       - condition: state
@@ -573,6 +573,15 @@
         entity_id: input_boolean.automazioni
       - service: automation.turn_on
         entity_id: automation.auto_luci_off
+
+  - alias: 'Accendi Automazioni al riavvio'
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - delay: 00:01
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.automazioni
 
 # Cromoterapia Terrazzo
   - alias: Cromoterapia Terrazzo ON
@@ -1222,6 +1231,34 @@
       - delay: '00:01:00'
       - service: homekit.start
 
+# Programmazione Franchino
+
+  - alias: Programmazione Franchino
+    trigger:
+      - platform: time
+        at: '16:00:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.autofranchino
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.acasa
+        state: 'off'
+    action:
+      - service: vacuum.turn_on
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+
+  - alias: Notifica Fine Franchino
+    trigger:
+      - platform: state
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        from: 'on'
+        to: 'off'
+    action:
+      - service: notify.telegram_bot
+        data:
+          message: "Franchino ha appena finito di pulire {{ states.sensor.franchino_area_pulita.state }} mq in {{ states.sensor.franchino_tempo_pulizia.state }} minuti e gli rimane il {{ states.sensor.franchino_batteria.state }}% di batteria."
+
 # Clima Sala
   - alias: Clima Sala ON
     trigger:
@@ -1542,19 +1579,13 @@
   - alias: Allarme Notturno Disinserito
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
-      to: 'on'
-    condition:
-      - condition: state
-        entity_id: input_boolean.allarmenotturno
-        state: 'on'
+      entity_id: input_boolean.allarmenotturno
+      to: 'off'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.scattaallarme
       - service: script.turn_off
         entity_id: script.scatta_allarme
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.allarmenotturno
       - service: tts.google_say
         entity_id: media_player.camera
         data_template:
@@ -1568,6 +1599,19 @@
       - delay: '00:00:03'
       - service: light.turn_off
         entity_id: light.led, light.led_2, light.led_3
+
+  - alias: Disinserisci Allarme Notturno Automatico
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.allarmenotturno
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmenotturno
 
   - alias: Scatta Allarme ON
     trigger:
@@ -1758,3 +1802,27 @@
         data_template:
           message: "Andrea è uscito da San Polo alle {{ states('sensor.time') }}"
           title: "San Polo"
+
+##################### IFTT #####################
+
+  - alias: Test
+    trigger:
+      platform: state
+      entity_id: input_boolean.test
+      to: 'on'
+    action:
+      service: ifttt.trigger
+      data: {"event":"TestHA_Trigger"}
+
+  - alias: Buonanotte
+    trigger:
+      platform: state
+      entity_id: input_boolean.buonanotte
+      to: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.allarmenotturno
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.buonanotte

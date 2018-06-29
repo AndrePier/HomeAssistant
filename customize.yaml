@@ -395,6 +395,7 @@ vacuum.xiaomi_vacuum_cleaner:
   friendly_name: Franchino
   homebridge_visible: true
   homebridge_name: Franchino
+  icon: mdi:broom
 fan.xiaomi_miio_device:
   friendly_name: Purificatore
   homebridge_visible: true

@@ -109,5 +109,13 @@
     name: Tutte le luci
     icon: mdi:lightbulb
 
+  buonanotte:
+    name: Buonanotte
+    
+  autofranchino:
+    name: Programmazione
+    icon: mdi:calendar-clock
+    initial: on
+    
   test:
     name: Test

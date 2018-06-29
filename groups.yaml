@@ -21,7 +21,8 @@ default_view:
     - group.terrazzo
     - group.garage
     - group.spazzatura
-    - group.aria
+    - group.clima
+    - group.pulizia
     - group.musicspotify
     - group.multimedia_light
     - group.meteo
@@ -591,18 +592,16 @@ Sensori:
     name: Sensori
     entities:
     - sensor.template_last_motion
-    - binary_sensor.sensore_bagno
-    - binary_sensor.motion_sensor_158d00013f8c44 #Sensore Bagno 1
-    - binary_sensor.motion_sensor_158d000132e942 #Sensore Bagno 2
-    - binary_sensor.motion_sensor_158d0001232507 #Sensore Bagno 3
-    - binary_sensor.sensore_camera
-    - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera 1
-    - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
-    - binary_sensor.motion_sensor_158d0001136f8c #Sensore Led
     - binary_sensor.motion_sensor_158d0001dac0bd #Sensore Cucina
     - binary_sensor.motion_sensor_158d00010c24fe #Sensore Sala
     - binary_sensor.motion_sensor_158d000128d5d5 #Sensore Scale Giù
     - binary_sensor.motion_sensor_158d00012cbb86 #Sensore Scale Sù
+    - binary_sensor.motion_sensor_158d00013f8c44 #Sensore Bagno 1
+    - binary_sensor.motion_sensor_158d000132e942 #Sensore Bagno 2
+    - binary_sensor.motion_sensor_158d0001232507 #Sensore Bagno 3
+    - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera 1
+    - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
+    - binary_sensor.motion_sensor_158d0001136f8c #Sensore Led
     - binary_sensor.motion_sensor_158d00011c3211 #Sensore Terrazzo
 
 Porte:
@@ -612,17 +611,23 @@ Porte:
     - binary_sensor.door_window_sensor_158d00013e3968 #Porta Terrazzo
     - binary_sensor.door_window_sensor_158d0001a348e1 #Basculante Garage
 
-Aria:
-    name: Aria
+Clima:
+    name: Clima
     control: hidden
     entities:
-    - sensor.qualita_aria
     - fan.xiaomi_miio_device
-    - vacuum.xiaomi_vacuum_cleaner
+    - sensor.qualita_aria
     - input_boolean.climasala
     - input_boolean.climacamera
     - input_boolean.climasupersala
     - input_boolean.climasupercamera
+
+Pulizia:
+    name: Pulizia
+    control: hidden
+    entities:
+    - vacuum.xiaomi_vacuum_cleaner
+    - input_boolean.autofranchino
 
 spazzatura:
     name: Raccolta Spazzatura
@@ -643,6 +648,8 @@ Remote:
     - input_boolean.pausaskyappletv
     - input_boolean.ambilight
     - input_boolean.tvsala
+    - input_boolean.buonanotte
+    - input_boolean.test
 
 Zwave:
     name: Zwave

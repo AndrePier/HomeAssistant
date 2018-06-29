@@ -30,6 +30,7 @@
         - input_boolean.climasupercamera
         - input_boolean.franchinogoogle
         - input_boolean.scattaallarme
+        - input_boolean.buonanotte
         - switch.fluxer
         - switch.switch_3 # Cucina
         - light.faretto

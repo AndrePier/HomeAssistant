@@ -31,6 +31,7 @@
         - input_boolean.climasupersala
         - input_boolean.climasupercamera
         - input_boolean.inufficio
+        - input_boolean.buonanotte
         - media_player.spotify
         - media_player.apple_tv_sala
         - media_player.ampli_denon
