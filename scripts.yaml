@@ -118,6 +118,7 @@
       - service: script.turn_on
         entity_id: script.scatta_allarme
 
+#Spotify
   spotify_music:
     sequence:
       - service: media_player.select_source
@@ -144,3 +145,26 @@
         data:
           entity_id: media_player.spotify
           volume_level: '0.4'
+
+#Vocale Spazzature
+  vocale_spazzatura:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: >
+            {% if now().strftime('%A') == 'Tuesday' %}
+              Si, devi portare fuori Carta e Indifferenziato!
+            {% elif now().strftime('%A') == 'Thursday' %}
+              Si, devi portare fuori Plastica e Vetro!
+            {% elif now().strftime('%A') == 'Sunday' %}
+              Si, devi portare fuori l'organico!
+            {% elif now().strftime('%A') == 'Monday' %}
+              No, oggi non devi portare fuori nulla!
+            {% elif now().strftime('%A') == 'Wednesday' %}
+              No, oggi non devi portare fuori nulla!
+            {% elif now().strftime('%A') == 'Friday' %}
+              No, oggi non devi portare fuori nulla!
+            {% elif now().strftime('%A') == 'Saturday' %}
+              No, oggi non devi portare fuori nulla!
+            {% endif %}
