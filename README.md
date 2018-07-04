@@ -13,6 +13,6 @@
 ## Multimedia
 ![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Multimedia.png)
 ## Grafana
-![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Graph.png)
+![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Grafana.png)
 
 
