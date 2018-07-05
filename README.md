@@ -10,6 +10,8 @@
 ![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Luci.png)
 ## Alarm
 ![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Allarme.png)
+## Consumi
+![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Consumi.png)
 ## Multimedia
 ![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Multimedia.png)
 ## Grafana
