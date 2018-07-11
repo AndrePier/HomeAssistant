@@ -1,13 +1,6 @@
-  auto_start: False
-  filter:
-      include_entities:
-        - input_boolean.automazioni
-        - input_boolean.autocucina
-        - input_boolean.autoscale
-        - input_boolean.autocorridoio
-        - input_boolean.autobagno
-        - input_boolean.autocamera
-        - input_boolean.autoterrazzo
+  db_url: !secret db_url
+  include:
+    entities:
         - input_boolean.allarmediurno
         - input_boolean.allarmenotturno
         - input_boolean.scattaallarme
@@ -18,26 +11,8 @@
         - input_boolean.tvsala
         - input_boolean.telecamere
         - input_boolean.acasa
-        - input_boolean.cromoterrazzo
-        - input_boolean.cromocamera
-        - input_boolean.cromosala
-        - input_boolean.cromobagno
-        - input_boolean.franchinogoogle
-        - input_boolean.pausaskyappletv
-        - input_boolean.ambilight
-        - input_boolean.tvcamera
         - input_boolean.climasala
         - input_boolean.climacamera
-        - input_boolean.climasupersala
-        - input_boolean.climasupercamera
-        - input_boolean.inufficio
-        - input_boolean.buonanotte
-        - input_boolean.timertvcamera
-        - media_player.spotify
-        - media_player.apple_tv_sala
-        - media_player.ampli_denon
-        - media_player.bagno
-        - switch.fluxer
         - cover.apri_basculante
         - switch.switch_3 # Cucina
         - light.faretto
@@ -53,28 +28,22 @@
         - light.led_2
         - light.led_3
         - switch.plug_158d00015ef7bc # Lampada Sale
-        - switch.plug_158d0001db024c # Led TV Camera
         - light.terrazzo_1
         - light.terrazzo_2
         - light.terrazzo_3
         - light.gateway_light_f0b429cc390b
         - light.garage_1
         - light.garage_2
-        - fan.xiaomi_miio_device
-        - sensor.illumination_f0b429cc390b
-        - sensor.illumination_34ce0088b729
         - sensor.temperature_158d00011001fc
         - sensor.temperature_158d00015ab8a8
         - sensor.temperature_158d00020ffbbc
         - sensor.temperature_158d00015a6698
         - sensor.temperature_158d0001531ac9
-        - sensor.temperature_158d00020ec48d
         - sensor.humidity_158d00011001fc
         - sensor.humidity_158d00015ab8a8
         - sensor.humidity_158d00020ffbbc
         - sensor.humidity_158d00015a6698
         - sensor.humidity_158d0001531ac9
-        - sensor.humidity_158d00020ec48d
         - sensor.qualità_aria
         - binary_sensor.motion_sensor_158d00013f8c44
         - binary_sensor.motion_sensor_158d000132e942
@@ -90,10 +59,20 @@
         - binary_sensor.door_window_sensor_158d000153ab76
         - binary_sensor.door_window_sensor_158d00013e3968
         - binary_sensor.door_window_sensor_158d0001a348e1
-        - switch.switch_9 # Forno
-        - switch.switch_6 # Frigo
-        - switch.switch_7 # Lavasotviglie
-        - switch.switch_8 # Lavatrice
-        - switch.switch_10 # HT Sala
-        - switch.plug_158d000154ae55 # HT Camera
-        - switch.plug_158d00015db991 # Power TV Sala
+        - sensor.widom_ume304_energy_driven_switch_power
+        - sensor.fibaro_system_fgs223_double_relay_power_5
+        - sensor.fibaro_system_fgs223_double_relay_power_6
+        - sensor.fibaro_system_fgs223_double_relay_power_8
+        - sensor.fibaro_system_fgs223_double_relay_power_3
+        - sensor.fibaro_system_fgs223_double_relay_power
+        - sensor.fibaro_system_fgs223_double_relay_power_2
+        - sensor.fibaro_system_fgs223_double_relay_power_4
+        - sensor.neo_coolcam_power_plug_12a_power_4
+        - sensor.neo_coolcam_power_plug_12a_power
+        - sensor.neo_coolcam_power_plug_12a_power_2
+        - sensor.neo_coolcam_power_plug_12a_power_3
+        - sensor.neo_coolcam_power_plug_12a_power_5
+        - sensor.consumo_htcamera
+        - sensor.consumo_tvsala
+        - sensor.saldo_crypto
+        - variable.ultimo_movimento

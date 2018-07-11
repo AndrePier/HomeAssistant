@@ -148,3 +148,9 @@
       - sensor.humidity_158d00020ec48d
     hours_to_show: 24
     refresh: 60
+  gr26:
+    name: Saldo Crypto
+    entities:
+      - sensor.saldo_crypto
+    hours_to_show: 24
+    refresh: 60

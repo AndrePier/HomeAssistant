@@ -14,6 +14,17 @@
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.appletv, input_boolean.pc, input_boolean.dtt
+    - delay: '00:00:05'
+    - service: remote.send_command
+      data:
+        entity_id: remote.harmony_sala
+        command:
+        - Back
+        - 1
+        - 0
+        - 0
+        device: 45682595
+        delay_secs: 0.5
 
 # Apple TV
   - alias: 'Apple TV'
@@ -186,6 +197,24 @@
     action:
       service: switch.turn_off
       entity_id: switch.tv_camera
+
+  - alias: Timer TV Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.timertvcamera
+      to: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.timer_tvcamera
+
+  - alias: Timer TV Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.timertvcamera
+      to: 'off'
+    action:
+      - service: script.turn_off
+        entity_id: script.timer_tvcamera
 
 # Purificatore Google
 
@@ -574,15 +603,6 @@
       - service: automation.turn_on
         entity_id: automation.auto_luci_off
 
-  - alias: 'Accendi Automazioni al riavvio'
-    trigger:
-      - platform: homeassistant
-        event: start
-    action:
-      - delay: 00:01
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.automazioni
-
 # Cromoterapia Terrazzo
   - alias: Cromoterapia Terrazzo ON
     trigger:
@@ -917,7 +937,7 @@
 
 ##################### Notifiche #####################
 
-  - alias: Actionable Notification
+  - alias: Actionable Notification Garage
     initial_state: True
     trigger:
     - platform: state
@@ -933,7 +953,7 @@
             badge: 0
             category: 'garage'
 
-  - alias: Apertura Garage Notifica
+  - alias: Actionable Apertura Garage Notifica
     initial_state: True
     trigger:
       platform: event
@@ -943,6 +963,36 @@
     action:
       - service: cover.open_cover
         entity_id: cover.apri_basculante
+
+  - alias: Actionable Notification Buona Notte
+    initial_state: True
+    trigger:
+      - platform: time
+        at: '23:30:00'
+    condition:
+      - condition: state
+        entity_id: media_player.tv_camera
+        state: 'playing'
+    action:
+      service: notify.ios_iphonex
+      data:
+        title: "Buonanotte"
+        message: "Vuoi che attivo l'allarme notturno?"
+        data:
+          push:
+            badge: 0
+            category: 'buonanotte'
+
+  - alias: Actionable Buona Notte Notifica
+    initial_state: True
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: BUONA_NOTTE
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.allarmenotturno
 
   - alias: Telegram Bot
     trigger:
@@ -1826,3 +1876,21 @@
         entity_id: input_boolean.allarmenotturno
       - service: input_boolean.turn_off
         entity_id: input_boolean.buonanotte
+
+  - alias: "Aggiorna Ultimo Movimento"
+    trigger:
+      - platform: state
+        entity_id: sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507, binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c, binary_sensor.motion_sensor_158d0001136f8c, binary_sensor.motion_sensor_158d0001dac0bd, binary_sensor.motion_sensor_158d00010c24fe, binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86, binary_sensor.motion_sensor_158d00011c3211
+        to: 'on'
+    action:
+      - service: variable.set_variable
+        data:
+          variable: ultimo_movimento
+          attributes_template: >
+             {
+                "history_1": "{{ variable.state }}",
+                "history_2": "{{ variable.attributes.history_1 }}",
+                "history_3": "{{ variable.attributes.history_2 }}"
+              }
+        data_template:
+          value: "{{ trigger.to_state.attributes.friendly_name }}"

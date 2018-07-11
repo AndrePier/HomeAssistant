@@ -27,25 +27,32 @@
 
   automazioni:
     name: Automazioni
+    initial: on
 
   autocucina:
     name: Auto Cucina
-
+    initial: on
+    
   autoscale:
     name: Auto Scale
-
+    initial: on
+    
   autocorridoio:
     name: Auto Corridoio
-
+    initial: on
+    
   autobagno:
     name: Auto Bagno
-
+    initial: on
+    
   autocamera:
     name: Auto Camera
-
+    initial: on
+    
   autoterrazzo:
     name: Auto Terrazzo
-
+    initial: on
+    
   allarmediurno:
     name: Allarme Diurno
 
@@ -79,7 +86,7 @@
     icon: mdi:remote
 
   tvcamera:
-    name: Tv Camera
+    name: TV Camera
     icon: mdi:remote
 
   cromobagno:
@@ -116,6 +123,10 @@
     name: Programmazione
     icon: mdi:calendar-clock
     initial: on
-    
+
+  timertvcamera:
+    name: Timer TV Camera
+    icon: mdi:timer
+
   test:
     name: Test

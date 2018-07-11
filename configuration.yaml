@@ -32,6 +32,8 @@ panel_iframe:
     icon: mdi:finance
     url: !secret grafanaurl
 
+variable: !include variables.yaml
+
 ios:
   push:
     categories:
@@ -65,7 +67,7 @@ telegram_bot:
       - !secret telegram_chat_id_genitori
 
 ifttt:
-  key: gEsHrNYaPQN7wwTNtxMWkZdbJ5expaktCGsIkHeRldm
+  key: !secret iftttkey
 
 device_tracker:
 
@@ -130,130 +132,9 @@ coinbase:
     - BTC
     - BCH
 
-recorder:
-  db_url: !secret db_url
-  include:
-    entities:
-        - input_boolean.allarmediurno
-        - input_boolean.allarmenotturno
-        - input_boolean.scattaallarme
-        - input_boolean.sky
-        - input_boolean.appletv
-        - input_boolean.dtt
-        - input_boolean.pc
-        - input_boolean.tvsala
-        - input_boolean.telecamere
-        - input_boolean.acasa
-        - input_boolean.climasala
-        - input_boolean.climacamera
-        - cover.apri_basculante
-        - switch.switch_3 # Cucina
-        - light.faretto
-        - light.flos
-        - switch.fibaro_system_fgs223_double_relay_switch_3 # Parete Sala
-        - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
-        - switch.switch_2 # Corridoio
-        - switch.switch # Bagno
-        - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
-        - switch.plug_158d000154ae22 # Led Bagno
-        - switch.fibaro_system_fgs223_double_relay_switch_2 #Camera
-        - light.led
-        - light.led_2
-        - light.led_3
-        - switch.plug_158d00015ef7bc # Lampada Sale
-        - light.terrazzo_1
-        - light.terrazzo_2
-        - light.terrazzo_3
-        - light.gateway_light_f0b429cc390b
-        - light.garage_1
-        - light.garage_2
-        - sensor.temperature_158d00011001fc
-        - sensor.temperature_158d00015ab8a8
-        - sensor.temperature_158d00020ffbbc
-        - sensor.temperature_158d00015a6698
-        - sensor.temperature_158d0001531ac9
-        - sensor.humidity_158d00011001fc
-        - sensor.humidity_158d00015ab8a8
-        - sensor.humidity_158d00020ffbbc
-        - sensor.humidity_158d00015a6698
-        - sensor.humidity_158d0001531ac9
-        - sensor.qualità_aria
-        - binary_sensor.motion_sensor_158d00013f8c44
-        - binary_sensor.motion_sensor_158d000132e942
-        - binary_sensor.motion_sensor_158d0001232507
-        - binary_sensor.motion_sensor_158d00014dca3a
-        - binary_sensor.motion_sensor_158d000120ac8c
-        - binary_sensor.motion_sensor_158d0001136f8c
-        - binary_sensor.motion_sensor_158d0001dac0bd
-        - binary_sensor.motion_sensor_158d00010c24fe
-        - binary_sensor.motion_sensor_158d000128d5d5
-        - binary_sensor.motion_sensor_158d00012cbb86
-        - binary_sensor.motion_sensor_158d00011c3211
-        - binary_sensor.door_window_sensor_158d000153ab76
-        - binary_sensor.door_window_sensor_158d00013e3968
-        - binary_sensor.door_window_sensor_158d0001a348e1
+history: !include config/histrory.yaml
 
-history:
-  include:
-    entities:
-        - input_boolean.allarmediurno
-        - input_boolean.allarmenotturno
-        - input_boolean.scattaallarme
-        - input_boolean.sky
-        - input_boolean.appletv
-        - input_boolean.dtt
-        - input_boolean.pc
-        - input_boolean.tvsala
-        - input_boolean.telecamere
-        - input_boolean.acasa
-        - input_boolean.climasala
-        - input_boolean.climacamera
-        - cover.apri_basculante
-        - switch.switch_3 # Cucina
-        - light.faretto
-        - light.flos
-        - switch.fibaro_system_fgs223_double_relay_switch_3 # Parete Sala
-        - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
-        - switch.switch_2 # Corridoio
-        - switch.switch # Bagno
-        - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
-        - switch.plug_158d000154ae22 # Led Bagno
-        - switch.fibaro_system_fgs223_double_relay_switch_2 #Camera
-        - light.led
-        - light.led_2
-        - light.led_3
-        - switch.plug_158d00015ef7bc # Lampada Sale
-        - light.terrazzo_1
-        - light.terrazzo_2
-        - light.terrazzo_3
-        - light.gateway_light_f0b429cc390b
-        - light.garage_1
-        - light.garage_2
-        - sensor.temperature_158d00011001fc
-        - sensor.temperature_158d00015ab8a8
-        - sensor.temperature_158d00020ffbbc
-        - sensor.temperature_158d00015a6698
-        - sensor.temperature_158d0001531ac9
-        - sensor.humidity_158d00011001fc
-        - sensor.humidity_158d00015ab8a8
-        - sensor.humidity_158d00020ffbbc
-        - sensor.humidity_158d00015a6698
-        - sensor.humidity_158d0001531ac9
-        - sensor.qualità_aria
-        - binary_sensor.motion_sensor_158d00013f8c44
-        - binary_sensor.motion_sensor_158d000132e942
-        - binary_sensor.motion_sensor_158d0001232507
-        - binary_sensor.motion_sensor_158d00014dca3a
-        - binary_sensor.motion_sensor_158d000120ac8c
-        - binary_sensor.motion_sensor_158d0001136f8c
-        - binary_sensor.motion_sensor_158d0001dac0bd
-        - binary_sensor.motion_sensor_158d00010c24fe
-        - binary_sensor.motion_sensor_158d000128d5d5
-        - binary_sensor.motion_sensor_158d00012cbb86
-        - binary_sensor.motion_sensor_158d00011c3211
-        - binary_sensor.door_window_sensor_158d000153ab76
-        - binary_sensor.door_window_sensor_158d00013e3968
-        - binary_sensor.door_window_sensor_158d0001a348e1
+recorder: !include config/recorder.yaml
 
 zone:
   - name: Ufficio
@@ -424,8 +305,40 @@ binary_sensor:
         device_class: motion
         friendly_name: "Sensore Bagno"
         value_template: "{{is_state ('binary_sensor.motion_sensor_158d0001232507', 'on') or is_state ('binary_sensor.motion_sensor_158d000132e942', 'on') or is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'on')}}"
-        
+
+  - platform: ping
+    host: 192.168.10.16
+    name: Cam Sala Dx
+
+  - platform: ping
+    host: 192.168.10.18
+    name: Cam Sala Sx
+
+  - platform: ping
+    host: 192.168.10.19
+    name: Cam Cucina
+
+  - platform: ping
+    host: 192.168.10.40
+    name: Cam Corridoio
+
+  - platform: ping
+    host: 192.168.10.25
+    name: Cam Garage
+
 sensor:
+
+  - platform: pi_hole
+    monitored_conditions:
+      - ads_blocked_today
+      - ads_percentage_today
+      - dns_queries_today
+      - domains_being_blocked
+      - queries_cached
+      - queries_forwarded
+      - unique_clients
+      - unique_domains
+      - clients_ever_seen
 
   - platform: uptime
     name: HA attivo da
@@ -434,6 +347,10 @@ sensor:
   - platform: statistics
     name: Statistiche Consumo
     entity_id: sensor.widom_ume304_energy_driven_switch_power
+
+  - platform: statistics
+    name: Statistiche Crypto
+    entity_id: sensor.saldo_crypto
 
   - platform: time_date
     display_options:
@@ -514,7 +431,7 @@ sensor:
         icon_template: mdi:animation-play
         value_template: >
           {% if is_state('sensor.stato_harmony', 'PowerOff') %}
-            TV Spenta
+            Spenta
           {% elif is_state('sensor.stato_harmony', 'Sky') %}
             Sky
           {% elif is_state('sensor.stato_harmony', 'Apple TV') %}
@@ -874,9 +791,9 @@ input_select:
   spotify_playlist:
     name: 'Playlist:'
     options:
+      - Preferiti
       - Magnifikka
       - Nuove
-      - Preferiti
       - Relax
       - Classic
       - Vasco

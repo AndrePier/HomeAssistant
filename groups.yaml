@@ -44,6 +44,7 @@ Info View:
     - group.purifier
     - group.spazzatura
     - group.server
+    - group.pihole
     - group.devicestate
     - group.meteocasa
     - group.speedtest
@@ -59,7 +60,6 @@ Luci View:
     - group.luci_primo_piano
     - group.luci_terrazzo
     - group.luci_garage
-    - group.consumo_luci
 
 Allarme View:
     name: Allarme
@@ -78,9 +78,8 @@ Consumi View:
     entities:
     - group.consumo_luci
     - group.consumo_elettrodomestici
-    - group.ampere_elettrodomestici
-    - group.contatore_elettrodomestici
-
+    - sensor.widom_ume304_energy_driven_switch_power
+    - sensor.consumo_luci
 
 Crypto View:
     name: Crypto
@@ -88,6 +87,7 @@ Crypto View:
     icon: mdi:coin
     entities:
     - group.crypto
+    - history_graph.saldo_crypto
 
 Media View:
     name: MediaPlayer
@@ -151,6 +151,20 @@ Purifier:
       - sensor.purifier_aria_purificata
       - sensor.purifier_filter
       - sensor.purifier_filter_remain
+
+PiHole:
+    name: Pi-Hole
+    control: hidden
+    entities:
+      - sensor.pihole_ads_blocked_today
+      - sensor.pihole_ads_percentage_blocked_today
+      - sensor.pihole_dns_queries_cached
+      - sensor.pihole_dns_queries_forwarded
+      - sensor.pihole_dns_queries_today
+      - sensor.pihole_dns_unique_clients
+      - sensor.pihole_dns_unique_domains
+      - sensor.pihole_domains_blocked
+      - sensor.pihole_seen_clients
 
 Meteo:
     name: Meteo
@@ -257,6 +271,7 @@ Cucina:
     - sensor.neo_coolcam_power_plug_12a_power_2 # Lavastoviglie W
     - sensor.neo_coolcam_power_plug_12a_power_3 # Lavatrice W
     - input_boolean.autocucina
+    - switch.plug_158d0001289f89
     - camera.cam_cucina
 
 Terrazzo:
@@ -311,6 +326,8 @@ Sala:
     - switch.plug_158d00015db991 # Power TV Sala
     - sensor.consumo_tvsala
     - input_boolean.cromosala
+    - switch.plug_158d000154b1f6
+    - switch.plug_158d00015e8298
     - camera.cam_sala_dx
     - camera.cam_sala_sx
 
@@ -365,6 +382,7 @@ Scaleecorridoio:
     - binary_sensor.motion_sensor_158d00012cbb86 #Sensore Scale Sù
     - input_boolean.autoscale
     - input_boolean.autocorridoio
+    - switch.fibaro_system_fgs223_double_relay_switch_5
     - camera.cam_corridoio
 
 Cam:
@@ -523,7 +541,6 @@ MeteoCasa:
     - sun.sun
     - sensor.previsioni_apparent_temperature
     - sensor.previsioni_cloud_coverage
-    - sensor.previsioni_summary
     - sensor.previsioni_wind_speed
 
 SpeedTest:
@@ -550,6 +567,11 @@ Allarme:
     - input_boolean.acasa
     - input_boolean.inufficio
     - input_boolean.telecamere
+    - binary_sensor.cam_cucina
+    - binary_sensor.cam_sala_sx
+    - binary_sensor.cam_sala_dx
+    - binary_sensor.cam_corridoio
+    - binary_sensor.cam_garage
 
 Switch:
     name: Switch
@@ -591,7 +613,7 @@ Luci:
 Sensori:
     name: Sensori
     entities:
-    - sensor.template_last_motion
+    - variable.ultimo_movimento
     - binary_sensor.motion_sensor_158d0001dac0bd #Sensore Cucina
     - binary_sensor.motion_sensor_158d00010c24fe #Sensore Sala
     - binary_sensor.motion_sensor_158d000128d5d5 #Sensore Scale Giù
@@ -644,12 +666,11 @@ Remote:
     - input_boolean.appletv
     - input_boolean.dtt
     - input_boolean.pc
-    - input_boolean.tvcamera
     - input_boolean.pausaskyappletv
     - input_boolean.ambilight
     - input_boolean.tvsala
-    - input_boolean.buonanotte
-    - input_boolean.test
+    - input_boolean.tvcamera
+    - input_boolean.timertvcamera
 
 Zwave:
     name: Zwave
@@ -699,24 +720,38 @@ Consumo Luci:
     name: Consumo Luci
     entities:
     - sensor.fibaro_system_fgs223_double_relay_power_5 #Consumo Luce Cucina
+    - history_graph.consumo_luce_cucina
     - sensor.fibaro_system_fgs223_double_relay_power_6 #Consumo Luce Parete Sala
+    - history_graph.consumo_luce_parete_sala
     - sensor.fibaro_system_fgs223_double_relay_power_8 #Consumo Luce Scale
+    - history_graph.consumo_luce_scale
     - sensor.fibaro_system_fgs223_double_relay_power_3 #Consumo Luce Corridoio
+    - history_graph.consumo_luce_corridoio
     - sensor.fibaro_system_fgs223_double_relay_power #Consumo Luce Bagno
+    - history_graph.consumo_luce_bagno
     - sensor.fibaro_system_fgs223_double_relay_power_2 #Consumo Luce Specchio Bagno
+    - history_graph.consumo_luce_specchio
     - sensor.fibaro_system_fgs223_double_relay_power_4 #Consumo Luce Camera
+    - history_graph.consumo_luce_camera
 
 Consumo Elettrodomestici:
     name: Consumo Elettrodomestici
     control: hidden
     entities:
     - sensor.neo_coolcam_power_plug_12a_power_4 # Forno W
+    - history_graph.consumo_forno
     - sensor.neo_coolcam_power_plug_12a_power # Frigo W
+    - history_graph.consumo_frigo
     - sensor.neo_coolcam_power_plug_12a_power_2 # Lavastoviglie W
+    - history_graph.consumo_lavastoviglie
     - sensor.neo_coolcam_power_plug_12a_power_3 # Lavatrice W
+    - history_graph.consumo_lavatrice
     - sensor.neo_coolcam_power_plug_12a_power_5 # HT Sala W
+    - history_graph.consumo_ht_sala
     - sensor.consumo_htcamera
+    - history_graph.cosnumo_ht_camera
     - sensor.consumo_tvsala
+    - history_graph.consumo_tv_sala
 
 Ampere Elettrodomestici:
     name: Ampere Elettrodomestici

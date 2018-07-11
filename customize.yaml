@@ -211,7 +211,8 @@ light.garage_2:
   google_assistant_type: light
 
 ##################### Sensori #####################
-
+variable.ultimo_movimento:
+  friendly_name: Ultimo Movimento
 binary_sensor.motion_sensor_158d00013f8c44:
   friendly_name: Sensore Bagno 1
   homebridge_visible: true
@@ -311,6 +312,18 @@ input_boolean.tvsala:
 
 ##################### Utility #####################
 
+switch.fibaro_system_fgs223_double_relay_switch_5: #Power Cam Atrio
+  friendly_name: Power Cam Atrio
+  icon: mdi:cctv
+switch.plug_158d000154b1f6:
+  friendly_name: Power Cam Sala Sx
+  icon: mdi:cctv
+switch.plug_158d00015e8298:
+  friendly_name: Power Cam Sala Dx
+  icon: mdi:cctv
+switch.plug_158d0001289f89:
+  friendly_name: Power Cam Sala Cucina
+  icon: mdi:cctv
 sensor.time:
   friendly_name: Orario
 input_boolean.telecamere:
@@ -464,7 +477,7 @@ sensor.fibaro_system_fgs223_double_relay_power_9:
   friendly_name: Consumo Luce Atrio
   icon: mdi:flash
 
-##################### Consuo Elettrodomestici #####################
+##################### Consumo Elettrodomestici #####################
 
 switch.switch_9: #Forno
   friendly_name: Forno
@@ -517,7 +530,7 @@ automation.avviso_spazzatura:
 sensor.previsioni_apparent_temperature:
   friendly_name: Temperatura
 sensor.previsioni_cloud_coverage:
-  friendly_name: Cielo Coperto
+  friendly_name: Copertura Nuvolosa
 sensor.previsioni_summary:
   friendly_name: Stato
 sensor.previsioni_wind_speed:

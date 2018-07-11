@@ -168,3 +168,12 @@
             {% elif now().strftime('%A') == 'Saturday' %}
               No, oggi non devi portare fuori nulla!
             {% endif %}
+
+#Timer TV Camera
+  timer_tvcamera:
+    sequence:
+      - delay: '01:00:00'
+      - service: media_player.turn_off
+        entity_id: media_player.tv_camera
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.timertvcamera

@@ -31,3 +31,35 @@ ipadair:
   name: ipadair
   picture:
   track: true
+
+camsaladx:
+  hide_if_away: false
+  icon:
+  mac:
+  name: camsaladx
+  picture:
+  track: true
+
+camsalasx:
+  hide_if_away: false
+  icon:
+  mac:
+  name: camsalasx
+  picture:
+  track: true
+
+camcucina:
+  hide_if_away: false
+  icon:
+  mac:
+  name: camcucina
+  picture:
+  track: true
+
+camcorridoio:
+  hide_if_away: false
+  icon:
+  mac:
+  name: camcorridoio
+  picture:
+  track: true
