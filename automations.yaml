@@ -994,27 +994,76 @@
       - service: input_boolean.turn_on
         entity_id: input_boolean.allarmenotturno
 
-  - alias: Telegram Bot
+  - alias: Telegram Bot Friz
     trigger:
       platform: event
       event_type: telegram_command
       event_data:
         command: '/hey'
     action:
-      service: notify.telegram_bot
-      data:
-        message: Hey tu!
+      - service: notify.telegram_friz
+        data:
+          message: 'Ciao! Cosa devo fare?'
+          data:
+            keyboard:
+              - '/spegniallarme'
+              - '/attivaallarme'
 
-  - alias: Telegram Bot
+  - alias: Fratello Spegne Allarme
     trigger:
       platform: event
       event_type: telegram_command
       event_data:
-        command: '/hey'
+        command: '/spegniallarme'
     action:
-      service: notify.telegram_genitori
-      data:
-        message: Hey tu!
+      - service: notify.telegram_friz
+        data:
+          message: Ok, ho spento l'allarme!
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmediurno
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmenotturno
+      - service: notify.telegram_bot
+        data:
+          message: Friz ha spento l'allarme!
+
+  - alias: Fratello Sbaglia e Attiva Allarme
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/attivaallarme'
+    condition:
+      - condition: state
+        entity_id: input_boolean.acasa
+        state: 'on'
+    action:
+      - service: notify.telegram_friz
+        data:
+          message: C'è tuo fratello a casa, non posso attivarlo!
+      - service: notify.telegram_bot
+        data:
+          message: Friz mi ha chiesto di attivare l'allarme ma non l'ho fatto dato che sei a casa!
+
+  - alias: Fratello Attiva Allarme
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: 'attivaallarme'
+    condition:
+      - condition: state
+        entity_id: input_boolean.acasa
+        state: 'off'
+    action:
+      - service: notify.telegram_friz
+        data:
+          message: Ok, ho attivato l'allarme
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.allarmediurno
+      - service: notify.telegram_bot
+        data:
+          message: Friz ha attivato l'allarme!
 
   - alias: Telegram Cam
     trigger:
@@ -1663,6 +1712,36 @@
       - service: input_boolean.turn_off
         entity_id: input_boolean.allarmenotturno
 
+  - alias: Allarme Diurno Inserito
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmediurno
+      to: 'on'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Allarme Diurno Inserito"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.telecamere
+
+  - alias: Allarme Diurno Disinserito
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmediurno
+      to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Allarme Diurno Disinserito"
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.telecamere
+
   - alias: Scatta Allarme ON
     trigger:
       platform: state
@@ -1718,8 +1797,6 @@
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.allarmediurno
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.telecamere
       - service: input_boolean.turn_on
         entity_id: input_boolean.sky
 
@@ -1734,8 +1811,6 @@
         entity_id: group.luci
       - service: input_boolean.turn_on
         entity_id: input_boolean.allarmediurno
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.telecamere
       - service: input_boolean.turn_off
         entity_id: input_boolean.tvsala
       - service: input_boolean.turn_on
@@ -1854,15 +1929,6 @@
           title: "San Polo"
 
 ##################### IFTT #####################
-
-  - alias: Test
-    trigger:
-      platform: state
-      entity_id: input_boolean.test
-      to: 'on'
-    action:
-      service: ifttt.trigger
-      data: {"event":"TestHA_Trigger"}
 
   - alias: Buonanotte
     trigger:

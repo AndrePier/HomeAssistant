@@ -671,6 +671,7 @@ Remote:
     - input_boolean.tvsala
     - input_boolean.tvcamera
     - input_boolean.timertvcamera
+    - input_boolean.test
 
 Zwave:
     name: Zwave

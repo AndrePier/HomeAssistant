@@ -64,7 +64,9 @@ telegram_bot:
     allowed_chat_ids:
       - !secret telegram_chat_id_bot
       - !secret telegram_chat_id_andrea
-      - !secret telegram_chat_id_genitori
+      - !secret telegram_chat_id_home
+      - !secret telegram_chat_id_ubiss
+      - !secret telegram_chat_id_friz
 
 ifttt:
   key: !secret iftttkey
@@ -104,8 +106,16 @@ notify:
     chat_id: !secret telegram_chat_id_andrea
 
   - platform: telegram
-    name: telegram genitori
-    chat_id: !secret telegram_chat_id_genitori
+    name: telegram home
+    chat_id: !secret telegram_chat_id_home
+
+  - platform: telegram
+    name: telegram ubiss
+    chat_id: !secret telegram_chat_id_ubiss
+
+  - platform: telegram
+    name: telegram friz
+    chat_id: !secret telegram_chat_id_friz
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -309,22 +319,27 @@ binary_sensor:
   - platform: ping
     host: 192.168.10.16
     name: Cam Sala Dx
+    scan_interval: 60
 
   - platform: ping
     host: 192.168.10.18
     name: Cam Sala Sx
+    scan_interval: 60
 
   - platform: ping
     host: 192.168.10.19
     name: Cam Cucina
+    scan_interval: 60
 
   - platform: ping
     host: 192.168.10.40
     name: Cam Corridoio
+    scan_interval: 60
 
   - platform: ping
     host: 192.168.10.25
     name: Cam Garage
+    scan_interval: 60
 
 sensor:
 
