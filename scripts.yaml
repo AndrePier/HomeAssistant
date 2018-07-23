@@ -169,6 +169,21 @@
               No, oggi non devi portare fuori nulla!
             {% endif %}
 
+#Vocale Consumo
+  vocale_consumo:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Oggi hai consumato {{states('sensor.consumo_odierno')}} kilowatt."
+
+  vocale_consumo_ieri:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Ieri hai consumato {{states('input_number.consumo_day') | int}} kilowatt."
+
 #Timer TV Camera
   timer_tvcamera:
     sequence:

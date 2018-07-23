@@ -154,3 +154,23 @@
       - sensor.saldo_crypto
     hours_to_show: 24
     refresh: 60
+  gr27:
+    name: Consumo KWh
+    entities:
+      - sensor.unknown_5
+    hours_to_show: 24
+    refresh: 60
+  gr28:
+    name: Consumo Oggi
+    entities:
+      - sensor.consumo_oggi
+    hours_to_show: 168
+    refresh: 1800
+  gr29:
+    name: Consumo Giornaliero
+    entities:
+      - sensor.consumo_ieri
+    hours_to_show: 168
+    refresh: 1800
+
+    

@@ -46,7 +46,6 @@ ios:
             authenticationRequired: no
             destructive: no
             behavior: 'default'
-
       - name: buonanotte
         identifier: 'buonanotte'
         actions:
@@ -201,16 +200,6 @@ light:
         transition: 350
         use_music_mode: True #(defaults to False)
         save_on_change: False #(defaults to True)
-      192.168.10.26:
-        name: Garage 1
-        transition: 350
-        use_music_mode: True #(defaults to False)
-        save_on_change: False #(defaults to True)
-      192.168.10.27:
-        name: Garage 2
-        transition: 350
-        use_music_mode: True #(defaults to False)
-        save_on_change: False #(defaults to True)
 
 media_player:
   - platform: spotify
@@ -341,7 +330,115 @@ binary_sensor:
     name: Cam Garage
     scan_interval: 60
 
+google:
+  client_id: !secret gcalendarid
+  client_secret: !secret gcalendarsecret
+
 sensor:
+
+  - platform: template
+    sensors:
+      consumo_oggi:
+        friendly_name_template: Consumo Odierno
+        icon_template: mdi:chart-bar
+        value_template: "{{ (states.sensor.unknown_5.state | int) - (states.input_number.consumo_inizio.state | int) }}"
+        unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      consumo_ieri:
+        friendly_name_template: Consumo Ieri
+        icon_template: mdi:chart-bar
+        value_template: '{{(states.input_number.consumo_day.state | int)}}'
+        unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      consumo_attuale:
+        friendly_name_template: Consumo Attuale
+        icon_template: mdi:chart-bar
+        value_template: '{{(states.sensor.widom_ume304_energy_driven_switch_power.state | float)}}'
+        unit_of_measurement: 'W'
+
+  - platform: template
+    sensors:
+      consumo_luci:
+        friendly_name: "Consumo Luci"
+        icon_template: mdi:chart-bar
+        unit_of_measurement: 'W'
+        value_template: "{{ states.sensor.fibaro_system_fgs223_double_relay_power_9.state | int + states.sensor.fibaro_system_fgs223_double_relay_power.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_4.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_3.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_5.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_2.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_6.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_8.state | int }} "
+
+  - platform: template
+    sensors:
+      consumo_elettrodomestici:
+        friendly_name: "Consumo Elettrodomestici"
+        icon_template: mdi:chart-bar
+        unit_of_measurement: 'W'
+        value_template: "{{ states.sensor.neo_coolcam_power_plug_12a_power_4.state | float + states.sensor.neo_coolcam_power_plug_12a_power.state | float + states.sensor.neo_coolcam_power_plug_12a_power_2.state | float + states.sensor.neo_coolcam_power_plug_12a_power_3.state | float + states.sensor.neo_coolcam_power_plug_12a_power_5.state | float + states.sensor.consumo_htcamera.state | float + states.sensor.consumo_tvsala.state | float }} "
+
+  - platform: template
+    sensors:
+      consumo_giornaliero_medio:
+        friendly_name: "Consumo Giornaliero Medio"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_consumo_giornaliero_mean.attributes.median | int }}'
+        unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      consumo_giornaliero_max:
+        friendly_name: "Consumo Giornaliero Massimo"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_consumo_giornaliero_mean.attributes.max_value | int }}'
+        unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      consumo_giornaliero_min:
+        friendly_name: "Consumo Giornaliero Minimo"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_consumo_giornaliero_mean.attributes.min_value | int }}'
+        unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      download_medio:
+        friendly_name: "Download Medio"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_download_mean.attributes.median | float }}'
+        unit_of_measurement: 'Mbit/s'
+
+  - platform: template
+    sensors:
+      upload_medio:
+        friendly_name: "Upload Medio"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_upload_mean.attributes.median | float }}'
+        unit_of_measurement: 'Mbit/s'
+
+  - platform: template
+    sensors:
+      ping_medio:
+        friendly_name: "Ping Medio"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_ping_mean.attributes.median | float }}'
+        unit_of_measurement: 'ms'
+
+  - platform: template
+    sensors:
+      ufficio_casa_medio:
+        friendly_name: "Ufficio Casa Media"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_ufficio_casa_mean.attributes.median | int }}'
+        unit_of_measurement: 'min'
+
+  - platform: template
+    sensors:
+      casa_ufficio_medio:
+        friendly_name: "Casa Ufficio Media"
+        icon_template: mdi:chart-bar
+        value_template: '{{ states.sensor.statistiche_casa_ufficio_mean.attributes.median | int }}'
+        unit_of_measurement: 'min'
 
   - platform: pi_hole
     monitored_conditions:
@@ -360,12 +457,36 @@ sensor:
     unit_of_measurement: hours
 
   - platform: statistics
-    name: Statistiche Consumo
+    name: Statistiche Consumo Attuale
     entity_id: sensor.widom_ume304_energy_driven_switch_power
+
+  - platform: statistics
+    name: Statistiche Consumo Giornaliero
+    entity_id: sensor.consumo_ieri
 
   - platform: statistics
     name: Statistiche Crypto
     entity_id: sensor.saldo_crypto
+
+  - platform: statistics
+    name: Statistiche Download
+    entity_id: sensor.speedtest_download
+
+  - platform: statistics
+    name: Statistiche Upload
+    entity_id: sensor.speedtest_upload
+
+  - platform: statistics
+    name: Statistiche Ping
+    entity_id: sensor.speedtest_ping
+
+  - platform: statistics
+    name: Statistiche Casa Ufficio
+    entity_id: sensor.casa_ufficio
+
+  - platform: statistics
+    name: Statistiche Ufficio Casa
+    entity_id: sensor.ufficio_casa
 
   - platform: time_date
     display_options:
@@ -457,6 +578,42 @@ sensor:
 
   - platform: template
     sensors:
+      stato_lavastoviglie:
+        friendly_name: "Lavastoviglie"
+        icon_template: mdi:tumble-dryer
+        value_template: >-
+          {% if states.sensor.neo_coolcam_power_plug_12a_power_2 | int < 1 %}
+            Spenta
+          {% elif sates.sensor.neo_coolcam_power_plug_12a_power_2 | int > 1 %}
+            Lavaggio in corso
+          {% endif %}
+
+  - platform: template
+    sensors:
+      stato_lavatrice:
+        friendly_name: "Lavatrice"
+        icon_template: mdi:washing-machine
+        value_template: >-
+          {% if states.sensor.neo_coolcam_power_plug_12a_power_3 | int < 1 %}
+            Spenta
+          {% elif sates.sensor.neo_coolcam_power_plug_12a_power_3 | int > 1 %}
+            Lavaggio in corso
+          {% endif %}
+
+  - platform: template
+    sensors:
+      stato_forno:
+        friendly_name: "Forno"
+        icon_template: mdi:stove
+        value_template: >-
+          {% if states.sensor.neo_coolcam_power_plug_12a_power_4 | int < 1 %}
+            Spento
+          {% elif sates.sensor.neo_coolcam_power_plug_12a_power_4 | int > 1 %}
+            In funzione
+          {% endif %}
+
+  - platform: template
+    sensors:
       stato_denon:
         friendly_name: "Stato Denon"
         icon_template: mdi:volume-high
@@ -467,15 +624,7 @@ sensor:
       stato_harmony:
         friendly_name: "Stato TV"
         icon_template: mdi:animation-play
-        value_template: '{{ states. remote.harmony_sala.attributes.current_activity }}'
-
-  - platform: template
-    sensors:
-      consumo_luci:
-        friendly_name: "Cosumo Luci"
-        icon_template: mdi:chart-bar
-        unit_of_measurement: 'W'
-        value_template: "{{ states.sensor.fibaro_system_fgs223_double_relay_power_9.state | int + states.sensor.fibaro_system_fgs223_double_relay_power.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_4.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_3.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_5.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_2.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_6.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_8.state | int }} "
+        value_template: '{{ states.remote.harmony_sala.attributes.current_activity }}'
 
   - platform: template
     sensors:
@@ -661,6 +810,20 @@ sensor:
         icon_template: mdi:coin
         value_template: '{{ states.sensor.coinbase_portafoglio_btc.attributes["Balance in native currency"] }}'
 
+  - platform: template
+    sensors:
+      impegnigcal:
+        friendly_name: "Impegni"
+        icon_template: mdi:calendar
+        value_template: !secret gcalmessageattribute
+
+  - platform: template
+    sensors:
+      festivitagcal:
+        friendly_name: "Festività"
+        icon_template: mdi:calendar
+        value_template: "{{states.calendar.festivita_in_italia.attributes.message}}"
+
   - platform: moon
 
   - platform: darksky
@@ -675,18 +838,18 @@ sensor:
 
   - platform: google_travel_time
     api_key: !secret google_api_key
-    name: Casa - Ufficio
+    name: Casa Ufficio
     origin: !secret casa_origin
     destination: !secret office_origin
 
   - platform: google_travel_time
     api_key: !secret google_api_key
-    name: Ufficio - Casa
+    name: Ufficio Casa
     origin: !secret office_origin
     destination: !secret casa_origin
 
   - platform: speedtest
-    minute: 0
+    minute: 27
     monitored_conditions:
       - ping
       - download
@@ -720,6 +883,18 @@ switch:
     qos: 1
     retain: true
 
+  - platform: mqtt
+    name: "Sonoff Luci Garage"
+    state_topic: "stat/lucigarage/POWER"
+    command_topic: "cmnd/lucigarage/POWER"
+    availability_topic: "tele/lucigarage/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: false
+
   - platform: broadlink
     host: 192.168.10.20
     mac: '34ea34e3b4c1'
@@ -736,7 +911,7 @@ switch:
         command_on: 'JgBQAg0NDg8ODw0PDRANAANDcToOLA0PDRANDg0tDQ8NEA0PDQ8NLA0QDSsPKw4PDSwNLA0sDSwNLQ4NDRANLA0QDQ4NEA0QDQ8MEA0PDRANDw0PDSwODw0sDRAMEA0PDSwNLA4PDQ0PDw0QDRAMDw0QDQ8NDw0QDQ8NDw0QDQ8NEAwPDS0NLA0sDg8NLA0PDSwOLA0ABHxyOg0sDQ8NDw0QDSwODg0PDRANDw0tDA8NLA4sDQ8NLA0tDSwOKw4rDg8NDg0tDQ8NEA0PDBANEA0PDQ8NEAwQDQ8NDw0tDQ0PEAwPDQ8OLA0QDSwNLA0sDisNLQ4NDS0NDw0sDRANLA0sDSwOLA0PDA8PDwwQDQ8NDw0tDSwOKw0sDQAEfHM5DisNEA0PDBANLA0QDRAMDw4PDSwNEAwtDisODg0sDSwNLA0sDisODw0QDSwODg0PDRANDw0PDRANDw0PDRAMEA0QDA8ODw0PDg4NEA0PDRAMLQwQDQ8NLQ0sDisNEA0ODRANLA0sDRANLA0sDg4NEA0NDxAMDw4PDRANDg0QDQ8NEAwQDQ8NEA0PDSwNDw0tDQ8NDw0PDRANEAwPDRANDw0PDRANDw0QDBANDw0QDQ4NEA0sDisODw0PDQ8NEA0PDQ8ODw0PDQ8NEA0sDSwODQ8PDBANDw0QDQ8NDw0QDRAMDg4PDg8NDw0QDQ8NDw0QDSwNDw0QDBANDw0PDiwNLA4ODQ8NEA0QDA8NDw4QDA8NEA0PDQ8NEA0PDRAMEAwQDRANDg0QDSwODw0PDC4MDw0ADQUOKw0QDQ8MEA=='
         command_off: 'JgBQAg0PDQ8NEAwQDQ4OAANBczsNLA0PDRANEAwtDA8NEA0QDQ4NLA0QDSwNLA0QDisNLA4sDSwNLA0PDQ8NLA0QDRAMDw0QDQ8NDw0QDQ8NEAwRDCwNDw0tDQ8NDw0PDS0NLA4ODRAMEA0PDRAMEA0PDRANDg0QDRAMEAwQDQ8NEA0PDSwNLA0sDQ8OLA0QDSwOKw0ABHxyOg0sDg4NDw0QDSwNEAwQDBANEA0sDQ8MLQ0sDg4NLQ0sDSwNLA0sDRANEAwtDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDQ8NDg8PDQ8NLA0QDSwNEAwQDBANEA0sDisNDw0sDRANLA0sDSwNLA0QDQ8NDw0sDRANEAwtDC0MLQwtDAAEfnI5DC0NDw0QDQ8NLA0PDRANDw0QDC0MEA4rDSwNEA0sDSwNLA0sDS0NDw0PDSwNEA0PDQ8NEAwQDRAMDw0QDRANDg0QDQ8NEAwQDQ8NEA0PDQ8NEA0ODRANLA0sDS0NDw0QDA8NLQ0sDQ8OLA0sDQ8NDw0QDQ8NDw4PDBANEA0ODRANEA0PDBANEAwQDC0MEA0sDQ8ODw0PDRANDw0QDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDSwNEA0PDQ8NEAwQDRAMDw0QDRAMDw0sDS0NDw0QDQ8NDw0QDQ8MEA0QDQ8NDw0PDRANEAwPDRANDw0PDSwNEA0QDBAMEA0PDS0NLA0PDQ8NEA0PDQ8NEAwQDRAMDw0QDRAMDw0QDQ8NEAwQDSwNLA4rDQ8ODw0PDSwNEA0ADQUMLQ0PDRANDw=='
 
-      climasupersala:
+      superclimasala:
         friendly_name: "Clima Super Sala"
         command_on: 'JgBQAg4ODRANDw0PDRANAANDcjkNLA0QDRAMEAwtDQ8NEAwQDRAMLA0QDSwOKw0PDysNLA0sDSwNLA0RCxANLA0QDBELDw8ODRANEA0ODRENDwwPDSwNEA0sDREMDg0QDSwNLA0RDA8MEA0QDQ8NDw0RDBAMEAwRDQ4NEQsQDQ8NEQwPDSsNLQ0sDQ8NLQ0PDSwNLQwABH1xOw0sDQ8NEA0PDSwNEAwPDRANDw4sDA8NLA0tDQ8NLA0tDC0NLA4rDREMEAwsDQ8NEQ0ODQ8NEQwQDQ8NDwwQDRAMDw0sDg8NEQ0ODBENKw0QDQ8NEA0PDSwNLA0RDA4NLQwtDRANKw0tDQ8NLA0RDA8NLA0PDRANLA0sDQ8NEQ0ODQAEfXE6DSwODg0RDQ4NLQ0PDQ8NEA0PDC0NDw0sDSwNEA0sDSwNLA0tDSwNDw0PDSwNEA0PDRAMEA0PDRANDwwRDRANDwwPDRANDw0PDRAMEAwSDA4NLQwRDRAMLA0sDSwNDw0QDQ8MLQ0QDQ8NLA0sDRANDwwQDRANEAwQDQ8NDw0RDA4MEg0PDA8NEQwQDCwODg0sDRANEAwQDRAMDw0QDRANDw0QDBAMDw0RDA8NDw0QDRANDg0sDSwOEA0PDRAMEA0ODRAMEQwQDRAMEAwtDC0MEAwtDQ8NEA0PDQ8NEA0PDRANDwwQDBANEAwQDQ8NDw0QDSwNEQwODRENDw0PDCwNLQ0PDhANDgwRDBANEAwPDRANDw0PDQ8NEQ0PDQ4NEA0QDisNDwwtDQ8NEQwPDSwNDwwADQUNLA4ODRENDg=='
         command_off: 'JgBQAg8NDw0PDg4ODw0PAANBczkPKg8NEA0PDg4rDg4PDQ8ODwwPKw8NDyoQKg8NDyoPKw8qECkQKQ8NDw0PKw8NDw4ODQ8ODw4PDA8ODw4ODg4ODyoPDg8qDw0PDQ8ODyoPKg8ODw0MEA8NDw4MEA8NDw4NDw8NDRAPDQ0PDRANDw8NDSwPKg8qDw4PKg4PDSwOKw8ABHtxOg4rDw0NEA0PDSwPDgwQDw0NEA0sDw0NLA4rDw4NLA8qDyoPKw0sDw0NEAwtDBANDw8ODQ8NDw0QDQ4ODw0QDQ8MEA0sDw4NDw8NDRANLA8NDS0PKg8qDyoPKg8ODBANLA8qDw4OKw8qDw4NLA8MDRAPDg0ODRANDw0QDC0MEA4ODgAEfHE6DysPDQ0PDRANLA4ODg8MEA0PDSwODwwtDC0NDw4rDisOLA4rDisODw0PDSwPDQ4PDQ8NEAwQDQ8NEA0ODRANEA0PDBANDw4PDQ8NDw0QDQ8NLA4ODRANLA4rDisODwwQDQ8NLQ0PDQ8NLA8qDg8NDw0QDBANDw0QDQ8NDw0QDQ4ODw0QDQ8MEA0PDiwODg0sDg4NEA0PDRAMEA0PDg8NDg4PDRANDg0QDRANDwwQDQ8NEA0sDisODg0QDQ8NEAwQDQ8NEA0ODRANEA0sDisODwwPDRANDw0PDRANDw0PDRANDw0QDA8ODw0QDQ4NEA0QDSwODgwQDRANDwwQDSwOKw4PDg4ODg0QDQ8NEAwQDQ8NEA0PDQ8NEA0PDBANEA0PDBANDw0tDg4ODg0PDiwODg4ADQUPKw8NDQ8NEA=='
@@ -758,7 +933,7 @@ switch:
         command_on: 'JgBQAg0NDg8ODw0PDRANAANDcToOLA0PDRANDg0tDQ8NEA0PDQ8NLA0QDSsPKw4PDSwNLA0sDSwNLQ4NDRANLA0QDQ4NEA0QDQ8MEA0PDRANDw0PDSwODw0sDRAMEA0PDSwNLA4PDQ0PDw0QDRAMDw0QDQ8NDw0QDQ8NDw0QDQ8NEAwPDS0NLA0sDg8NLA0PDSwOLA0ABHxyOg0sDQ8NDw0QDSwODg0PDRANDw0tDA8NLA4sDQ8NLA0tDSwOKw4rDg8NDg0tDQ8NEA0PDBANEA0PDQ8NEAwQDQ8NDw0tDQ0PEAwPDQ8OLA0QDSwNLA0sDisNLQ4NDS0NDw0sDRANLA0sDSwOLA0PDA8PDwwQDQ8NDw0tDSwOKw0sDQAEfHM5DisNEA0PDBANLA0QDRAMDw4PDSwNEAwtDisODg0sDSwNLA0sDisODw0QDSwODg0PDRANDw0PDRANDw0PDRAMEA0QDA8ODw0PDg4NEA0PDRAMLQwQDQ8NLQ0sDisNEA0ODRANLA0sDRANLA0sDg4NEA0NDxAMDw4PDRANDg0QDQ8NEAwQDQ8NEA0PDSwNDw0tDQ8NDw0PDRANEAwPDRANDw0PDRANDw0QDBANDw0QDQ4NEA0sDisODw0PDQ8NEA0PDQ8ODw0PDQ8NEA0sDSwODQ8PDBANDw0QDQ8NDw0QDRAMDg4PDg8NDw0QDQ8NDw0QDSwNDw0QDBANDw0PDiwNLA4ODQ8NEA0QDA8NDw4QDA8NEA0PDQ8NEA0PDRAMEAwQDRANDg0QDSwODw0PDC4MDw0ADQUOKw0QDQ8MEA=='
         command_off: 'JgBQAg0PDQ8NEAwQDQ4OAANBczsNLA0PDRANEAwtDA8NEA0QDQ4NLA0QDSwNLA0QDisNLA4sDSwNLA0PDQ8NLA0QDRAMDw0QDQ8NDw0QDQ8NEAwRDCwNDw0tDQ8NDw0PDS0NLA4ODRAMEA0PDRAMEA0PDRANDg0QDRAMEAwQDQ8NEA0PDSwNLA0sDQ8OLA0QDSwOKw0ABHxyOg0sDg4NDw0QDSwNEAwQDBANEA0sDQ8MLQ0sDg4NLQ0sDSwNLA0sDRANEAwtDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDQ8NDg8PDQ8NLA0QDSwNEAwQDBANEA0sDisNDw0sDRANLA0sDSwNLA0QDQ8NDw0sDRANEAwtDC0MLQwtDAAEfnI5DC0NDw0QDQ8NLA0PDRANDw0QDC0MEA4rDSwNEA0sDSwNLA0sDS0NDw0PDSwNEA0PDQ8NEAwQDRAMDw0QDRANDg0QDQ8NEAwQDQ8NEA0PDQ8NEA0ODRANLA0sDS0NDw0QDA8NLQ0sDQ8OLA0sDQ8NDw0QDQ8NDw4PDBANEA0ODRANEA0PDBANEAwQDC0MEA0sDQ8ODw0PDRANDw0QDA8NEA0QDQ4NEA0QDBAMEA0PDRAMEA0sDSwNEA0PDQ8NEAwQDRAMDw0QDRAMDw0sDS0NDw0QDQ8NDw0QDQ8MEA0QDQ8NDw0PDRANEAwPDRANDw0PDSwNEA0QDBAMEA0PDS0NLA0PDQ8NEA0PDQ8NEAwQDRAMDw0QDRAMDw0QDQ8NEAwQDSwNLA4rDQ8ODw0PDSwNEA0ADQUMLQ0PDRANDw=='
 
-      climasupercamera:
+      superclimacamera:
         friendly_name: "Clima Super Camera"
         command_on: 'JgBQAg4ODRANDw0PDRANAANDcjkNLA0QDRAMEAwtDQ8NEAwQDRAMLA0QDSwOKw0PDysNLA0sDSwNLA0RCxANLA0QDBELDw8ODRANEA0ODRENDwwPDSwNEA0sDREMDg0QDSwNLA0RDA8MEA0QDQ8NDw0RDBAMEAwRDQ4NEQsQDQ8NEQwPDSsNLQ0sDQ8NLQ0PDSwNLQwABH1xOw0sDQ8NEA0PDSwNEAwPDRANDw4sDA8NLA0tDQ8NLA0tDC0NLA4rDREMEAwsDQ8NEQ0ODQ8NEQwQDQ8NDwwQDRAMDw0sDg8NEQ0ODBENKw0QDQ8NEA0PDSwNLA0RDA4NLQwtDRANKw0tDQ8NLA0RDA8NLA0PDRANLA0sDQ8NEQ0ODQAEfXE6DSwODg0RDQ4NLQ0PDQ8NEA0PDC0NDw0sDSwNEA0sDSwNLA0tDSwNDw0PDSwNEA0PDRAMEA0PDRANDwwRDRANDwwPDRANDw0PDRAMEAwSDA4NLQwRDRAMLA0sDSwNDw0QDQ8MLQ0QDQ8NLA0sDRANDwwQDRANEAwQDQ8NDw0RDA4MEg0PDA8NEQwQDCwODg0sDRANEAwQDRAMDw0QDRANDw0QDBAMDw0RDA8NDw0QDRANDg0sDSwOEA0PDRAMEA0ODRAMEQwQDRAMEAwtDC0MEAwtDQ8NEA0PDQ8NEA0PDRANDwwQDBANEAwQDQ8NDw0QDSwNEQwODRENDw0PDCwNLQ0PDhANDgwRDBANEAwPDRANDw0PDQ8NEQ0PDQ4NEA0QDisNDwwtDQ8NEQwPDSwNDwwADQUNLA4ODRENDg=='
         command_off: 'JgBQAg8NDw0PDg4ODw0PAANBczkPKg8NEA0PDg4rDg4PDQ8ODwwPKw8NDyoQKg8NDyoPKw8qECkQKQ8NDw0PKw8NDw4ODQ8ODw4PDA8ODw4ODg4ODyoPDg8qDw0PDQ8ODyoPKg8ODw0MEA8NDw4MEA8NDw4NDw8NDRAPDQ0PDRANDw8NDSwPKg8qDw4PKg4PDSwOKw8ABHtxOg4rDw0NEA0PDSwPDgwQDw0NEA0sDw0NLA4rDw4NLA8qDyoPKw0sDw0NEAwtDBANDw8ODQ8NDw0QDQ4ODw0QDQ8MEA0sDw4NDw8NDRANLA8NDS0PKg8qDyoPKg8ODBANLA8qDw4OKw8qDw4NLA8MDRAPDg0ODRANDw0QDC0MEA4ODgAEfHE6DysPDQ0PDRANLA4ODg8MEA0PDSwODwwtDC0NDw4rDisOLA4rDisODw0PDSwPDQ4PDQ8NEAwQDQ8NEA0ODRANEA0PDBANDw4PDQ8NDw0QDQ8NLA4ODRANLA4rDisODwwQDQ8NLQ0PDQ8NLA8qDg8NDw0QDBANDw0QDQ8NDw0QDQ4ODw0QDQ8MEA0PDiwODg0sDg4NEA0PDRAMEA0PDg8NDg4PDRANDg0QDRANDwwQDQ8NEA0sDisODg0QDQ8NEAwQDQ8NEA0ODRANEA0sDisODwwPDRANDw0PDRANDw0PDRANDw0QDA8ODw0QDQ4NEA0QDSwODgwQDRANDwwQDSwOKw4PDg4ODg0QDQ8NEAwQDQ8NEA0PDQ8NEA0PDBANEA0PDBANDw0tDg4ODg0PDiwODg4ADQUPKw8NDQ8NEA=='
@@ -835,6 +1010,27 @@ input_select:
     icon: mdi:remote
 
 input_number:
+
+  consumo_inizio:
+    name: Consumo Inizio
+    min: 1
+    max: 5000
+    mode: box
+    unit_of_measurement: 'kWh'
+
+  consumo_fine:
+    name: Consumo Fine
+    min: 1
+    max: 5000
+    mode: box
+    unit_of_measurement: 'kWh'
+
+  consumo_day:
+    name: Consumo Giornaliero
+    min: 1
+    max: 5000
+    mode: box
+    unit_of_measurement: 'kWh'
 
   spotify_volume:
     name: Spotify

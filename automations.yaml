@@ -87,6 +87,10 @@
         entity_id: input_boolean.sky, input_boolean.appletv, input_boolean.pc, input_boolean.dtt
     - service: input_boolean.turn_on
       entity_id: input_boolean.tvsala
+    - service: input_select.set_options
+      data:
+        entity_id: input_select.telecomando_select
+        options: ["Scegli"]
 
 # Pausa Sky ed AppleTV
   - alias: 'Pausa Sky ed Apple TV'
@@ -154,6 +158,42 @@
         - OK
         device: 45682571
         delay_secs: 1
+
+  - alias: Input Select TV Sky
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'Sky'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.sky
+
+  - alias: Input Select TV Apple TV
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'Apple TV'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.appletv
+
+  - alias: Input Select TV DTT
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'DTT'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.dtt
+
+  - alias: Input Select TV PC
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'PC'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.pc
 
 # TV Camera
 
@@ -528,11 +568,8 @@
       entity_id: binary_sensor.door_window_sensor_158d0001a348e1
       to: 'on'
     action:
-      - service: light.turn_on
-        entity_id: light.garage_1
-      - delay: '00:00:01'
-      - service: light.turn_on
-        entity_id: light.garage_2
+      - service: switch.turn_on
+        entity_id: switch.sonoff_luci_garage
 
   - alias: Luci Garage OFF
     trigger:
@@ -540,11 +577,8 @@
       entity_id: binary_sensor.door_window_sensor_158d0001a348e1
       to: 'off'
     action:
-      - service: light.turn_off
-        entity_id: light.garage_1
-      - delay: '00:00:01'
-      - service: light.turn_off
-        entity_id: light.garage_2
+      - service: switch.turn_off
+        entity_id: switch.sonoff_luci_garage
 
 # Timer Lampada Sale
   - alias: Timer Lampada Sale
@@ -1050,7 +1084,7 @@
       platform: event
       event_type: telegram_command
       event_data:
-        command: 'attivaallarme'
+        command: '/attivaallarme'
     condition:
       - condition: state
         entity_id: input_boolean.acasa
@@ -1059,11 +1093,9 @@
       - service: notify.telegram_friz
         data:
           message: Ok, ho attivato l'allarme
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.allarmediurno
       - service: notify.telegram_bot
         data:
-          message: Friz ha attivato l'allarme!
+          message: Friz ha attivato l'allarme
 
   - alias: Telegram Cam
     trigger:
@@ -1180,9 +1212,10 @@
 
 # Avviso Traffico Lavoro
   - alias: Coda da casa
+    initial_state: True
     trigger:
       platform: numeric_state
-      entity_id: sensor.casa__ufficio
+      entity_id: sensor.casa_ufficio
       above: 20
     condition:
         condition: time
@@ -1199,20 +1232,21 @@
         data_template:
           title: "Probabile Coda!"
           message: >
-            Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+            Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti.
       - service: notify.ios_iphone7
         data_template:
           title: "Probabile Coda!"
           message: >
-            Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+            Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti.
       - service: notify.telegram_bot
         data_template:
-          message: "Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti."
+          message: "Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti."
 
   - alias: Coda da lavoro
+    initial_state: True
     trigger:
       platform: numeric_state
-      entity_id: sensor.ufficio__casa
+      entity_id: sensor.ufficio_casa
       above: 20
     condition:
         condition: time
@@ -1229,15 +1263,15 @@
         data_template:
           title: "Probabile Coda!"
           message: >
-            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
+            Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti.
       - service: notify.ios_iphone7
         data_template:
           title: "Probabile Coda!"
           message: >
-            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
+            Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti.
       - service: notify.telegram_bot
         data:
-          message: "Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti."
+          message: "Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti."
 
 # Avviso Tempo Percorrenza Lavoro
   - alias: Percorrenza per Lavoro
@@ -1260,15 +1294,15 @@
         data_template:
           title: "Percorrenza Ufficio"
           message: >
-            Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+            Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti.
       - service: notify.ios_iphone7
         data_template:
           title: "Percorrenza Ufficio"
           message: >
-            Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti.
+            Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti.
       - service: notify.telegram_bot
         data_template:
-          message: "Arrivo in ufficio previsto in {{ states.sensor.casa__ufficio.state }} minuti."
+          message: "Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti."
 
   - alias: Percorrenza da Lavoro
     trigger:
@@ -1290,16 +1324,17 @@
         data_template:
           title: "Percorrenza Casa"
           message: >
-            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
+            Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti.
       - service: notify.ios_iphone7
         data_template:
           title: "Percorrenza Casa"
           message: >
-            Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti.
+            Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti.
       - service: notify.telegram_bot
         data_template:
-          message: "Arrivo a casa previsto in {{ states.sensor.ufficio__casa.state }} minuti."
+          message: "Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti."
 
+# Basculante
   - alias: Apertura Basculante Garage
     trigger:
       platform: state
@@ -1316,8 +1351,76 @@
         data:
           message: Garage Aperto!
 
+  - alias: Dimenticata Basculante Aperta
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.acasa
+      to: 'off'
+    condition:
+      - condition: state
+        entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+        state: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Hai dimenticato il garage Aperto!"
+      - service: notify.ios_iphone7
+        data:
+          message: "Hai dimenticato il garage Aperto!"
+      - service: notify.telegram_bot
+        data:
+          message: Hai dimenticato il garage Aperto!
+
+# Pioggia
+  - alias: Pioggia
+    trigger:
+      platform: state
+      entity_id: binary_sensor.water_leak_sensor_158d00023a47c4
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "A casa sta piovendo!"
+      - service: notify.ios_iphone7
+        data:
+          message: "A casa sta piovendo!"
+      - service: notify.telegram_bot
+        data:
+          message: A casa sta piovendo!
 
 ##################### Utility #####################
+
+# Consumo Giornaliero
+  - alias: Set Consumo Inizio
+    trigger:
+      platform: time
+      at: '00:00:01'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_inizio
+        value: "{{ states.sensor.unknown_5.state | int }}"
+
+  - alias: Set Consumo Fine
+    trigger:
+      platform: time
+      at: '23:59:55'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_fine
+        value: "{{ states.sensor.unknown_5.state | int }}"
+
+  - alias: Set Consumo Giornaliero
+    trigger:
+      platform: time
+      at: '23:59:59'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_day
+        value: "{{ (states.input_number.consumo_fine.state | int) - (states.input_number.consumo_inizio.state | int) }}"
 
 # HomeKit Start
   - alias: 'Start HomeKit'
@@ -1380,23 +1483,23 @@
   - alias: Clima Super Sala ON
     trigger:
       platform: state
-      entity_id: input_boolean.climasupersala
+      entity_id: input_boolean.superclimasala
       to: 'on'
     action:
       - service: switch.turn_on
-        entity_id: switch.climasupersala
+        entity_id: switch.superclimasala
       - delay: '00:05:00'
       - service: input_boolean.turn_off
-        entity_id: input_boolean.climasupersala
+        entity_id: input_boolean.superclimasala
 
   - alias: Clima Super Sala OFF
     trigger:
       platform: state
-      entity_id: input_boolean.climasupersala
+      entity_id: input_boolean.superclimasala
       to: 'off'
     action:
       service: switch.turn_off
-      entity_id: switch.climasupersala
+      entity_id: switch.superclimasala
 
 # Clima Camera
   - alias: Clima Camera ON
@@ -1420,23 +1523,23 @@
   - alias: Clima Super Camera ON
     trigger:
       platform: state
-      entity_id: input_boolean.climasupercamera
+      entity_id: input_boolean.superclimacamera
       to: 'on'
     action:
       - service: switch.turn_on
-        entity_id: switch.climasupercamera
+        entity_id: switch.superclimacamera
       - delay: '00:05:00'
       - service: input_boolean.turn_off
-        entity_id: input_boolean.climasupercamera
+        entity_id: input_boolean.superclimacamera
 
   - alias: Clima Super Camera OFF
     trigger:
       platform: state
-      entity_id: input_boolean.climasupercamera
+      entity_id: input_boolean.superclimacamera
       to: 'off'
     action:
       service: switch.turn_off
-      entity_id: switch.climasupercamera
+      entity_id: switch.superclimacamera
 
 # Power Telecamere ON
   - alias: Telecamere ON
@@ -1581,6 +1684,40 @@
               Ricordati di portare fuori l'organico!
             {% endif %}
 
+  - alias: Reminder Calendario
+    trigger:
+      platform: state
+      entity_id: !secret gcalendarentity
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          message: !secret gcalmessageattribute
+      - service: notify.tvsala
+        data_template:
+          title: "Notifica"
+          message: !secret gcalmessageattribute
+      - service: notify.telegram_bot
+        data:
+          message: !secret gcalmessageattribute
+
+  - alias: Reminder Calendario Feste
+    trigger:
+      platform: state
+      entity_id: calendar.festivita_in_italia
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          message: "Oggi è {{states.calendar.festivita_in_italia.attributes.message}}"
+      - service: notify.tvsala
+        data_template:
+          title: "Notifica"
+          message: "Oggi è {{states.calendar.festivita_in_italia.attributes.message}}"
+      - service: notify.telegram_bot
+        data:
+          message: "Oggi è {{states.calendar.festivita_in_italia.attributes.message}}"
+
 ##################### Allarme #####################
 
   - alias: Allarme Sensori
@@ -1688,7 +1825,7 @@
       - service: tts.google_say
         entity_id: media_player.camera
         data_template:
-          message: "Allarme Notturno Disinserito"
+          message: "Allarme Notturno Disinserito, Ieri hai consumato {{states('input_number.consumo_day') | int}} kilowatt."
       - service: input_boolean.turn_off
         entity_id: input_boolean.telecamere
       - service: light.turn_on

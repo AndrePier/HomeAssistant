@@ -7,11 +7,9 @@ default_view:
     - device_tracker.iphonex
     - sensor.widom_ume304_energy_driven_switch_power
     - sensor.consumo_luci
-    - sensor.speedtest_download
-    - sensor.speedtest_upload
-    - sensor.speedtest_ping
-    - sensor.ufficio__casa
-    - sensor.casa__ufficio
+    - sensor.consumo_elettrodomestici
+    - sensor.ufficio_casa
+    - sensor.casa_ufficio
     - sensor.time
     - group.cucina
     - group.sala
@@ -20,6 +18,7 @@ default_view:
     - group.scaleecorridoio
     - group.terrazzo
     - group.garage
+    - group.calendario
     - group.spazzatura
     - group.clima
     - group.pulizia
@@ -43,8 +42,10 @@ Info View:
     - group.franchino
     - group.purifier
     - group.spazzatura
+    - group.statoelettrodomestici
     - group.server
     - group.pihole
+    - group.calendario
     - group.devicestate
     - group.meteocasa
     - group.speedtest
@@ -70,16 +71,18 @@ Allarme View:
     - group.cam
     - group.sensori
 
-Consumi View:
+Consumo View:
     name: Consumi
     view: yes
     icon: mdi:flash
     control: hidden
     entities:
+    - group.consumo_generale
     - group.consumo_luci
     - group.consumo_elettrodomestici
     - sensor.widom_ume304_energy_driven_switch_power
     - sensor.consumo_luci
+    - sensor.consumo_elettrodomestici
 
 Crypto View:
     name: Crypto
@@ -110,6 +113,14 @@ MusicSpotify:
       - switch.shuffle_spotify
       - input_number.spotify_volume
       - input_number.denon_volume
+
+StatoElettrodomestici:
+    name: Elettrodomestici
+    control: hidden
+    entities:
+      - sensor.stato_lavatrice
+      - sensor.stato_lavastoviglie
+      - sensor.stato_forno
 
 DeviceState:
     name: Stato Device
@@ -286,6 +297,7 @@ Terrazzo:
     - sensor.illumination_f0b429cc390b #Lux Terrazzo
     - binary_sensor.door_window_sensor_158d00013e3968 #Porta Terrazzo
     - binary_sensor.motion_sensor_158d00011c3211 #Sensore Terrazzo
+    - binary_sensor.water_leak_sensor_158d00023a47c4
     - input_boolean.cromoterrazzo
     - input_boolean.autoterrazzo
 
@@ -300,8 +312,7 @@ Garage:
     name: Garage
     control: hidden
     entities:
-    - light.garage_1
-    - light.garage_2
+    - switch.sonoff_luci_garage
     - cover.apri_basculante
     - sensor.temperature_158d00020ffbbc
     - sensor.humidity_158d00020ffbbc
@@ -394,6 +405,12 @@ Cam:
     - camera.cam_corridoio
     - camera.cam_garage
 
+Calendario:
+    name: Calendario
+    entities:
+    - sensor.impegnigcal
+    - sensor.festivitagcal
+
 Temperatura:
     name: Temperatura
     entities:
@@ -447,8 +464,7 @@ Luci Terrazzo:
 Luci Garage:
     name: Luci Garage
     entities:
-    - light.garage_1
-    - light.garage_2
+    - switch.sonoff_luci_garage
 
 Utility Luci:
     name: Utility Luci
@@ -472,6 +488,8 @@ GoogleHome:
     control: hidden
     entities:
     - media_player.tutta_la_casa
+    - media_player.primo_piano
+    - media_player.piano_terra
     - media_player.cucina
     - media_player.sala
     - media_player.camera
@@ -550,13 +568,18 @@ SpeedTest:
     - sensor.speedtest_download
     - sensor.speedtest_upload
     - sensor.speedtest_ping
+    - sensor.download_medio
+    - sensor.upload_medio
+    - sensor.ping_medio
 
 Percorrenze:
     name: Percorrenze
     control: hidden
     entities:
-    - sensor.ufficio__casa
-    - sensor.casa__ufficio
+    - sensor.ufficio_casa
+    - sensor.casa_ufficio
+    - sensor.ufficio_casa_medio
+    - sensor.casa_ufficio_medio
 
 Allarme:
     name: Allarme
@@ -607,8 +630,7 @@ Luci:
     - light.terrazzo_2
     - light.terrazzo_3
     - light.gateway_light_f0b429cc390b
-    - light.garage_1
-    - light.garage_2
+    - switch.sonoff_luci_garage
 
 Sensori:
     name: Sensori
@@ -625,6 +647,9 @@ Sensori:
     - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
     - binary_sensor.motion_sensor_158d0001136f8c #Sensore Led
     - binary_sensor.motion_sensor_158d00011c3211 #Sensore Terrazzo
+    - binary_sensor.door_window_sensor_158d000153ab76 #Porta Sala
+    - binary_sensor.door_window_sensor_158d00013e3968 #Porta Terrazzo
+    - binary_sensor.door_window_sensor_158d0001a348e1 #Basculante Garage
 
 Porte:
     name: Porte
@@ -637,12 +662,10 @@ Clima:
     name: Clima
     control: hidden
     entities:
-    - fan.xiaomi_miio_device
-    - sensor.qualita_aria
     - input_boolean.climasala
     - input_boolean.climacamera
-    - input_boolean.climasupersala
-    - input_boolean.climasupercamera
+    - input_boolean.superclimasala
+    - input_boolean.superclimacamera
 
 Pulizia:
     name: Pulizia
@@ -650,6 +673,8 @@ Pulizia:
     entities:
     - vacuum.xiaomi_vacuum_cleaner
     - input_boolean.autofranchino
+    - fan.xiaomi_miio_device
+    - sensor.qualita_aria
 
 spazzatura:
     name: Raccolta Spazzatura
@@ -716,6 +741,18 @@ Elettrodomestici:
     - sensor.consumo_htcamera
     - switch.plug_158d00015db991 # Power TV Sala
     - sensor.consumo_tvsala
+
+Consumo Generale:
+    name: Consumo Generale
+    entities:
+    - sensor.consumo_attuale
+    - sensor.consumo_oggi
+    - sensor.consumo_ieri
+    - sensor.consumo_giornaliero_medio
+    - sensor.consumo_giornaliero_min
+    - sensor.consumo_giornaliero_max
+    - history_graph.consumo_generale
+    - history_graph.consumo_giornaliero
 
 Consumo Luci:
     name: Consumo Luci

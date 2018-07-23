@@ -1,1080 +1,1355 @@
 media_player.apple_tv_camera:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: e8236032008e47d287639287156b31231fcc960fcb7dd0122eafe445ea4321a5
 media_player.apple_tv_sala:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: 35b460fe6e47b9a49eaf56943a29ce3b12466112c4ccbca363ef358958e9eae9
 remote.apple_tv_camera:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: e8236032008e47d287639287156b31231fcc960fcb7dd0122eafe445ea4321a5
 remote.apple_tv_sala:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: 35b460fe6e47b9a49eaf56943a29ce3b12466112c4ccbca363ef358958e9eae9
 sensor.temperature_158d00020ffbbc:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: temperature158d00020ffbbc
 sensor.temperature_158d00011001fc:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: temperature158d00011001fc
 sensor.humidity_158d00020ffbbc:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: humidity158d00020ffbbc
 sensor.illumination_34ce0088b729:
+  config_entry_id:
   name: Lux Garage
   platform: xiaomi_aqara
   unique_id: illumination34ce0088b729
 sensor.humidity_158d00011001fc:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: humidity158d00011001fc
 sensor.illumination_f0b429cc390b:
+  config_entry_id:
   name: Lux Terrazzo
   platform: xiaomi_aqara
   unique_id: illuminationf0b429cc390b
 sensor.temperature_158d00015ab8a8:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: temperature158d00015ab8a8
 sensor.humidity_158d00015ab8a8:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: humidity158d00015ab8a8
 sensor.temperature_158d00015a6698:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: temperature158d00015a6698
 sensor.humidity_158d00015a6698:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: humidity158d00015a6698
 light.gateway_light_34ce0088b729:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: rgb34ce0088b729
 light.gateway_light_f0b429cc390b:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: rgbf0b429cc390b
 binary_sensor.motion_sensor_158d00014dca3a:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d00014dca3a
 binary_sensor.door_window_sensor_158d00013e3968:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d00013e3968
 binary_sensor.switch_158d000186e79b:
+  config_entry_id:
   name: Switch Letto
   platform: xiaomi_aqara
   unique_id: status158d000186e79b
 binary_sensor.switch_158d00013f6ec3:
+  config_entry_id:
   name: Switch Sala
   platform: xiaomi_aqara
   unique_id: status158d00013f6ec3
 binary_sensor.motion_sensor_158d0001232507:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d0001232507
 binary_sensor.motion_sensor_158d00011c3211:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d00011c3211
 binary_sensor.motion_sensor_158d0001dac0bd:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d0001dac0bd
 binary_sensor.motion_sensor_158d00010c24fe:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d00010c24fe
 binary_sensor.switch_158d00019f8517:
+  config_entry_id:
   name: Switch Bagno
   platform: xiaomi_aqara
   unique_id: status158d00019f8517
 binary_sensor.motion_sensor_158d00012cbb86:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d00012cbb86
 binary_sensor.motion_sensor_158d000120ac8c:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000120ac8c
 binary_sensor.door_window_sensor_158d0001a348e1:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d0001a348e1
 binary_sensor.motion_sensor_158d00013f8c44:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d00013f8c44
 binary_sensor.motion_sensor_158d000132e942:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000132e942
 binary_sensor.motion_sensor_158d000128d5d5:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000128d5d5
 binary_sensor.door_window_sensor_158d000153ab76:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000153ab76
 binary_sensor.switch_158d0001870e3d:
+  config_entry_id:
   name: Switch Cucina
   platform: xiaomi_aqara
   unique_id: status158d0001870e3d
 binary_sensor.switch_158d0001870de7:
+  config_entry_id:
   name: Switch Camera
   platform: xiaomi_aqara
   unique_id: status158d0001870de7
 binary_sensor.motion_sensor_158d0001136f8c:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d0001136f8c
 switch.plug_158d0001289f89:
+  config_entry_id:
   name: Power Cam Cucina
   platform: xiaomi_aqara
   unique_id: status158d0001289f89
 switch.plug_158d00015e8298:
+  config_entry_id:
   name: Power Cam Sala Dx
   platform: xiaomi_aqara
   unique_id: status158d00015e8298
 switch.plug_158d000154ae55:
+  config_entry_id:
   name: Power HT Camera
   platform: xiaomi_aqara
   unique_id: status158d000154ae55
 switch.plug_158d00015db991:
+  config_entry_id:
   name: Power TV Sala
   platform: xiaomi_aqara
   unique_id: status158d00015db991
 switch.plug_158d000154b1f6:
+  config_entry_id:
   name: Power Cam Sala Sx
   platform: xiaomi_aqara
   unique_id: status158d000154b1f6
 switch.plug_158d0001db024c:
+  config_entry_id:
   name: Power Purificatore
   platform: xiaomi_aqara
   unique_id: status158d0001db024c
 switch.plug_158d00015ef7bc:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d00015ef7bc
 switch.switch:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594160168960
 switch.switch_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594176946176
 switch.switch_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594193723392
 switch.switch_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594277609472
 switch.switch_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294386688
 switch.switch_6:
+  config_entry_id:
   name: Frigorifero
   platform: zwave
   unique_id: 17-72057594327941120
 switch.switch_7:
+  config_entry_id:
   name: Lavastoviglie
   platform: zwave
   unique_id: 18-72057594344718336
 switch.switch_8:
+  config_entry_id:
   name: Lavatrice
   platform: zwave
   unique_id: 19-72057594361495552
 switch.switch_9:
+  config_entry_id:
   name: Forno
   platform: zwave
   unique_id: 20-72057594378272768
 switch.switch_10:
+  config_entry_id:
   name: Power HT Sala
   platform: zwave
   unique_id: 21-72057594395049984
 sensor.unknown:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594160381954
 sensor.alarm_type:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594161414145
 sensor.alarm_level:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594161414161
 sensor.unknown_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594177159170
 sensor.alarm_type_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594178191361
 sensor.alarm_level_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594178191377
 sensor.unknown_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594193936386
 sensor.alarm_type_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594194968577
 sensor.alarm_level_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594194968593
 sensor.unknown_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594277822466
 sensor.alarm_type_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594278854657
 sensor.alarm_level_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594278854673
 sensor.unknown_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599682
 sensor.alarm_type_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594329186305
 sensor.alarm_level_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594329186321
 sensor.unknown_6:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154114
 sensor.alarm_type_6:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594345963521
 sensor.alarm_level_6:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594345963537
 sensor.unknown_7:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931330
 sensor.alarm_type_7:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594362740737
 sensor.alarm_level_7:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594362740753
 sensor.unknown_8:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708546
 sensor.alarm_type_8:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594379517953
 sensor.alarm_level_8:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594379517969
 sensor.unknown_9:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378485762
 sensor.alarm_type_9:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594396295169
 sensor.alarm_level_9:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594396295185
 sensor.unknown_10:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395262978
 switch.fibaro_system_fgs223_double_relay_switch:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-144115188198096896
 sensor.fibaro_system_fgs223_double_relay_unknown:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-144115188198309890
 switch.fibaro_system_fgs223_double_relay_switch_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-144115188214874112
 sensor.fibaro_system_fgs223_double_relay_unknown_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-144115188215087106
 switch.fibaro_system_fgs223_double_relay_switch_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-144115188231651328
 sensor.fibaro_system_fgs223_double_relay_unknown_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-144115188231864322
 switch.fibaro_system_fgs223_double_relay_switch_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-144115188315537408
 sensor.fibaro_system_fgs223_double_relay_unknown_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-144115188315750402
 sensor.widom_ume304_energy_driven_switch_power:
+  config_entry_id:
   name: Consumo Generale
   platform: zwave
   unique_id: 15-72057594294599810
 sensor.widom_ume304_energy_driven_switch_voltage:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599938
 sensor.widom_ume304_energy_driven_switch_current:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294600002
 sensor.widom_ume304_energy_driven_switch_power_factor:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294600066
 sensor.widom_ume304_energy_driven_switch_exporting:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294600192
 sensor.neo_coolcam_power_plug_12a_previous_reading:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708562
 sensor.neo_coolcam_power_plug_12a_interval:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708579
 sensor.neo_coolcam_power_plug_12a_power:
+  config_entry_id:
   name: Consumo Frigo
   platform: zwave
   unique_id: 17-72057594328154242
 sensor.neo_coolcam_power_plug_12a_voltage:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154370
 sensor.neo_coolcam_power_plug_12a_current:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154434
 sensor.neo_coolcam_power_plug_12a_exporting:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154624
 sensor.neo_coolcam_power_plug_12a_sourcenodeid:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594329186337
 sensor.neo_coolcam_power_plug_12a_power_management:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594329186481
 sensor.neo_coolcam_power_plug_12a_power_2:
+  config_entry_id:
   name: Consumo Lavastoviglie
   platform: zwave
   unique_id: 18-72057594344931458
 sensor.neo_coolcam_power_plug_12a_voltage_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931586
 sensor.neo_coolcam_power_plug_12a_current_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931650
 sensor.neo_coolcam_power_plug_12a_exporting_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931840
 sensor.neo_coolcam_power_plug_12a_sourcenodeid_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594345963553
 sensor.neo_coolcam_power_plug_12a_power_management_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594345963697
 sensor.neo_coolcam_power_plug_12a_power_3:
+  config_entry_id:
   name: Consumo Lavatrice
   platform: zwave
   unique_id: 19-72057594361708674
 sensor.neo_coolcam_power_plug_12a_voltage_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708802
 sensor.neo_coolcam_power_plug_12a_current_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708866
 sensor.neo_coolcam_power_plug_12a_exporting_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361709056
 sensor.neo_coolcam_power_plug_12a_sourcenodeid_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594362740769
 sensor.neo_coolcam_power_plug_12a_power_management_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594362740913
 sensor.neo_coolcam_power_plug_12a_power_4:
+  config_entry_id:
   name: Consumo Forno
   platform: zwave
   unique_id: 20-72057594378485890
 sensor.neo_coolcam_power_plug_12a_voltage_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378486018
 sensor.neo_coolcam_power_plug_12a_current_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378486082
 sensor.neo_coolcam_power_plug_12a_exporting_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378486272
 sensor.neo_coolcam_power_plug_12a_sourcenodeid_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594379517985
 sensor.neo_coolcam_power_plug_12a_power_management_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594379518129
 sensor.neo_coolcam_power_plug_12a_power_5:
+  config_entry_id:
   name: Consumo HT Sala
   platform: zwave
   unique_id: 21-72057594395263106
 sensor.neo_coolcam_power_plug_12a_voltage_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263234
 sensor.neo_coolcam_power_plug_12a_current_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263298
 sensor.neo_coolcam_power_plug_12a_exporting_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263488
 sensor.neo_coolcam_power_plug_12a_sourcenodeid_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594396295201
 sensor.neo_coolcam_power_plug_12a_power_management_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594396295345
 sensor.neo_coolcam_power_plug_12a_previous_reading_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708690
 sensor.neo_coolcam_power_plug_12a_interval_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708707
 sensor.neo_coolcam_power_plug_12a_previous_reading_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708818
 sensor.neo_coolcam_power_plug_12a_interval_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708835
 sensor.neo_coolcam_power_plug_12a_previous_reading_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708882
 sensor.neo_coolcam_power_plug_12a_interval_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 19-72057594361708899
 sensor.fibaro_system_fgs223_double_relay_power:
+  config_entry_id:
   name: Consumo Luce Bagno
   platform: zwave
   unique_id: 7-72057594160382082
 sensor.fibaro_system_fgs223_double_relay_exporting:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594160382464
 sensor.fibaro_system_fgs223_double_relay_power_2:
+  config_entry_id:
   name: Consumo Luce Specchio Bagno
   platform: zwave
   unique_id: 7-144115188198310018
 sensor.fibaro_system_fgs223_double_relay_exporting_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-144115188198310400
 sensor.fibaro_system_fgs223_double_relay_sourcenodeid:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594161414177
 sensor.fibaro_system_fgs223_double_relay_heat:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594161414257
 sensor.fibaro_system_fgs223_double_relay_power_management:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 7-72057594161414321
 sensor.fibaro_system_fgs223_double_relay_power_3:
+  config_entry_id:
   name: Consumo Luce Corridoio
   platform: zwave
   unique_id: 8-72057594177159298
 sensor.fibaro_system_fgs223_double_relay_exporting_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594177159680
 sensor.fibaro_system_fgs223_double_relay_power_4:
+  config_entry_id:
   name: Consumo Luce Camera
   platform: zwave
   unique_id: 8-144115188215087234
 sensor.fibaro_system_fgs223_double_relay_exporting_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-144115188215087616
 sensor.fibaro_system_fgs223_double_relay_sourcenodeid_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594178191393
 sensor.fibaro_system_fgs223_double_relay_heat_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594178191473
 sensor.fibaro_system_fgs223_double_relay_power_management_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 8-72057594178191537
 sensor.fibaro_system_fgs223_double_relay_power_5:
+  config_entry_id:
   name: Consumo Luce Cucina
   platform: zwave
   unique_id: 9-72057594193936514
 sensor.fibaro_system_fgs223_double_relay_exporting_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594193936896
 sensor.fibaro_system_fgs223_double_relay_power_6:
+  config_entry_id:
   name: Consumo Luce Parete Sala
   platform: zwave
   unique_id: 9-144115188231864450
 sensor.fibaro_system_fgs223_double_relay_exporting_6:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-144115188231864832
 sensor.fibaro_system_fgs223_double_relay_sourcenodeid_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594194968609
 sensor.fibaro_system_fgs223_double_relay_heat_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594194968689
 sensor.fibaro_system_fgs223_double_relay_power_management_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 9-72057594194968753
 sensor.neo_coolcam_power_plug_12a_previous_reading_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395262994
 sensor.neo_coolcam_power_plug_12a_interval_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263011
 sensor.widom_ume304_energy_driven_switch_previous_reading:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599826
 sensor.widom_ume304_energy_driven_switch_interval:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599843
 sensor.neo_coolcam_power_plug_12a_previous_reading_6:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263122
 sensor.neo_coolcam_power_plug_12a_interval_6:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263139
 sensor.neo_coolcam_power_plug_12a_previous_reading_7:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263250
 sensor.neo_coolcam_power_plug_12a_interval_7:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263267
 sensor.neo_coolcam_power_plug_12a_previous_reading_8:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263314
 sensor.neo_coolcam_power_plug_12a_interval_8:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 21-72057594395263331
 sensor.widom_ume304_energy_driven_switch_previous_reading_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294600082
 sensor.widom_ume304_energy_driven_switch_interval_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294600099
 sensor.widom_ume304_energy_driven_switch_previous_reading_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599954
 sensor.widom_ume304_energy_driven_switch_interval_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599971
 sensor.widom_ume304_energy_driven_switch_previous_reading_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294600018
 sensor.widom_ume304_energy_driven_switch_interval_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294600035
 sensor.fibaro_system_fgs223_double_relay_power_7:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594277822594
 sensor.fibaro_system_fgs223_double_relay_exporting_7:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594277822976
 sensor.fibaro_system_fgs223_double_relay_power_8:
+  config_entry_id:
   name: Consumo Luce Scale
   platform: zwave
   unique_id: 14-144115188315750530
 sensor.fibaro_system_fgs223_double_relay_exporting_8:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-144115188315750912
 sensor.fibaro_system_fgs223_double_relay_sourcenodeid_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594278854689
 sensor.fibaro_system_fgs223_double_relay_heat_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594278854769
 sensor.fibaro_system_fgs223_double_relay_power_management_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 14-72057594278854833
 sensor.widom_ume304_energy_driven_switch_power_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294583362
 sensor.neo_coolcam_power_plug_12a_previous_reading_9:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154130
 sensor.neo_coolcam_power_plug_12a_interval_9:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154147
 sensor.neo_coolcam_power_plug_12a_previous_reading_10:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154258
 sensor.neo_coolcam_power_plug_12a_interval_10:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154275
 sensor.neo_coolcam_power_plug_12a_previous_reading_11:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154386
 sensor.neo_coolcam_power_plug_12a_interval_11:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154403
 sensor.neo_coolcam_power_plug_12a_previous_reading_12:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154450
 sensor.neo_coolcam_power_plug_12a_interval_12:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 17-72057594328154467
 sensor.neo_coolcam_power_plug_12a_previous_reading_13:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931346
 sensor.neo_coolcam_power_plug_12a_interval_13:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931363
 sensor.neo_coolcam_power_plug_12a_previous_reading_14:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931474
 sensor.neo_coolcam_power_plug_12a_interval_14:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931491
 sensor.neo_coolcam_power_plug_12a_previous_reading_15:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931602
 sensor.neo_coolcam_power_plug_12a_interval_15:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931619
 sensor.neo_coolcam_power_plug_12a_previous_reading_16:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931666
 sensor.neo_coolcam_power_plug_12a_interval_16:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 18-72057594344931683
 sensor.neo_coolcam_power_plug_12a_previous_reading_17:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378485778
 sensor.neo_coolcam_power_plug_12a_interval_17:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378485795
 sensor.neo_coolcam_power_plug_12a_previous_reading_18:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378485906
 sensor.neo_coolcam_power_plug_12a_interval_18:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378485923
 sensor.neo_coolcam_power_plug_12a_previous_reading_19:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378486034
 sensor.neo_coolcam_power_plug_12a_interval_19:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378486051
 sensor.neo_coolcam_power_plug_12a_previous_reading_20:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378486098
 sensor.neo_coolcam_power_plug_12a_interval_20:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 20-72057594378486115
 sensor.widom_ume304_energy_driven_switch_previous_reading_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599698
 sensor.widom_ume304_energy_driven_switch_interval_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 15-72057594294599715
 media_player.65pus712012:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 65719b7d-7401-6b5e-9fcc-21026ca86aba
 light.flos:
+  config_entry_id:
   name:
   platform: hue
   unique_id: 00:17:88:01:02:7a:56:cd-0b
 light.led:
+  config_entry_id:
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1f:62:78-0b
 light.led_2:
+  config_entry_id:
   name:
   platform: hue
   unique_id: 00:17:88:01:02:9d:a9:14-0b
 light.faretto:
+  config_entry_id:
   name:
   platform: hue
   unique_id: 00:17:88:01:02:21:02:b1-0b
 fan.xiaomi_miio_device:
+  config_entry_id:
   name:
   platform: xiaomi_miio
   unique_id: zhimi.airpurifier.m1-28:6C:07:BC:B5:EE
 media_player.apple_tv_sala_2:
+  config_entry_id:
   name:
   platform: plex
   unique_id: ACF81CAD-5021-416E-828F-4662B3EE3CFC
 media_player.firefox:
+  config_entry_id:
   name:
   platform: plex
   unique_id: crescgh1njk6kjszhg8b9ku0
 media_player.firefox_2:
+  config_entry_id:
   name:
   platform: plex
   unique_id: 1flan6yzknrdn2ofojyenpxx
 media_player.apple_tv_sala_3:
+  config_entry_id:
   name:
   platform: plex
   unique_id: A7FCC50D-E27B-41FB-A5CA-8AE76B23B1C6
 media_player.unnamed_device:
+  config_entry_id:
   name:
   platform: plex
   unique_id: t0ijk3kauqqzwo1tyr75b9kj
 zwave.aeotec_zw090_zstick_gen5_eu:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-1
 zwave.fibaro_system_fgs223_double_relay:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-7
 zwave.fibaro_system_fgs223_double_relay_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-8
 zwave.fibaro_system_fgs223_double_relay_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-9
 zwave.fibaro_system_fgs223_double_relay_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-14
 zwave.widom_ume304_energy_driven_switch:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-15
 zwave.neo_coolcam_power_plug_12a:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-17
 zwave.neo_coolcam_power_plug_12a_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-18
 zwave.neo_coolcam_power_plug_12a_3:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-19
 zwave.neo_coolcam_power_plug_12a_4:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-20
 zwave.neo_coolcam_power_plug_12a_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-21
 sensor.iphone_x_battery_level:
+  config_entry_id:
   name:
   platform: ios
   unique_id: level_iPhoneX
 sensor.iphone_x_battery_state:
+  config_entry_id:
   name:
   platform: ios
   unique_id: state_Andrea
 sensor.iphone_x_battery_state_2:
+  config_entry_id:
   name:
   platform: ios
   unique_id: state_iPhoneX
 sensor.iphone_x_battery_level_2:
+  config_entry_id:
   name:
   platform: ios
   unique_id: level_Andrea
 sensor.iphone_7_battery_state:
+  config_entry_id:
   name:
   platform: ios
   unique_id: state_iPhone7
 sensor.iphone_7_battery_level:
+  config_entry_id:
   name:
   platform: ios
   unique_id: level_iPhone7
 sensor.ipad_air_battery_state:
+  config_entry_id:
   name:
   platform: ios
   unique_id: state_iPadAir
 sensor.ipad_pro_battery_level:
+  config_entry_id:
   name:
   platform: ios
   unique_id: level_iPadPro
 sensor.ipad_air_battery_level:
+  config_entry_id:
   name:
   platform: ios
   unique_id: level_iPadAir
 sensor.ipad_pro_battery_state:
+  config_entry_id:
   name:
   platform: ios
   unique_id: state_iPadPro
 binary_sensor.switch_158d000210eaab:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000210eaab
 binary_sensor.switch_158d000210e8db:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000210e8db
 switch.plug_158d000154ae22:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: status158d000154ae22
 media_player.camera:
+  config_entry_id:
   name:
   platform: cast
   unique_id: c3ce441c-5ca1-a566-9be7-6b6bbd5fc45f
 media_player.bagno:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 06f7f245-1692-b6ea-3928-874844a065c1
 media_player.sala:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 2485a2ca-5577-b766-d95e-d6896dea1a90
 media_player.cucina:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 9d26f67c-2422-45e8-fe63-876fbbd712b1
 media_player.primo_piano:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 339c44eb-4c76-4e3b-87d9-3d38076f6a1e
 media_player.piano_terra:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 6385d38c-46b6-4bb0-a842-15f37ab57d91
 media_player.iphone_x:
+  config_entry_id:
   name:
   platform: plex
   unique_id: 12880798-C563-47C3-8DF0-07CE9991A557
 media_player.ovunque:
+  config_entry_id:
   name:
   platform: cast
   unique_id: af9d5d6b-e201-4abb-9cd3-9d797f4c4182
 sensor.humidity_158d00020ec48d:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: humidity158d00020ec48d
 sensor.temperature_158d00020ec48d:
+  config_entry_id:
   name:
   platform: xiaomi_aqara
   unique_id: temperature158d00020ec48d
 media_player.apple_tv_sala_4:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: d1fb19749115dd24c0a3547db9d7bc9e68152097d12a7064e6e6556c786687b3
 remote.apple_tv_sala_2:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: d1fb19749115dd24c0a3547db9d7bc9e68152097d12a7064e6e6556c786687b3
 media_player.apple_tv_sala_5:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: 9888b44bad978f7e4710cb0ac0a12d554af22017ec4662f5e6864be590b90b4e
 remote.apple_tv_sala_3:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: 9888b44bad978f7e4710cb0ac0a12d554af22017ec4662f5e6864be590b90b4e
 media_player.tutta_la_casa:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 1717cf1d-f027-4711-8bc2-4a6760139e10
 zwave.fibaro_system_fgs223_double_relay_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: node-22
 switch.fibaro_system_fgs223_double_relay_switch_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-144115188449755136
 sensor.fibaro_system_fgs223_double_relay_power_9:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594412040322
 sensor.fibaro_system_fgs223_double_relay_exporting_9:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594412040704
 sensor.fibaro_system_fgs223_double_relay_power_10:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-144115188449968258
 sensor.fibaro_system_fgs223_double_relay_exporting_10:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-144115188449968640
 sensor.fibaro_system_fgs223_double_relay_sourcenodeid_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594413072417
 sensor.fibaro_system_fgs223_double_relay_heat_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594413072497
 sensor.fibaro_system_fgs223_double_relay_power_management_5:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594413072561
 switch.fibaro_system_fgs223_double_relay_switch_6:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594411827200
 sensor.fibaro_system_fgs223_double_relay_energy:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594412040194
 sensor.fibaro_system_fgs223_double_relay_alarm_type:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594413072385
 sensor.fibaro_system_fgs223_double_relay_alarm_level:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-72057594413072401
 sensor.fibaro_system_fgs223_double_relay_energy_2:
+  config_entry_id:
   name:
   platform: zwave
   unique_id: 22-144115188449968130
 media_player.apple_tv_sala_6:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: b5ab8e0b927f1393098513aa84f8f837a45a1188bba82d008bb7d3deab6ab882
 remote.apple_tv_sala_4:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: b5ab8e0b927f1393098513aa84f8f837a45a1188bba82d008bb7d3deab6ab882
 media_player.apple_tv_sala_7:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: a66fcaaa109d39c9251d532c2556795f62ad490d7d76053505d0517189db7e75
 remote.apple_tv_sala_5:
+  config_entry_id:
   name:
   platform: apple_tv
   unique_id: a66fcaaa109d39c9251d532c2556795f62ad490d7d76053505d0517189db7e75
+binary_sensor.water_leak_sensor_158d00023a47c4:
+  config_entry_id:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d00023a47c4

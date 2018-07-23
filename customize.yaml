@@ -50,6 +50,8 @@ sensor.humidity_158d00020ec48d:
   icon: mdi:water-percent
   homebridge_visible: true
   homebridge_name: Umidità Terrazzo
+binary_sensor.water_leak_sensor_158d00023a47c4:
+  friendly_name: Sensore Pioggia
 
 ##################### Luci #####################
 
@@ -195,19 +197,12 @@ light.gateway_light_f0b429cc390b:
   homebridge_visible: true
   google_assistant_name: Gateway
   google_assistant_type: light
-light.garage_1:
-  friendly_name: Garage 1
+switch.sonoff_luci_garage:
+  friendly_name: Garage
   icon: mdi:lightbulb
   device_class: light
   homebridge_visible: true
-  google_assistant_name: Garage 1
-  google_assistant_type: light
-light.garage_2:
-  friendly_name: Garage 2
-  icon: mdi:lightbulb
-  device_class: light
-  homebridge_visible: true
-  google_assistant_name: Garage 2
+  google_assistant_name: Garage
   google_assistant_type: light
 
 ##################### Sensori #####################
@@ -312,8 +307,14 @@ input_boolean.tvsala:
 
 ##################### Utility #####################
 
-switch.fibaro_system_fgs223_double_relay_switch_5: #Power Cam Atrio
-  friendly_name: Power Cam Atrio
+sensor.speedtest_download:
+  friendly_name: Download
+sensor.speedtest_upload:
+  friendly_name: Upload
+sensor.speedtest_ping:
+  friendly_name: Ping
+switch.fibaro_system_fgs223_double_relay_switch_5: #Power Cam Corridoio
+  friendly_name: Power Cam Corridoio
   icon: mdi:cctv
 switch.plug_158d000154b1f6:
   friendly_name: Power Cam Sala Sx
@@ -416,7 +417,7 @@ fan.xiaomi_miio_device:
 sensor.qualità_aria:
   friendly_name: Qualità Aria
   device_class: pm25
-  icon: mdi:fan
+  icon: mdi:gauge
 
 ##################### Switch #####################
 
@@ -559,3 +560,25 @@ sensor.processor_use:
   friendly_name: CPU
 sensor.since_last_boot:
   friendly_name: PC attivo da
+media_player.65pus712012:
+  friendly_name: TV Sala
+sensor.pihole_ads_blocked_today:
+  friendly_name: Ads Blocked Today
+sensor.pihole_ads_percentage_blocked_today:
+  friendly_name: Percentage Blocked Today
+sensor.pihole_dns_queries_cached:
+  friendly_name: DNS Queries Cached
+sensor.pihole_dns_queries_forwarded:
+  friendly_name: DNS Queries Forwarded
+sensor.pihole_dns_queries_today:
+  friendly_name: DNS Queries Today
+sensor.pihole_dns_unique_clients:
+  friendly_name: DNS Unique Clients
+sensor.pihole_dns_unique_domains:
+  friendly_name: DNS Unique Domains
+sensor.pihole_domains_blocked:
+  friendly_name: Domains Blocked
+sensor.pihole_seen_clients:
+  friendly_name: Seen Clients
+!secret gcalendarentity:
+  friendly_name: Calendario

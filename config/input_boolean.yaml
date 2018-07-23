@@ -96,17 +96,17 @@
     name: Clima Sala
     icon: mdi:air-conditioner
 
-  climasupersala:
-    name: Clima Super Sala
-    icon: mdi:air-conditioner
+  superclimasala:
+    name: Super Clima Sala
+    icon: mdi:weather-windy
 
   climacamera:
     name: Clima Camera
     icon: mdi:air-conditioner
 
-  climasupercamera:
-    name: Clima Super Camera
-    icon: mdi:air-conditioner
+  superclimacamera:
+    name: Super Clima Camera
+    icon: mdi:weather-windy
 
   inufficio:
     name: In Ufficio
@@ -127,6 +127,13 @@
   timertvcamera:
     name: Timer TV Camera
     icon: mdi:timer
+
+  mutoampli:
+    name: Muto Ampli
+
+  timerclima:
+    name: Timer Clima
+    icon: mdi:calendar-clock
 
   test:
     name: Test

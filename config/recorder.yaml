@@ -20,6 +20,7 @@
         - switch.fibaro_system_fgs223_double_relay_switch_3 # Parete Sala
         - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
         - switch.switch_2 # Corridoio
+        - switch.fibaro_system_fgs223_double_relay_switch_6 # Atrio
         - switch.switch # Bagno
         - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
         - switch.plug_158d000154ae22 # Led Bagno
@@ -32,8 +33,7 @@
         - light.terrazzo_2
         - light.terrazzo_3
         - light.gateway_light_f0b429cc390b
-        - light.garage_1
-        - light.garage_2
+        - switch.sonoff_luci_garage
         - sensor.temperature_158d00011001fc
         - sensor.temperature_158d00015ab8a8
         - sensor.temperature_158d00020ffbbc
@@ -44,6 +44,7 @@
         - sensor.humidity_158d00020ffbbc
         - sensor.humidity_158d00015a6698
         - sensor.humidity_158d0001531ac9
+        - binary_sensor.water_leak_sensor_158d00023a47c4
         - sensor.qualità_aria
         - binary_sensor.motion_sensor_158d00013f8c44
         - binary_sensor.motion_sensor_158d000132e942
@@ -60,6 +61,7 @@
         - binary_sensor.door_window_sensor_158d00013e3968
         - binary_sensor.door_window_sensor_158d0001a348e1
         - sensor.widom_ume304_energy_driven_switch_power
+        - sensor.unknown_5
         - sensor.fibaro_system_fgs223_double_relay_power_5
         - sensor.fibaro_system_fgs223_double_relay_power_6
         - sensor.fibaro_system_fgs223_double_relay_power_8
@@ -76,3 +78,24 @@
         - sensor.consumo_tvsala
         - sensor.saldo_crypto
         - variable.ultimo_movimento
+        - input_number.consumo_inizio
+        - input_number.consumo_fine
+        - input_number.consumo_day
+        - sensor.consumo_oggi
+        - sensor.consumo_ieri
+        - sensor.consumo_attuale
+        - sensor.consumo_luci
+        - sensor.consumo_elettrodomestici
+        - sensor.consumo_giornaliero_medio
+        - sensor.consumo_giornaliero_max
+        - sensor.consumo_giornaliero_min
+        - sensor.speedtest_download
+        - sensor.speedtest_upload
+        - sensor.speedtest_ping
+        - vacuum.xiaomi_vacuum_cleaner
+        - sensor.casa_ufficio
+        - sensor.ufficio_casa
+        - binary_sensor.water_leak_sensor_158d00023a47c4
+        - sensor.stato_lavatrice
+        - sensor.stato_lavastoviglie
+        - sensor.stato_forno
