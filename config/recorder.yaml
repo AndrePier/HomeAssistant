@@ -1,8 +1,8 @@
-  db_url: !secret db_url
   include:
     entities:
         - input_boolean.allarmediurno
         - input_boolean.allarmenotturno
+        - input_boolean.allarmegarage
         - input_boolean.scattaallarme
         - input_boolean.sky
         - input_boolean.appletv
@@ -13,6 +13,7 @@
         - input_boolean.acasa
         - input_boolean.climasala
         - input_boolean.climacamera
+        - input_boolean.timerclima
         - cover.apri_basculante
         - switch.switch_3 # Cucina
         - light.faretto
@@ -21,6 +22,7 @@
         - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
         - switch.switch_2 # Corridoio
         - switch.fibaro_system_fgs223_double_relay_switch_6 # Atrio
+        - light.hue_color_lamp_1 #Lampada Scrivania
         - switch.switch # Bagno
         - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
         - switch.plug_158d000154ae22 # Led Bagno
@@ -29,6 +31,8 @@
         - light.led_2
         - light.led_3
         - switch.plug_158d00015ef7bc # Lampada Sale
+        - light.hue_color_lamp_1_2 #Lampada Studio 1
+        - light.hue_color_lamp_1 #Lampada Studio 2
         - light.terrazzo_1
         - light.terrazzo_2
         - light.terrazzo_3
@@ -57,6 +61,7 @@
         - binary_sensor.motion_sensor_158d000128d5d5
         - binary_sensor.motion_sensor_158d00012cbb86
         - binary_sensor.motion_sensor_158d00011c3211
+        - binary_sensor.motion_sensor_158d0001e63075
         - binary_sensor.door_window_sensor_158d000153ab76
         - binary_sensor.door_window_sensor_158d00013e3968
         - binary_sensor.door_window_sensor_158d0001a348e1
@@ -77,15 +82,29 @@
         - sensor.consumo_htcamera
         - sensor.consumo_tvsala
         - sensor.saldo_crypto
+        - input_number.crypto_fine
         - variable.ultimo_movimento
+        - sensor.badge_costo_consumo
+        - sensor.badge_costo_mensile
         - input_number.consumo_inizio
         - input_number.consumo_fine
         - input_number.consumo_day
+        - input_number.consumo_mese_inizio
+        - input_number.consumo_mese_fine
+        - input_number.consumo_mese
         - sensor.consumo_oggi
+        - sensor.costo_consumo_oggi
         - sensor.consumo_ieri
+        - sensor.costo_consumo_ieri
+        - sensor.consumo_ieri_mean
+        - sensor.costo_ieri_mean
         - sensor.consumo_attuale
+        - sensor.consumo_mensile_oggi
+        - sensor.costo_consumo_mese_attuale
+        - sensor.costo_consumo_mensile
         - sensor.consumo_luci
         - sensor.consumo_elettrodomestici
+        - sensor.consumo_studio
         - sensor.consumo_giornaliero_medio
         - sensor.consumo_giornaliero_max
         - sensor.consumo_giornaliero_min
@@ -99,3 +118,6 @@
         - sensor.stato_lavatrice
         - sensor.stato_lavastoviglie
         - sensor.stato_forno
+        - device_tracker.hassio_owntracks
+        - device_tracker.hassio_iphoneown
+        - device_tracker.beacon_cancello

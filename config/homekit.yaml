@@ -7,10 +7,11 @@
         - input_boolean.autocorridoio
         - input_boolean.autobagno
         - input_boolean.autocamera
+        - input_boolean.autostudio
         - input_boolean.autoterrazzo
         - input_boolean.allarmediurno
         - input_boolean.allarmenotturno
-        - input_boolean.scattaallarme
+        - input_boolean.allarmegarage
         - input_boolean.sky
         - input_boolean.appletv
         - input_boolean.dtt
@@ -21,6 +22,7 @@
         - input_boolean.cromoterrazzo
         - input_boolean.cromocamera
         - input_boolean.cromosala
+        - input_boolean.cromostudio
         - input_boolean.cromobagno
         - input_boolean.franchinogoogle
         - input_boolean.pausaskyappletv
@@ -30,6 +32,7 @@
         - input_boolean.climacamera
         - input_boolean.superclimasala
         - input_boolean.superclimacamera
+        - input_boolean.timerclima
         - input_boolean.inufficio
         - input_boolean.buonanotte
         - input_boolean.timertvcamera
@@ -48,6 +51,8 @@
         - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
         - switch.switch_2 # Corridoio
         - switch.fibaro_system_fgs223_double_relay_switch_6 # Atrio
+        - light.hue_color_lamp_1_2 #Lampada Studio 1
+        - light.hue_color_lamp_1 #Lampada Studio 2
         - switch.switch # Bagno
         - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
         - switch.plug_158d000154ae22 # Led Bagno
@@ -66,6 +71,7 @@
         - fan.xiaomi_miio_device
         - sensor.illumination_f0b429cc390b
         - sensor.illumination_34ce0088b729
+        - sensor.illumination_158d0001e63075
         - sensor.temperature_158d00011001fc
         - sensor.temperature_158d00015ab8a8
         - sensor.temperature_158d00020ffbbc
@@ -91,6 +97,7 @@
         - binary_sensor.motion_sensor_158d000128d5d5
         - binary_sensor.motion_sensor_158d00012cbb86
         - binary_sensor.motion_sensor_158d00011c3211
+        - binary_sensor.motion_sensor_158d0001e63075
         - binary_sensor.door_window_sensor_158d000153ab76
         - binary_sensor.door_window_sensor_158d00013e3968
         - binary_sensor.door_window_sensor_158d0001a348e1

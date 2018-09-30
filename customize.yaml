@@ -164,7 +164,7 @@ switch.plug_158d00015ef7bc:
   google_assistant_type: light
 switch.plug_158d0001db024c:
   friendly_name: Led TV Camera
-  icon: mdi:lightbulb
+  icon: mdi:spotlight
   device_class: light
   homebridge_visible: true
   google_assistant_name: Led TV Camera
@@ -252,6 +252,14 @@ binary_sensor.motion_sensor_158d00011c3211:
   friendly_name: Sensore Terrazzo
   homebridge_visible: true
   homebridge_name: Sensore Terrazzo
+binary_sensor.motion_sensor_158d0001e63075:
+  friendly_name: Sensore Studio
+  homebridge_visible: true
+  homebridge_name: Sensore Studio
+sensor.illumination_158d0001e63075:
+  friendly_name: Lux Studio
+  homebridge_visible: true
+  homebridge_name: Lux Studio
 
 ##################### Porte #####################
 
@@ -367,6 +375,11 @@ input_boolean.autocamera:
   icon: mdi:track-light
   homebridge_visible: true
   homebridge_name: Auto Camera
+input_boolean.autostudio:
+  friendly_name: Auto Studio
+  icon: mdi:track-light
+  homebridge_visible: true
+  homebridge_name: Auto Studio
 input_boolean.autoterrazzo:
   friendly_name: Auto Terrazzo
   icon: mdi:track-light
@@ -382,11 +395,21 @@ input_boolean.allarmenotturno:
   icon: mdi:alarm-light
   homebridge_visible: true
   homebridge_name: Allarme Notturno
+input_boolean.allarmegarage:
+  friendly_name: Allarme Garage
+  icon: mdi:alarm-light
+  homebridge_visible: true
+  homebridge_name: Allarme Garage
 input_boolean.cromoterrazzo:
   friendly_name: Cromoterapia Terrazzo
   icon: mdi:auto-fix
   homebridge_visible: true
   homebridge_name: Cromoterapia Terrazzo
+input_boolean.cromostudio:
+  friendly_name: Cromoterapia Studio
+  icon: mdi:auto-fix
+  homebridge_visible: true
+  homebridge_name: Cromoterapia Studio
 input_boolean.cromosala:
   friendly_name: Cromoterapia Sala
   icon: mdi:auto-fix
@@ -435,6 +458,8 @@ binary_sensor.switch_158d0001870e3d:
   friendly_name: Switch Cucina
 binary_sensor.switch_158d00019f8517:
   friendly_name: Switch Bagno
+binary_sensor.switch_158d0002006896:
+  friendly_name: Switch Studio
 
 ##################### Crypto #####################
 
@@ -522,6 +547,15 @@ switch.plug_158d00015db991: # Power TV Sala
 sensor.consumo_tvsala:
   friendly_name: Consumo TV Sala
   icon: mdi:flash
+sensor.consumo_ieri_mean:
+  friendly_name: Consumo Ieri
+  icon: mdi:chart-bar
+sensor.costo_ieri_mean:
+  friendly_name: Spesa Ieri
+  icon: mdi:coin
+
+
+##################### Utility #####################
 script.spotify_music:
   friendly_name: 'Play'
   icon: mdi:play
@@ -582,3 +616,24 @@ sensor.pihole_seen_clients:
   friendly_name: Seen Clients
 !secret gcalendarentity:
   friendly_name: Calendario
+
+##################### SpaceX #####################
+
+sensor.starman_speed:
+  icon: mdi:account-star
+sensor.starman_earth_distance:
+  icon: mdi:map-marker-distance
+sensor.starman_mars_distance:
+  icon: mdi:map-marker-distance
+sensor.starman_orbit_type:
+  icon: mdi:orbit
+sensor.spacex_next_rocket:
+  icon: mdi:rocket
+sensor.spacex_next_launch_day:
+  icon: mdi:calendar
+sensor.spacex_next_launch_time:
+  icon: mdi:clock-outline
+sensor.spacex_next_launch_site:
+  icon: mdi:map-marker-radius
+sensor.spacex_next_mission_name:
+  icon: mdi:information-outline

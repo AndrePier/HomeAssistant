@@ -12,25 +12,35 @@ homeassistant:
   time_zone: Europe/Rome
   # Customization file
   customize: !include customize.yaml
-  packages: !include_dir_named /packages
+  packages: !include_dir_named packages
 
 # Enables the frontend
 frontend:
+  themes: !include_dir_merge_named themes
 
 # Enables configuration UI
 config:
 
 http:
   api_password: !secret api_password
-  base_url: !secret base_url
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
 
 panel_iframe:
   grafici:
     title: 'Grafici'
     icon: mdi:finance
     url: !secret grafanaurl
+  cloud9:
+    title: 'Cloud9'
+    icon: mdi:code-braces
+    url: !secret cloud9url
+  proxmox:
+    title: 'Proxmox'
+    icon: mdi:server-network
+    url: !secret proxmoxurl
+  pihole:
+    title: 'Pi-hole'
+    icon: mdi:block-helper
+    url: !secret piholeurl
 
 variable: !include variables.yaml
 
@@ -70,25 +80,23 @@ telegram_bot:
 ifttt:
   key: !secret iftttkey
 
-device_tracker:
-
 proximity:
-  home: 
+  home:
     devices:
       - device_tracker.iphonex
     tolerance: 50
     unit_of_measurement: km
-  ufficio: 
+  ufficio:
     devices:
       - device_tracker.iphonex
     tolerance: 50
     unit_of_measurement: km
-  genitori: 
+  genitori:
     devices:
       - device_tracker.iphonex
     tolerance: 50
     unit_of_measurement: km
-    
+
 notify:
   - platform: ios
 
@@ -149,7 +157,7 @@ zone:
   - name: Ufficio
     latitude: !secret ufficio_latitude
     longitude: !secret ufficio_longitude
-    radius: 100
+    radius: 3
     icon: mdi:worker
 
   - name: Genitori
@@ -211,8 +219,6 @@ media_player:
     name: Ampli Denon
     show_all_sources: True
 
-  - platform: plex
-
   - platform: lg_netcast
     host: 192.168.10.29
     access_token: 791905
@@ -251,12 +257,12 @@ camera:
   mjpeg_url: http://192.168.10.19/image.jpg
   name: Cam Cucina
 
-- platform: mjpeg
-  mjpeg_url: http://192.168.10.25/image.jpg
-  name: Cam Garage
-
 - platform: ffmpeg
   input: -rtsp_transport tcp -i rtsp://192.168.10.40:554/ch0_0.h264
+  name: Cam Garage
+
+- platform: mjpeg
+  mjpeg_url: http://192.168.10.25/image.jpg
   name: Cam Corridoio
 
 # Allows you to issue voice commands from the frontend in enabled browsers
@@ -277,13 +283,16 @@ weather:
 
 binary_sensor:
 
+  - platform: uptimerobot
+    api_key: !secret uptimerobotkey
+
   - platform: template
     sensors:
       sensore_bagno_all:
         device_class: motion
         friendly_name: "Sensore Bagno OFF"
         value_template: "{{is_state ('binary_sensor.motion_sensor_158d0001232507', 'off') and is_state ('binary_sensor.motion_sensor_158d000132e942', 'off') and is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'off')}}"
-        
+
   - platform: template
     sensors:
       sensore_camera_all:
@@ -305,6 +314,20 @@ binary_sensor:
         friendly_name: "Sensore Bagno"
         value_template: "{{is_state ('binary_sensor.motion_sensor_158d0001232507', 'on') or is_state ('binary_sensor.motion_sensor_158d000132e942', 'on') or is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'on')}}"
 
+  - platform: template
+    sensors:
+      all_sensors:
+        device_class: motion
+        friendly_name: "Sensori"
+        value_template: "{{is_state ('binary_sensor.motion_sensor_158d00010c24fe', 'on') or is_state ('binary_sensor.motion_sensor_158d0001136f8c', 'on') or is_state ('binary_sensor.motion_sensor_158d00011c3211', 'on') or is_state ('binary_sensor.motion_sensor_158d000120ac8c', 'on') or is_state ('binary_sensor.motion_sensor_158d0001232507', 'on') or is_state ('binary_sensor.motion_sensor_158d000128d5d5', 'on')or is_state ('binary_sensor.motion_sensor_158d00012cbb86', 'on')or is_state ('binary_sensor.motion_sensor_158d000132e942', 'on')or is_state ('binary_sensor.motion_sensor_158d00013f8c44', 'on')or is_state ('binary_sensor.motion_sensor_158d00014dca3a', 'on')or is_state ('binary_sensor.motion_sensor_158d0001dac0bd', 'on')}}"
+
+  - platform: template
+    sensors:
+      all_porte:
+        device_class: door
+        friendly_name: "Porte"
+        value_template: "{{is_state ('binary_sensor.door_window_sensor_158d00013e3968', 'on') or is_state ('binary_sensor.door_window_sensor_158d000153ab76', 'on') or is_state  ('binary_sensor.door_window_sensor_158d0001a348e1', 'on')}}"
+
   - platform: ping
     host: 192.168.10.16
     name: Cam Sala Dx
@@ -322,12 +345,12 @@ binary_sensor:
 
   - platform: ping
     host: 192.168.10.40
-    name: Cam Corridoio
+    name: Cam Garage
     scan_interval: 60
 
   - platform: ping
     host: 192.168.10.25
-    name: Cam Garage
+    name: Cam Corridoio
     scan_interval: 60
 
 google:
@@ -336,29 +359,274 @@ google:
 
 sensor:
 
+  - platform: date_countdown
+    name: Smetti di fumare in
+    date: "05-11-2018 10:00"
+
+  - platform: template
+    sensors:
+      smetti_di_fumare_days:
+        friendly_name: Giorni da fumatore
+        value_template: >-
+          {{ states.sensor.smetti_di_fumare_in.attributes.giorni }}
+
+#SpaceX Sensor THX to John https://community.home-assistant.io/t/spacex-sensors-starman-and-next-rocket-launch/65467
+
+  - platform: rest
+    name: Starman
+    json_attributes:
+      - earth_distance_mi
+      - mars_distance_mi
+      - orbit_type
+    value_template: '{{ value_json["speed_kph"] }}'
+    unit_of_measurement: "km/h"
+    resource: 'https://api.spacexdata.com/v2/info/roadster'
+
+  - platform: rest
+    name: SpaceX
+    json_attributes:
+      - mission_name
+      - launch_site
+      - rocket
+      - reuse
+      - links
+      - details
+      - upcoming
+      - static_fire_date_utc
+    value_template: '{{ value_json["launch_date_unix"] }}'
+    resource: 'https://api.spacexdata.com/v2/launches/next'
+
+  - platform: template
+    sensors:
+      starman_speed:
+        friendly_name: 'Starman Speed'
+        value_template: '{{ states.sensor.starman.state | round(0) }}'
+        unit_of_measurement: 'km/h'
+      starman_earth_distance:
+        friendly_name: 'Earth Distance'
+        value_template: '{{ (states.sensor.starman.attributes["earth_distance_mi"] / 0.6214)| round(0) }}'
+        unit_of_measurement: 'km'
+      starman_mars_distance:
+        friendly_name: 'Mars Distance'
+        value_template: '{{ (states.sensor.starman.attributes["mars_distance_mi"] / 0.6214)| round(0) }}'
+        unit_of_measurement: 'km'
+      starman_orbit_type:
+        friendly_name: 'Orbit Type'
+        value_template: '{{ states.sensor.starman.attributes["orbit_type"] }}'
+      spacex_next_launch_day:
+        friendly_name: 'Next Launch Day'
+        value_template: '{{ states.sensor.spacex.state | int | timestamp_custom("%m.%d.%Y")}}'
+      spacex_next_launch_time:
+        friendly_name: 'Next Launch Time'
+        value_template: '{{ states.sensor.spacex.state | int | timestamp_custom("%H:%M")}}'
+        unit_of_measurement: 'h'
+      spacex_next_rocket:
+        friendly_name: 'Rocket'
+        value_template: '{{ states.sensor.spacex.attributes["rocket"]["rocket_name"] }}'
+      spacex_next_launch_site_name_long:
+        friendly_name: 'Next Launch'
+        value_template: '{{ states.sensor.spacex.attributes["launch_site"]["site_name_long"] }}'
+      spacex_next_mission_name:
+        friendly_name: 'Mission'
+        value_template: '{{ states.sensor.spacex.attributes["mission_name"] }}'
+      spacex_next_launch_site_id:
+        friendly_name: 'Launch Site ID'
+        value_template: '{{ states.sensor.spacex.attributes.launch_site.site_id }}'
+      spacex_next_launch_site_name:
+        friendly_name: 'Site Name'
+        value_template: '{{ states.sensor.spacex.attributes.launch_site.site_name }}'
+      spacex_next_rocket_core_fs_serial:
+        friendly_name: 'First Stage Core Serial'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.first_stage.cores[0].core_serial }}'
+      spacex_next_rocket_core_fs_flight:
+        friendly_name: 'First Stage Core Flight'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.first_stage.cores[0].flight }}'
+      spacex_next_rocket_core_fs_block:
+        friendly_name: 'First Stage Core Block'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.first_stage.cores[0].block }}'
+      spacex_next_rocket_core_fs_reused:
+        friendly_name: 'First Stage Core Reused'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.first_stage.cores[0].reused }}'
+      spacex_next_rocket_core_fs_land_success:
+        friendly_name: 'First Stage Core Land Success'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.first_stage.cores[0].land_success }}'
+      spacex_next_rocket_core_fs_landing_type:
+        friendly_name: 'First Stage Core Landing Type'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.first_stage.cores[0].landing_type }}'
+      spacex_next_rocket_core_fs_landing_vehicle:
+        friendly_name: 'First Stage Core Landing Vehicle'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.first_stage.cores[0].landing_vehicle }}'
+      spacex_next_rocket_core_ss_block:
+        friendly_name: 'Second Stage Block'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.block }}'
+      spacex_next_rocket_core_ss_payload_id:
+        friendly_name: 'Second Stage Payload ID'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].payload_id }}'
+      spacex_next_rocket_core_ss_payload_reused:
+        friendly_name: 'Second Stage Payload Reused'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].reused }}'
+      spacex_next_rocket_core_ss_payload_customer:
+        friendly_name: 'Second Stage Payload Customer'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].customers }}'
+      spacex_next_rocket_core_ss_payload_nationality:
+        friendly_name: 'Second Stage Payload Nationality'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].nationality }}'
+      spacex_next_rocket_core_ss_payload_manufacturer:
+        friendly_name: 'Second Stage Payload Manufacturer'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].manufacturer }}'
+      spacex_next_rocket_core_ss_payload_type:
+        friendly_name: 'Second Stage Payload Type'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].payload_type }}'
+      spacex_next_rocket_core_ss_payload_mass:
+        friendly_name: 'Second Stage Payload Mass'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].payload_mass_lbs }}'
+        unit_of_measurement: 'lbs'
+      spacex_next_rocket_core_ss_payload_orbit:
+        friendly_name: 'Second Stage Payload Orbit'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].orbit }}'
+      spacex_next_rocket_core_ss_payload_orbit_lifespan:
+        friendly_name: 'Second Stage Payload Orbit Lifespan'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.second_stage.payloads[0].orbit_params.lifespan_years }}'
+        unit_of_measurement: 'years'
+      spacex_next_rocket_fairings_reused:
+        friendly_name: 'Fairings Reused'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.fairings.reused }}'
+      spacex_next_rocket_reuse_fairings:
+        friendly_name: 'Reuse Fairings'
+        value_template: '{{ states.sensor.spacex.attributes.reuse.fairings }}'
+      spacex_next_rocket_fairings_recovery_attempt:
+        friendly_name: 'Fairings Recovery Attempt'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.fairings.recovery_attempt }}'
+      spacex_next_rocket_fairings_recovered:
+        friendly_name: 'Fairings Recovered'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.fairings.recovered}}'
+      spacex_next_rocket_fairings_ship:
+        friendly_name: 'Fairings Ship'
+        value_template: '{{ states.sensor.spacex.attributes.rocket.fairings.ship}}'
+      spacex_next_rocket_reuse_core:
+        friendly_name: 'Reuse Core'
+        value_template: '{{ states.sensor.spacex.attributes.reuse.core }}'
+      spacex_next_rocket_reuse_side_core1:
+        friendly_name: 'Reuse Side Core 1'
+        value_template: '{{ states.sensor.spacex.attributes.reuse.side_core1 }}'
+      spacex_next_rocket_reuse_side_core2:
+        friendly_name: 'Reuse Side Core 2'
+        value_template: '{{ states.sensor.spacex.attributes.reuse.side_core2 }}'
+      spacex_next_rocket_reuse_capsule:
+        friendly_name: 'Reuse Capsule'
+        value_template: '{{ states.sensor.spacex.attributes.reuse.capsule }}'
+      spacex_next_mission_patch:
+        friendly_name: 'Mission Patch'
+        value_template: '{{ states.sensor.spacex.attributes.links.mission_patch }}'
+      spacex_next_mission_patch_small:
+        friendly_name: 'Mission Patch Small'
+        value_template: '{{ states.sensor.spacex.attributes.links.mission_patch_small }}'
+      spacex_next_mission_reddit_campaign:
+        friendly_name: 'Mission Reddit Campaign'
+        value_template: '{{ states.sensor.spacex.attributes.links.reddit_campaign }}'
+      spacex_next_mission_reddit_launch:
+        friendly_name: 'Mission Reddit Launch'
+        value_template: '{{ states.sensor.spacex.attributes.links.reddit_launch }}'
+      spacex_next_mission_reddit_recovery:
+        friendly_name: 'Mission Reddit Recovery'
+        value_template: '{{ states.sensor.spacex.attributes.links.reddit_recovery }}'
+      spacex_next_mission_reddit_media:
+        friendly_name: 'Mission Reddit Media'
+        value_template: '{{ states.sensor.spacex.attributes.links.reddit_media }}'
+      spacex_next_mission_presskit:
+        friendly_name: 'Mission Press Kit'
+        value_template: '{{ states.sensor.spacex.attributes.links.presskit }}'
+      spacex_next_mission_article:
+        friendly_name: 'Mission Article'
+        value_template: '{{ states.sensor.spacex.attributes.links.article_link}}'
+      spacex_next_mission_wiki:
+        friendly_name: 'Mission Wiki'
+        value_template: '{{ states.sensor.spacex.attributes.links.wikipedia }}'
+      spacex_next_mission_video_link:
+        friendly_name: 'Mission Video Link'
+        value_template: '{{ states.sensor.spacex.attributes.links.video_link }}'
+      spacex_next_mission_static_fire:
+        friendly_name: 'Mission Static Fire'
+        value_template: '{{ states.sensor.spacex.attributes.static_fire_date_utc }}'
+
+  - platform: template
+    sensors:
+      time_last_motion:
+        friendly_name: Ultimo Movimento
+        icon_template: mdi:map-marker
+        value_template:  "{{states.variable.ultimo_movimento.state}} {{as_timestamp(states.variable.ultimo_movimento.last_changed) | timestamp_custom('%H:%M')}}"
+
+  - platform: template
+    sensors:
+      variazione_crypto_oggi:
+        friendly_name_template: "Variazione Crypto"
+        icon_template: mdi:chart-bar
+        value_template:  "{{(((states.sensor.saldo_crypto.state | float - states.input_number.crypto_fine.state | float)/states.sensor.saldo_crypto.state | float)*100)| round(2)}}"
+        unit_of_measurement: '%'
+
   - platform: template
     sensors:
       consumo_oggi:
-        friendly_name_template: Consumo Odierno
+        friendly_name_template: "Consumo Odierno"
         icon_template: mdi:chart-bar
-        value_template: "{{ (states.sensor.unknown_5.state | int) - (states.input_number.consumo_inizio.state | int) }}"
+        value_template: "{{ (states.sensor.unknown_5.state | float - states.input_number.consumo_inizio.state | float) | round(2) }}"
         unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      costo_consumo_oggi:
+        friendly_name_template: "Spesa Odierna"
+        icon_template: mdi:coin
+        value_template: "{{((states.sensor.consumo_oggi.state | float) * (0.21 | float)) | round(2)}}"
+        unit_of_measurement: '€'
 
   - platform: template
     sensors:
       consumo_ieri:
-        friendly_name_template: Consumo Ieri
+        friendly_name_template: "Consumo Ieri"
         icon_template: mdi:chart-bar
-        value_template: '{{(states.input_number.consumo_day.state | int)}}'
+        value_template: '{{(states.input_number.consumo_day.state | float)}}'
         unit_of_measurement: 'kW'
 
   - platform: template
     sensors:
+      costo_consumo_ieri:
+        friendly_name_template: "Spesa Ieri"
+        icon_template: mdi:coin
+        value_template: "{{((states.input_number.consumo_day.state | float) * (0.21 | float)) | round(2)}}"
+        unit_of_measurement: '€'
+
+  - platform: template
+    sensors:
       consumo_attuale:
-        friendly_name_template: Consumo Attuale
+        friendly_name_template: "Totale Attuale"
         icon_template: mdi:chart-bar
         value_template: '{{(states.sensor.widom_ume304_energy_driven_switch_power.state | float)}}'
         unit_of_measurement: 'W'
+
+  - platform: template
+    sensors:
+      consumo_mensile_oggi:
+        friendly_name_template: "Consumo Mensile"
+        icon_template: mdi:chart-bar
+        value_template: "{{ (states.sensor.unknown_5.state | float - states.input_number.consumo_mese_inizio.state | float) | round(2) }}"
+        unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      costo_consumo_mese_attuale:
+        friendly_name_template: "Spesa Mensile"
+        icon_template: mdi:coin
+        value_template: "{{((states.sensor.consumo_mensile_oggi.state | float) * (0.21 | float)) | round(2)}}"
+        unit_of_measurement: '€'
+
+  - platform: template
+    sensors:
+      costo_consumo_mensile:
+        friendly_name_template: "Spesa Mensile"
+        icon_template: mdi:coin
+        value_template: "{{((states.input_number.consumo_mese.state | float) * (0.21 | float)) | round(2)}}"
+        unit_of_measurement: '€'
 
   - platform: template
     sensors:
@@ -366,7 +634,7 @@ sensor:
         friendly_name: "Consumo Luci"
         icon_template: mdi:chart-bar
         unit_of_measurement: 'W'
-        value_template: "{{ states.sensor.fibaro_system_fgs223_double_relay_power_9.state | int + states.sensor.fibaro_system_fgs223_double_relay_power.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_4.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_3.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_5.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_2.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_6.state | int + states.sensor.fibaro_system_fgs223_double_relay_power_8.state | int }} "
+        value_template: "{{ (states.sensor.fibaro_system_fgs223_double_relay_power_9.state | float + states.sensor.fibaro_system_fgs223_double_relay_power.state | float + states.sensor.fibaro_system_fgs223_double_relay_power_4.state | float + states.sensor.fibaro_system_fgs223_double_relay_power_3.state | float + states.sensor.fibaro_system_fgs223_double_relay_power_5.state | float + states.sensor.fibaro_system_fgs223_double_relay_power_2.state | float + states.sensor.fibaro_system_fgs223_double_relay_power_6.state | float + states.sensor.fibaro_system_fgs223_double_relay_power_8.state | float) | round(2) }} "
 
   - platform: template
     sensors:
@@ -374,31 +642,55 @@ sensor:
         friendly_name: "Consumo Elettrodomestici"
         icon_template: mdi:chart-bar
         unit_of_measurement: 'W'
-        value_template: "{{ states.sensor.neo_coolcam_power_plug_12a_power_4.state | float + states.sensor.neo_coolcam_power_plug_12a_power.state | float + states.sensor.neo_coolcam_power_plug_12a_power_2.state | float + states.sensor.neo_coolcam_power_plug_12a_power_3.state | float + states.sensor.neo_coolcam_power_plug_12a_power_5.state | float + states.sensor.consumo_htcamera.state | float + states.sensor.consumo_tvsala.state | float }} "
+        value_template: "{{ (states.sensor.neo_coolcam_power_plug_12a_power_4.state | float + states.sensor.neo_coolcam_power_plug_12a_power.state | float + states.sensor.neo_coolcam_power_plug_12a_power_2.state | float + states.sensor.neo_coolcam_power_plug_12a_power_3.state | float + states.sensor.neo_coolcam_power_plug_12a_power_5.state | float + states.sensor.consumo_htcamera.state | float + states.sensor.consumo_tvsala.state | float + states.sensor.consumo_studio.state | float)| round(2) }} "
 
   - platform: template
     sensors:
       consumo_giornaliero_medio:
-        friendly_name: "Consumo Giornaliero Medio"
+        friendly_name: "Consumo Day Medio"
         icon_template: mdi:chart-bar
-        value_template: '{{ states.sensor.statistiche_consumo_giornaliero_mean.attributes.median | int }}'
+        value_template: '{{ (states.sensor.consumo_ieri_mean.attributes.median | float) | round(2) }}'
         unit_of_measurement: 'kW'
 
   - platform: template
     sensors:
       consumo_giornaliero_max:
-        friendly_name: "Consumo Giornaliero Massimo"
+        friendly_name: "Consumo Day Massimo"
         icon_template: mdi:chart-bar
-        value_template: '{{ states.sensor.statistiche_consumo_giornaliero_mean.attributes.max_value | int }}'
+        value_template: '{{ (states.sensor.consumo_ieri_mean.attributes.max_value | float) | round(2) }}'
         unit_of_measurement: 'kW'
 
   - platform: template
     sensors:
       consumo_giornaliero_min:
-        friendly_name: "Consumo Giornaliero Minimo"
+        friendly_name: "Consumo Day Minimo"
         icon_template: mdi:chart-bar
-        value_template: '{{ states.sensor.statistiche_consumo_giornaliero_mean.attributes.min_value | int }}'
+        value_template: '{{ (states.sensor.consumo_ieri_mean.attributes.min_value | float) | round(2) }}'
         unit_of_measurement: 'kW'
+
+  - platform: template
+    sensors:
+      costo_giornaliero_medio:
+        friendly_name: "Costo Day Medio"
+        icon_template: mdi:coin
+        value_template: '{{ states.sensor.costo_ieri_mean.attributes.median | float }}'
+        unit_of_measurement: '€'
+
+  - platform: template
+    sensors:
+      costo_giornaliero_max:
+        friendly_name: "Costo Day Massimo"
+        icon_template: mdi:coin
+        value_template: '{{ states.sensor.costo_ieri_mean.attributes.max_value | float }}'
+        unit_of_measurement: '€'
+
+  - platform: template
+    sensors:
+      costo_giornaliero_min:
+        friendly_name: "Costo Day Minimo"
+        icon_template: mdi:coin
+        value_template: '{{ states.sensor.costo_ieri_mean.attributes.min_value | float }}'
+        unit_of_measurement: '€'
 
   - platform: template
     sensors:
@@ -441,6 +733,7 @@ sensor:
         unit_of_measurement: 'min'
 
   - platform: pi_hole
+    host: localhost:4865
     monitored_conditions:
       - ads_blocked_today
       - ads_percentage_today
@@ -461,8 +754,13 @@ sensor:
     entity_id: sensor.widom_ume304_energy_driven_switch_power
 
   - platform: statistics
-    name: Statistiche Consumo Giornaliero
+    name: Consumo Ieri
     entity_id: sensor.consumo_ieri
+
+  - platform: statistics
+    name: Costo Ieri
+    icon: mdi:coin
+    entity_id: sensor.costo_consumo_ieri
 
   - platform: statistics
     name: Statistiche Crypto
@@ -491,26 +789,31 @@ sensor:
   - platform: time_date
     display_options:
       - 'time'
+      - 'date'
 
   - platform: template
     sensors:
       saldo_crypto:
         friendly_name: "Saldo Crypto"
         icon_template: mdi:coin
-        value_template: '{{ (states.sensor.coinbase_portafoglio_eth.attributes["Balance in native currency"] | replace(" EUR", "") | int ) + (states.sensor.coinbase_portafoglio_ltc.attributes["Balance in native currency"] | replace(" EUR", "") | int ) + (states.sensor.coinbase_portafoglio_bch.attributes["Balance in native currency"] | replace(" EUR", "") | int ) + (states.sensor.coinbase_portafoglio_btc.attributes["Balance in native currency"] | replace(" EUR", "") | int )}}'
-        unit_of_measurement: 'EUR'
+        value_template: '{{ ((states.sensor.coinbase_portafoglio_eth.attributes["Balance in native currency"] | replace(" EUR", "") | float ) + (states.sensor.coinbase_portafoglio_ltc.attributes["Balance in native currency"] | replace(" EUR", "") | float ) + (states.sensor.coinbase_portafoglio_bch.attributes["Balance in native currency"] | replace(" EUR", "") | float ) + (states.sensor.coinbase_portafoglio_btc.attributes["Balance in native currency"] | replace(" EUR", "") | float )) |round(2)}}'
+        unit_of_measurement: '€'
 
   - platform: template
     sensors:
-      template_last_motion:
-        friendly_name: 'Ultimo Movimento'
-        value_template: >
-          {%- set sensors = [states.binary_sensor.motion_sensor_158d00013f8c44, states.binary_sensor.motion_sensor_158d000132e942, states.binary_sensor.motion_sensor_158d0001232507, states.binary_sensor.motion_sensor_158d00014dca3a, states.binary_sensor.motion_sensor_158d000120ac8c, states.binary_sensor.motion_sensor_158d0001136f8c, states.binary_sensor.motion_sensor_158d0001dac0bd, states.binary_sensor.motion_sensor_158d00010c24fe, states.binary_sensor.motion_sensor_158d000128d5d5, states.binary_sensor.motion_sensor_158d00012cbb86, states.binary_sensor.motion_sensor_158d00011c3211] %}
-          {% for sensor in sensors %}
-            {% if as_timestamp(sensor.last_changed) == as_timestamp(sensors | map(attribute='last_changed') | max) %}
-              {{ sensor.name }} {{sensor.last_changed.strftime('%X')}}
-            {% endif %}
-          {% endfor %}
+      badge_costo_consumo:
+        friendly_name: "Spesa Odierna"
+        icon_template: mdi:coin
+        value_template: '{{states.sensor.costo_consumo_oggi.state}}'
+        unit_of_measurement: '€'
+
+  - platform: template
+    sensors:
+      badge_costo_mensile:
+        friendly_name: "Spesa Mensile"
+        icon_template: mdi:coin
+        value_template: '{{states.sensor.costo_consumo_mese_attuale.state}}'
+        unit_of_measurement: '€'
 
   - platform: template
     sensors:
@@ -536,27 +839,15 @@ sensor:
 
   - platform: template
     sensors:
-      fasilunari:
-        entity_id: sensor.moon
-        friendly_name: "Luna"
-        icon_template: mdi:brightness-3
+      perdi_guadagna:
+        entity_id:  sensor.variazione_crypto_oggi
+        friendly_name: "Stato Day Crypto"
+        icon_template: mdi:coin
         value_template: >
-          {% if is_state('sensor.moon', 'New moon') %}
-            Luna Nuova
-          {% elif is_state('sensor.moon', 'Waxing crescent') %}
-            Luna Crescente
-          {% elif is_state('sensor.moon', 'First quarter') %}
-            Primo Quarto
-          {% elif is_state('sensor.moon', 'Waxing gibbous') %}
-            Gibbosa Crescente
-          {% elif is_state('sensor.moon', 'Full moon') %}
-            Luna Piena
-          {% elif is_state('sensor.moon', 'Waning gibbous') %}
-            Gibbosa Calante
-          {% elif is_state('sensor.moon', 'Last quarter') %}
-            Ultimo Quarto
-          {% elif is_state('sensor.moon', 'Waning crescent') %}
-            Luna Calante
+          {% if states('states.sensor.variazione_crypto_oggi.state')| float > 0 %}
+            Guadagnando
+          {% else %}
+            Perdendo
           {% endif %}
 
   - platform: template
@@ -659,10 +950,10 @@ sensor:
   - platform: template
     sensors:
       purifier_filter_remain:
-        friendly_name: "Ore Restanti Filtro"
+        friendly_name: "Vita Restante Filtro"
         icon_template: mdi:fan
         value_template: '{{ states.fan.xiaomi_miio_device.attributes.filter_life_remaining }}'
-        unit_of_measurement: 'ore'
+        unit_of_measurement: '%'
 
   - platform: template
     sensors:
@@ -768,6 +1059,14 @@ sensor:
 
   - platform: template
     sensors:
+      consumo_studio:
+        friendly_name: "Consumo Studio"
+        icon_template: mdi:flash
+        value_template: '{{ states.switch.plug_158d0001233ea0.attributes.load_power }}'
+        unit_of_measurement: 'W'
+
+  - platform: template
+    sensors:
       temperatura_cucina:
         friendly_name: "Temperatura Cucina"
         icon_template: mdi:temperature-celsius
@@ -825,6 +1124,50 @@ sensor:
         value_template: "{{states.calendar.festivita_in_italia.attributes.message}}"
 
   - platform: moon
+
+#Moon Template THX to Alby https://github.com/JohnnyZeta/hassio
+
+  - platform: template
+    sensors:
+      fasilunari:
+        #entity_id: sensor.moon
+        friendly_name: "Luna"
+        icon_template: >
+          {% if is_state('sensor.moon', 'new_moon') %}
+            mdi:circle-outline
+          {% elif is_state('sensor.moon', 'waxing_crescent') %}
+            mdi:arrow-up-bold
+          {% elif is_state('sensor.moon', 'first_quarter') %}
+            mdi:arrow-up-bold
+          {% elif is_state('sensor.moon', 'waxing_gibbous') %}
+            mdi:arrow-up-bold
+          {% elif is_state('sensor.moon', 'full_moon') %}
+            mdi:brightness-1
+          {% elif is_state('sensor.moon', 'waning_gibbous') %}
+            mdi:arrow-down-bold
+          {% elif is_state('sensor.moon', 'last_quarter') %}
+            mdi:arrow-down-bold
+          {% elif is_state('sensor.moon', 'waning_crescent') %}
+            mdi:arrow-down-bold
+          {% endif %}
+        value_template: >
+          {% if is_state('sensor.moon', 'new_moon') %}
+            Luna Nuova
+          {% elif is_state('sensor.moon', 'waxing_crescent') %}
+            Luna Crescente
+          {% elif is_state('sensor.moon', 'first_quarter') %}
+            Primo Quarto
+          {% elif is_state('sensor.moon', 'waxing_gibbous') %}
+            Gibbosa Crescente
+          {% elif is_state('sensor.moon', 'full_moon') %}
+            Luna Piena
+          {% elif is_state('sensor.moon', 'waning_gibbous') %}
+            Gibbosa Calante
+          {% elif is_state('sensor.moon', 'last_quarter') %}
+            Ultimo Quarto
+          {% elif is_state('sensor.moon', 'waning_crescent') %}
+            Luna Calante
+          {% endif %}
 
   - platform: darksky
     api_key: !secret darksky_api_key
@@ -1011,6 +1354,13 @@ input_select:
 
 input_number:
 
+  crypto_fine:
+    name: Crypto Fine
+    min: 1
+    max: 5000
+    mode: box
+    unit_of_measurement: '€'
+
   consumo_inizio:
     name: Consumo Inizio
     min: 1
@@ -1032,6 +1382,27 @@ input_number:
     mode: box
     unit_of_measurement: 'kWh'
 
+  consumo_mese_inizio:
+    name: Consumo Inizio
+    min: 1
+    max: 5000
+    mode: box
+    unit_of_measurement: 'kWh'
+
+  consumo_mese_fine:
+    name: Consumo Fine
+    min: 1
+    max: 5000
+    mode: box
+    unit_of_measurement: 'kWh'
+
+  consumo_mese:
+    name: Consumo Giornaliero
+    min: 1
+    max: 5000
+    mode: box
+    unit_of_measurement: 'kWh'
+
   spotify_volume:
     name: Spotify
     icon: mdi:volume-high
@@ -1041,7 +1412,7 @@ input_number:
     initial: 0.4
 
   denon_volume:
-    name: Denon
+    name: Volume Denon
     icon: mdi:volume-high
     min: 0.3
     max: 0.65
@@ -1056,6 +1427,17 @@ influxdb:
   password: !secret influxdb_pwd
   max_retries: 3
   default_measurement: state
+
+google_assistant:
+  project_id: home-assistant-2173c
+  client_id: !secret google_assistant_client_id
+  access_token: !secret google_assistant_access_token
+  agent_user_id: [a string to identify user]
+  api_key: [a Homegraph API Key generated for the Google Actions project]
+  exposed_domains:
+    - switch
+    - light
+    - fan
 
 cloud: !include config/cloud.yaml
 group: !include groups.yaml

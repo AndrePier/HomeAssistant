@@ -22,17 +22,17 @@
               - url: http://192.168.10.19/image.jpg
       - service: camera.snapshot
         data:
-          entity_id: camera.cam_corridoio
-          filename: '/config/www/foto/snapshot_corridoio.jpg'
-      - service: notify.telegram_bot
-        data:
-          message: Foto Cam Corridoio
-          data:
-            photo:
-              - file: '/config/www/foto/snapshot_corridoio.jpg'
+          entity_id: camera.cam_garage
+          filename: '/config/www/foto/snapshot_garage.jpg'
       - service: notify.telegram_bot
         data:
           message: Foto Cam Garage
+          data:
+            photo:
+              - file: '/config/www/foto/snapshot_garage.jpg'
+      - service: notify.telegram_bot
+        data:
+          message: Foto Cam Corridoio
           data:
             photo:
               - url: http://192.168.10.25/image.jpg
@@ -41,6 +41,10 @@
   apertura_basculante:
     alias: "Apri-Chiudi Basculante"
     sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmegarage
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.acasa
       - service: switch.turn_on
         data:
           entity_id: switch.sonoff_garage
@@ -118,6 +122,86 @@
       - service: script.turn_on
         entity_id: script.scatta_allarme
 
+#Pausa Sky ed Apple TV
+  pausa_sky_appletv:
+    sequence:
+      - service: remote.send_command
+        data:
+          entity_id: remote.harmony_sala
+          command:
+          - Play
+          device: 45682595
+          delay_secs: 0.1
+      - service: media_player.media_play_pause
+        entity_id: media_player.apple_tv_sala
+
+#Volume Denon
+  alza_volume_denon:
+    sequence:
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_up
+        entity_id: media_player.ampli_denon
+
+  abbassa_volume_denon:
+    sequence:
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+      - service: media_player.volume_down
+        entity_id: media_player.ampli_denon
+
 #Spotify
   spotify_music:
     sequence:
@@ -177,12 +261,49 @@
         data_template:
           message: "Oggi hai consumato {{states('sensor.consumo_odierno')}} kilowatt."
 
-  vocale_consumo_ieri:
+#Vocale Situazione
+  vocale_situazione:
     sequence:
       - service: tts.google_say
         entity_id: media_player.tutta_la_casa
         data_template:
-          message: "Ieri hai consumato {{states('input_number.consumo_day') | int}} kilowatt."
+          message: "Oggi hai già consumato {{states('sensor.consumo_oggi') | int}} kilowatt, per una spesa pari a {{states('sensor.costo_consumo_oggi') | int}} Euro mentre il consumo di questo mese è di {{states('sensor.consumo_mensile_oggi') |int}} kilowatt e {{states('sensor.costo_consumo_mese_attuale') |int}} euro. Per quanto riguarda il tuo portafoglio stai {{states('sensor.perdi_guadagna')}} {{states('sensor.variazione_crypto_oggi') |int}} percento rispetto alla chiusura di ieri."
+
+#Vocale Temperature
+  vocale_temperatura_camera:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "In camera ci sono {{states('sensor.temperature_158d00015ab8a8') | int}} gradi e l'umidità e al {{states('sensor.humidity_158d00015ab8a8') | int}} percento"
+
+  vocale_temperatura_sala:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "In sala ci sono {{states('sensor.temperature_158d00015a6698') | int}} gradi e l'umidità e al {{states('sensor.humidity_158d00015a6698') | int}} percento"
+
+  vocale_temperatura_bagno:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "In bagno ci sono {{states('sensor.temperature_158d00011001fc') | int}} gradi e l'umidità e al {{states('sensor.humidity_158d00015ab8a8') | int}} percento"
+
+  vocale_temperatura_terrazzo:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "In terrazzo ci sono {{states('sensor.temperature_158d00020ec48d') | int}} gradi e l'umidità e al {{states('sensor.humidity_158d00020ec48d') | int}} percento"
+
+  vocale_temperatura_garage:
+    sequence:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "In garage ci sono {{states('sensor.temperature_158d00020ffbbc') | int}} gradi e l'umidità e al {{states('sensor.humidity_158d00020ffbbc') | int}} percento"
 
 #Timer TV Camera
   timer_tvcamera:
@@ -192,3 +313,44 @@
         entity_id: media_player.tv_camera
       - service: input_boolean.turn_off
         entity_id: input_boolean.timertvcamera
+
+#Timer TV Camera
+  timer_climacamera:
+    sequence:
+      - delay: '01:00:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.climacamera
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.timer_climacamera
+
+#test
+  test:
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.faretto, light.flos
+          color_name: white
+      - service: script.pausa_sky_appletv
+
+
+  rocket_man_notify:
+    alias: Rocket Man Home
+    sequence:
+      - service: notify.telegram_bot
+        data:
+          title: "SPACE X LAUNCH!!"
+          message: >
+            SPACEX START IN 10MIN
+            ══════════════════════════
+            Mission: {{ states('sensor.spacex_next_mission_name') }}
+              │
+              ├─ Start Time: .. {{ states('sensor.spacex_next_launch_time') }}
+              ├─ Rocket: ..... {{ states('sensor.spacex_next_rocket') }}
+              ├─ Location: ..... {{ states('sensor.spacex_next_rocket') }}              
+              └─ Streaming: ........... {{ states.sensor.spacex.attributes.links.video_link }}
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Tra 10 minuti è previsto un lancio di SpaceX. Ti ho mandato il link per lo streaming"
+
+

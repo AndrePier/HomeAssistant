@@ -5,17 +5,23 @@ default_view:
     icon: mdi:home
     entities:
     - device_tracker.iphonex
+    - sensor.consumo_oggi
+    - sensor.badge_costo_consumo
+    - sensor.consumo_mensile_oggi
+    - sensor.badge_costo_mensile
     - sensor.widom_ume304_energy_driven_switch_power
     - sensor.consumo_luci
     - sensor.consumo_elettrodomestici
     - sensor.ufficio_casa
     - sensor.casa_ufficio
+    - sensor.smetti_di_fumare_days
     - sensor.time
     - group.cucina
     - group.sala
     - group.bagno
     - group.camera
     - group.scaleecorridoio
+    - group.studio
     - group.terrazzo
     - group.garage
     - group.calendario
@@ -25,7 +31,7 @@ default_view:
     - group.musicspotify
     - group.multimedia_light
     - group.meteo
-
+    
 Remote View:
     name: Remote
     view: yes
@@ -50,6 +56,8 @@ Info View:
     - group.meteocasa
     - group.speedtest
     - group.percorrenze
+    - group.battery_alert
+    - group.battery_status
 
 Luci View:
     name: Luci
@@ -80,9 +88,12 @@ Consumo View:
     - group.consumo_generale
     - group.consumo_luci
     - group.consumo_elettrodomestici
+    - group.costo_consumi
     - sensor.widom_ume304_energy_driven_switch_power
     - sensor.consumo_luci
     - sensor.consumo_elettrodomestici
+    - sensor.badge_costo_consumo
+    - sensor.badge_costo_mensile
 
 Crypto View:
     name: Crypto
@@ -139,7 +150,7 @@ Franchino:
     name: Franchino
     control: hidden
     entities:
-      - vacuum.xiaomi_vacuum_cleaner
+      - input_boolean.franchinogoogle
       - sensor.franchino_stato
       - sensor.franchino_batteria
       - sensor.franchino_mode
@@ -231,6 +242,7 @@ Crypto:
     - sensor.portafoglio_ltc
     - sensor.portafoglio_bch
     - sensor.portafoglio_btc
+    - sensor.variazione_crypto_oggi
 
 Crypto Full:
     name: Crypto Full
@@ -396,6 +408,18 @@ Scaleecorridoio:
     - switch.fibaro_system_fgs223_double_relay_switch_5
     - camera.cam_corridoio
 
+Studio:
+    name: Studio
+    control: hidden
+    entities:
+    - light.hue_color_lamp_1_2 #Lampada Studio 1
+    - light.hue_color_lamp_1 #Lampada Studio 2
+    - sensor.consumo_studio
+    - binary_sensor.motion_sensor_158d0001e63075
+    - sensor.illumination_158d0001e63075
+    - input_boolean.cromostudio
+    - input_boolean.autostudio
+
 Cam:
     name: Cam
     entities:
@@ -410,6 +434,7 @@ Calendario:
     entities:
     - sensor.impegnigcal
     - sensor.festivitagcal
+    - sensor.smetti_di_fumare_in
 
 Temperatura:
     name: Temperatura
@@ -451,6 +476,8 @@ Luci Primo Piano:
     - light.led
     - light.led_2
     - light.led_3
+    - light.hue_color_lamp_1_2 #Lampada Studio 1
+    - light.hue_color_lamp_1 #Lampada Studio 2
     - switch.plug_158d00015ef7bc # Lampada Sale
     - switch.plug_158d0001db024c # Led TV Camera
 
@@ -477,6 +504,7 @@ Utility Luci:
     - input_boolean.cromocamera
     - input_boolean.cromosala
     - input_boolean.cromobagno
+    - input_boolean.cromostudio
 
 Multimedia Light:
     name: Multimedia
@@ -509,8 +537,11 @@ ControlloTV:
     - input_select.telecomando_select
     - sensor.stato_tv
     - sensor.stato_denon
-    
     - input_number.denon_volume
+    - input_boolean.pausaskyappletv
+    - input_boolean.ambilight
+    - switch.plug_158d0001db024c
+    - input_boolean.timertvcamera
 
 Televisioni:
     name: TV
@@ -587,6 +618,7 @@ Allarme:
     entities:
     - input_boolean.allarmediurno
     - input_boolean.allarmenotturno
+    - input_boolean.allarmegarage
     - input_boolean.acasa
     - input_boolean.inufficio
     - input_boolean.telecamere
@@ -606,6 +638,7 @@ Switch:
     - binary_sensor.switch_158d0001870de7 #Switch Camera
     - binary_sensor.switch_158d0001870e3d #Switch Cucina
     - binary_sensor.switch_158d00019f8517 #Switch Bagno
+    - binary_sensor.switch_158d0002006896 #Switch Studio
 
 Luci:
     name: Luci
@@ -617,6 +650,8 @@ Luci:
     - switch.fibaro_system_fgs223_double_relay_switch_4 # Scale
     - switch.switch_2 # Corridoio
     - switch.fibaro_system_fgs223_double_relay_switch_6 #Atrio
+    - light.hue_color_lamp_1_2 #Lampada Studio 1
+    - light.hue_color_lamp_1 #Lampada Studio 2
     - switch.switch # Bagno
     - switch.fibaro_system_fgs223_double_relay_switch # Specchio Bagno
     - switch.plug_158d000154ae22 # Led Bagno
@@ -635,7 +670,9 @@ Luci:
 Sensori:
     name: Sensori
     entities:
-    - variable.ultimo_movimento
+    - sensor.time_last_motion
+    - binary_sensor.all_sensors
+    - binary_sensor.all_porte
     - binary_sensor.motion_sensor_158d0001dac0bd #Sensore Cucina
     - binary_sensor.motion_sensor_158d00010c24fe #Sensore Sala
     - binary_sensor.motion_sensor_158d000128d5d5 #Sensore Scale Giù
@@ -646,6 +683,7 @@ Sensori:
     - binary_sensor.motion_sensor_158d00014dca3a #Sensore Camera 1
     - binary_sensor.motion_sensor_158d000120ac8c #Sensore Camera 2
     - binary_sensor.motion_sensor_158d0001136f8c #Sensore Led
+    - binary_sensor.motion_sensor_158d0001e63075 #Sensore Studio
     - binary_sensor.motion_sensor_158d00011c3211 #Sensore Terrazzo
     - binary_sensor.door_window_sensor_158d000153ab76 #Porta Sala
     - binary_sensor.door_window_sensor_158d00013e3968 #Porta Terrazzo
@@ -666,12 +704,13 @@ Clima:
     - input_boolean.climacamera
     - input_boolean.superclimasala
     - input_boolean.superclimacamera
+    - input_boolean.timerclima
 
 Pulizia:
     name: Pulizia
     control: hidden
     entities:
-    - vacuum.xiaomi_vacuum_cleaner
+    - input_boolean.franchinogoogle
     - input_boolean.autofranchino
     - fan.xiaomi_miio_device
     - sensor.qualita_aria
@@ -691,12 +730,7 @@ Remote:
     - input_boolean.appletv
     - input_boolean.dtt
     - input_boolean.pc
-    - input_boolean.pausaskyappletv
-    - input_boolean.ambilight
-    - input_boolean.tvsala
     - input_boolean.tvcamera
-    - input_boolean.timertvcamera
-    - input_boolean.test
 
 Zwave:
     name: Zwave
@@ -742,20 +776,32 @@ Elettrodomestici:
     - switch.plug_158d00015db991 # Power TV Sala
     - sensor.consumo_tvsala
 
-Consumo Generale:
-    name: Consumo Generale
+Costo Consumi:
+    name: Costi
     entities:
-    - sensor.consumo_attuale
+    - sensor.costo_consumo_oggi
+    - sensor.costo_ieri_mean
+    - sensor.costo_giornaliero_medio
+    - sensor.costo_giornaliero_min
+    - sensor.costo_giornaliero_max
+    - sensor.costo_consumo_mese_attuale
+    - history_graph.costo_oggi
+    - history_graph.costo_giornaliero
+
+Consumo Generale:
+    name: Generale
+    entities:
     - sensor.consumo_oggi
-    - sensor.consumo_ieri
+    - sensor.consumo_ieri_mean
     - sensor.consumo_giornaliero_medio
     - sensor.consumo_giornaliero_min
     - sensor.consumo_giornaliero_max
+    - sensor.consumo_mensile_oggi
     - history_graph.consumo_generale
     - history_graph.consumo_giornaliero
 
 Consumo Luci:
-    name: Consumo Luci
+    name: Luci
     entities:
     - sensor.fibaro_system_fgs223_double_relay_power_5 #Consumo Luce Cucina
     - history_graph.consumo_luce_cucina
@@ -773,7 +819,7 @@ Consumo Luci:
     - history_graph.consumo_luce_camera
 
 Consumo Elettrodomestici:
-    name: Consumo Elettrodomestici
+    name: Elettrodomestici
     control: hidden
     entities:
     - sensor.neo_coolcam_power_plug_12a_power_4 # Forno W
@@ -787,7 +833,7 @@ Consumo Elettrodomestici:
     - sensor.neo_coolcam_power_plug_12a_power_5 # HT Sala W
     - history_graph.consumo_ht_sala
     - sensor.consumo_htcamera
-    - history_graph.cosnumo_ht_camera
+    - history_graph.consumo_ht_camera
     - sensor.consumo_tvsala
     - history_graph.consumo_tv_sala
 
@@ -837,3 +883,74 @@ Automazioni Luci Reali:
     - automation.luci_terrazzo_off
     - automation.led_camera_on
     - automation.led_camera_off
+
+SpaceX:
+    name: SpaceX
+    view: yes
+    icon: mdi:rocket
+    entities:
+    - group.space_x_starman
+    - group.Space_x
+    - group.Rocket_Core_First_Stage
+    - group.Rocket_Core_Second_Stage
+    - group.Rocket_Fairings
+    - group.Rocket_Reused
+    - group.Rocket_Mission
+    
+Space X Starman:
+    - sensor.starman_speed
+    - sensor.starman_earth_distance
+    - sensor.starman_mars_distance
+    - sensor.starman_orbit_type
+
+Space X:
+    - sensor.spacex_next_rocket
+    - sensor.spacex_next_mission_name
+    - sensor.spacex_next_launch_day
+    - sensor.spacex_next_launch_time
+    - sensor.spacex_next_launch_site_id
+    - sensor.spacex_next_launch_site_name
+    - sensor.spacex_next_launch_site_name_long
+
+Rocket Core First Stage:
+    - sensor.spacex_next_rocket_core_fs_serial
+    - sensor.spacex_next_rocket_core_fs_flight
+    - sensor.spacex_next_rocket_core_fs_block
+    - sensor.spacex_next_rocket_core_fs_reused
+    - sensor.spacex_next_rocket_core_fs_land_success
+    - sensor.spacex_next_rocket_core_fs_landing_type
+    - sensor.spacex_next_rocket_core_fs_landing_vehicle
+
+Rocket Core Second Stage:
+    - sensor.spacex_next_rocket_core_ss_block
+    - sensor.spacex_next_rocket_core_ss_payload_id
+    - sensor.spacex_next_rocket_core_ss_payload_reused
+    - sensor.spacex_next_rocket_core_ss_payload_customer
+    - sensor.spacex_next_rocket_core_ss_payload_nationality
+    - sensor.spacex_next_rocket_core_ss_payload_manufacturer
+    - sensor.spacex_next_rocket_core_ss_payload_type
+    - sensor.spacex_next_rocket_core_ss_payload_mass
+    - sensor.spacex_next_rocket_core_ss_payload_orbit
+    - sensor.spacex_next_rocket_core_ss_payload_orbit_lifespan
+
+Rocket Fairings:
+    - sensor.spacex_next_rocket_fairings_reused
+    - sensor.spacex_next_rocket_reuse_fairings
+    - sensor.spacex_next_rocket_fairings_recovery_attempt
+    - sensor.spacex_next_rocket_fairings_recovered
+    - sensor.spacex_next_rocket_fairings_ship
+
+Rocket Reused:
+    - sensor.spacex_next_rocket_reuse_core
+    - sensor.spacex_next_rocket_reuse_side_core1
+    - sensor.spacex_next_rocket_reuse_side_core2
+    - sensor.spacex_next_rocket_reuse_capsule
+
+Rocket Mission:
+    - sensor.spacex_next_mission_patch
+    - sensor.spacex_next_mission_patch_small
+    - sensor.spacex_next_mission_presskit
+    - sensor.spacex_next_mission_article
+    - sensor.spacex_next_mission_wiki
+    - sensor.spacex_next_mission_video_link
+    - sensor.spacex_next_mission_static_fire

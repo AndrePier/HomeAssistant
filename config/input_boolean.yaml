@@ -48,7 +48,11 @@
   autocamera:
     name: Auto Camera
     initial: on
-    
+
+  autostudio:
+    name: Auto Studio
+    initial: on
+
   autoterrazzo:
     name: Auto Terrazzo
     initial: on
@@ -59,6 +63,9 @@
   allarmenotturno:
     name: Allarme Notturno
 
+  allarmegarage:
+    name: Allarme Garage
+
   scattaallarme:
     name: Scatta Allarme
 
@@ -68,22 +75,26 @@
   cromocamera:
     name: Cromoterapia Camera
 
+  cromostudio:
+    name: Cromoterapia Studio
+
   primoarrivo:
     name: Primo Arrivo
 
   franchinogoogle:
-    name: Franchino Google
+    name: Franchino
+    icon: mdi:broom
 
   purificatorecameragoogle:
     name: Purificatore Camera Google
 
   pausaskyappletv:
-    name: Pausa Sky ed Apple TV
-    icon: mdi:remote
+    name: Pausa
+    icon: mdi:pause
 
   ambilight:
-    name: Ambi
-    icon: mdi:remote
+    name: Ambilight
+    icon: mdi:spotlight
 
   tvcamera:
     name: TV Camera
@@ -133,7 +144,7 @@
 
   timerclima:
     name: Timer Clima
-    icon: mdi:calendar-clock
+    icon: mdi:timer
 
   test:
     name: Test

@@ -77,7 +77,7 @@
     hours_to_show: 24
     refresh: 60
   gr14:
-    name: Cosnumo HT Camera
+    name: Consumo HT Camera
     entities:
       - sensor.consumo_htcamera
     hours_to_show: 24
@@ -172,5 +172,15 @@
       - sensor.consumo_ieri
     hours_to_show: 168
     refresh: 1800
-
-    
+  gr30:
+    name: Costo Oggi
+    entities:
+      - sensor.costo_consumo_oggi
+    hours_to_show: 24
+    refresh: 60
+  gr31:
+    name: Costo Giornaliero
+    entities:
+      - sensor.costo_ieri_mean
+    hours_to_show: 168
+    refresh: 1800
