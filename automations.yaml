@@ -1,0 +1,2393 @@
+##################### Remote #####################
+
+# Sky
+  - alias: 'Sky ON'
+    trigger:
+      platform: state
+      entity_id: input_boolean.sky
+      to: 'on'
+    action:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.harmony_sala
+        activity: 27040114 # Sky
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.appletv, input_boolean.pc, input_boolean.dtt
+    - delay: '00:00:05'
+    - service: remote.send_command
+      data:
+        entity_id: remote.harmony_sala
+        command:
+        - Back
+        - 1
+        - 0
+        - 0
+        device: 45682595
+        delay_secs: 0.5
+
+# Apple TV
+  - alias: 'Apple TV'
+    trigger:
+      platform: state
+      entity_id: input_boolean.appletv
+      to: 'on'
+    action:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.harmony_sala
+        activity: 27040183 #AppleTV
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.sky, input_boolean.pc, input_boolean.dtt
+
+#PC
+  - alias: 'PC'
+    trigger:
+      platform: state
+      entity_id: input_boolean.pc
+      to: 'on'
+    action:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.harmony_sala
+        activity: 27040230 # PC
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.sky, input_boolean.appletv, input_boolean.dtt
+
+#DTT
+  - alias: 'DTT'
+    trigger:
+      platform: state
+      entity_id: input_boolean.dtt
+      to: 'on'
+    action:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.harmony_sala
+        activity: 27040292 # DTT
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.sky, input_boolean.appletv, input_boolean.pc
+
+# Spegni TV Sala
+  - alias: 'Spegni TV Sala'
+    trigger:
+      platform: state
+      entity_id: input_boolean.tvsala
+      to: 'off'
+    action:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.harmony_sala
+        activity: -1 # PowerOFF
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.sky, input_boolean.appletv, input_boolean.pc, input_boolean.dtt
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.tvsala
+    - service: input_select.set_options
+      data:
+        entity_id: input_select.telecomando_select
+        options: ["Scegli"]
+
+  - alias: 'Spegni TV se tutte le attività sono spente'
+    initial_state: True
+    trigger:
+      platform: template
+      value_template: "{{ is_state ('input_boolean.sky', 'off') and is_state ('input_boolean.appletv', 'off') and is_state ('input_boolean.pc', 'off') and is_state ('input_boolean.dtt', 'off')}}"
+    action:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.harmony_sala
+        activity: -1 # PowerOFF
+
+  - alias: 'Spegni tutto se harmony spento'
+    initial_state: True
+    trigger:
+      platform: state
+      entity_id: sensor.stato_harmony
+      to: "PowerOff"
+    action:
+      service: input_boolean.turn_off
+      entity_id: input_boolean.sky, input_boolean.appletv, input_boolean.pc, input_boolean.dtt
+
+# Pausa Sky ed AppleTV
+  - alias: 'Pausa Sky ed Apple TV ON'
+    trigger:
+      platform: state
+      entity_id: input_boolean.pausaskyappletv
+      to: 'on'
+    action:
+    - service: script.pausa_sky_appletv
+
+  - alias: 'Pausa Sky ed Apple TV OFF'
+    trigger:
+      platform: state
+      entity_id: input_boolean.pausaskyappletv
+      to: 'off'
+    action:
+    - service: script.pausa_sky_appletv
+
+# Ambilight
+
+  - alias: 'Ambilight ON'
+    trigger:
+      platform: state
+      entity_id: input_boolean.ambilight
+      to: 'on'
+    action:
+    - service: remote.send_command
+      data:
+        entity_id: remote.harmony_sala
+        command:
+        - Ambilight
+        - DirectionDown
+        - OK
+        device: 45682571
+        delay_secs: 1
+
+  - alias: 'Ambilight OFF'
+    trigger:
+      platform: state
+      entity_id: input_boolean.ambilight
+      to: 'off'
+    action:
+    - service: remote.send_command
+      data:
+        entity_id: remote.harmony_sala
+        command:
+        - Ambilight
+        - DirectionUp
+        - OK
+        device: 45682571
+        delay_secs: 1
+
+  - alias: Input Select TV Sky
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'Sky'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.sky
+
+  - alias: Input Select TV Apple TV
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'Apple TV'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.appletv
+
+  - alias: Input Select TV DTT
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'DTT'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.dtt
+
+  - alias: Input Select TV PC
+    trigger:
+      platform: state
+      entity_id: input_select.telecomando_select
+      to: 'PC'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.pc
+
+# TV Camera
+
+  - alias: Verifica TV Camera ON
+    trigger:
+    - platform: state
+      entity_id: media_player.tv_camera
+      to: 'playing'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.tvcamera
+
+  - alias: Verifica TV Camera OFF
+    trigger:
+    - platform: state
+      entity_id: media_player.tv_camera
+      to: 'off'
+    action:
+      - service: automation.turn_off
+        entity_id: automation.tv_camera_off
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.tvcamera
+      - delay: '00:00:05'
+      - service: automation.turn_on
+        entity_id: automation.tv_camera_off
+
+  - alias: TV Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.tvcamera
+      to: 'on'
+    action:
+      service: switch.turn_on
+      entity_id: switch.tv_camera
+
+  - alias: TV Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.tvcamera
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.tv_camera
+
+  - alias: Timer TV Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.timertvcamera
+      to: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.timer_tvcamera
+
+  - alias: Timer TV Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.timertvcamera
+      to: 'off'
+    action:
+      - service: script.turn_off
+        entity_id: script.timer_tvcamera
+
+# Purificatore Google
+
+  - alias: Verifica Purificatore Google ON
+    trigger:
+    - platform: state
+      entity_id: fan.xiaomi_miio_device
+      to: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.purificatorecameragoogle
+
+  - alias: Verifica Purificatore Google OFF
+    trigger:
+    - platform: state
+      entity_id: fan.xiaomi_miio_device
+      to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.purificatorecameragoogle
+
+  - alias: Purificatore Google ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.purificatorecameragoogle
+      to: 'on'
+    action:
+      service: fan.turn_on
+      entity_id: fan.xiaomi_miio_device
+
+  - alias: Purificatore Google OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.purificatorecameragoogle
+      to: 'off'
+    action:
+      service: fan.turn_off
+      entity_id: fan.xiaomi_miio_device
+
+##################### Luci #####################
+
+# Tutte le luci
+  - alias: Tutte Le Luci ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.tutteleluci
+      to: 'on'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: group.luci
+
+  - alias: Tutte Le Luci OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.tutteleluci
+      to: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+  - alias: Verifica Tutte Le Luci ON
+    trigger:
+      platform: state
+      entity_id: group.luci
+      to: 'on'
+    action:
+      - service: automation.turn_off
+        entity_id: automation.tutte_le_luci_on
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.tutteleluci
+      - service: automation.turn_on
+        entity_id: automation.tutte_le_luci_on
+
+  - alias: Verifica Tutte Le Luci OFF
+    trigger:
+      platform: state
+      entity_id: group.luci
+      to: 'off'
+    action:
+      - service: automation.turn_off
+        entity_id: automation.tutte_le_luci_off
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.tutteleluci
+      - service: automation.turn_on
+        entity_id: automation.tutte_le_luci_off
+
+# Luci Scale
+  - alias: Luci Scale ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autoscale
+      state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: "below_horizon"
+    action:
+      service: switch.turn_on
+      entity_id: switch.fibaro_system_fgs223_double_relay_switch_4
+
+  - alias: Luci Scale OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
+      to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autoscale
+      state: 'on'
+    action:
+      service: switch.turn_off
+      entity_id: switch.fibaro_system_fgs223_double_relay_switch_4, switch.switch_2
+
+# Luci Corridoio
+  - alias: Luci Corridoio ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00012cbb86
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: binary_sensor.motion_sensor_158d000128d5d5
+      state: 'on'
+      for:
+        seconds: 2
+    - condition: state
+      entity_id: sun.sun
+      state: "below_horizon"
+    - condition: state
+      entity_id: input_boolean.autocorridoio
+      state: 'on'
+    action:
+      service: switch.turn_on
+      entity_id: switch.switch_2
+
+  - alias: Luci Corridoio OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
+      to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocorridoio
+      state: 'on'
+    action:
+      service: switch.turn_off
+      entity_id: switch.switch_2
+
+# Luci Studio
+  - alias: Luci Studio ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001e63075
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autostudio
+      state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: "below_horizon"
+    action:
+      - service: light.turn_on
+        entity_id: light.hue_color_lamp_1_2 #Lampada Studio 1
+      - service: light.turn_on
+        entity_id: light.hue_color_lamp_1 #Lampada Studio 2
+
+# Luci Terrazzo
+  - alias: Luci Terrazzo ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00011c3211
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autoterrazzo
+      state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: "below_horizon"
+    action:
+      - service: light.turn_on
+        entity_id: light.terrazzo_1
+      - service: light.turn_on
+        entity_id: light.terrazzo_2
+      - service: light.turn_on
+        entity_id: light.terrazzo_3
+
+  - alias: Luci Terrazzo OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00011c3211
+      to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autoterrazzo
+      state: 'on'
+    action:
+      - service: light.turn_off
+        entity_id: light.terrazzo_1
+      - service: light.turn_off
+        entity_id: light.terrazzo_2
+      - service: light.turn_off
+        entity_id: light.terrazzo_3
+
+# Luce Cucina
+  - alias: Luci Cucina ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001dac0bd
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocucina
+      state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: "below_horizon"
+    action:
+      service: switch.turn_on
+      entity_id: switch.switch_3
+
+  - alias: Luci Cucina OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001dac0bd
+      to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocucina
+      state: 'on'
+    action:
+      service: switch.turn_off
+      entity_id: switch.switch_3
+
+# Luce Bagno
+  - alias: Luci Bagno ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autobagno
+      state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: "below_horizon"
+    action:
+      service: switch.turn_on
+      entity_id: switch.switch
+
+  - alias: Luci Bagno OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.sensore_bagno_all
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.autobagno
+        state: 'on'
+    action:
+      service: switch.turn_off
+      entity_id: switch.switch
+
+# Luce Camera
+  - alias: Luci Camera ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocamera
+      state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: "below_horizon"
+    action:
+      service: switch.turn_on
+      entity_id: switch.fibaro_system_fgs223_double_relay_switch_2
+
+  - alias: Luci Camera OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.sensore_camera_all
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.autocamera
+        state: 'on'
+    action:
+      service: switch.turn_off
+      entity_id: switch.fibaro_system_fgs223_double_relay_switch_2
+
+# Led Camera
+  - alias: Led Camera ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001136f8c
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocamera
+      state: 'on'
+    action:
+      service: light.turn_on
+      entity_id: light.led, light.led_2, light.led_3
+
+  - alias: Led Camera OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001136f8c
+      to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.autocamera
+      state: 'on'
+    action:
+      service: light.turn_off
+      entity_id: light.led, light.led_2, light.led_3
+
+# Luci Garage
+  - alias: Luci Garage ON
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+      to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_luci_garage
+
+  - alias: Luci Garage OFF
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+      to: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.sonoff_luci_garage
+
+# Timer Lampada Sale
+  - alias: Timer Lampada Sale
+    trigger:
+      platform: time
+      at: '02:00:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.acasa
+        state: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.plug_158d00015ef7bc
+      - delay: '05:00:00'
+      - service: switch.turn_off
+        entity_id: switch.plug_158d00015ef7bc
+
+# AutoLuci
+  - alias: Auto Luci ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.automazioni
+      to: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.autostudio, input_boolean.autocucina, input_boolean.autoscale, input_boolean.autocorridoio, input_boolean.autobagno, input_boolean.autocamera, input_boolean.autoterrazzo
+
+  - alias: Auto Luci OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.automazioni
+      to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.autostudio, input_boolean.autocucina, input_boolean.autoscale, input_boolean.autocorridoio, input_boolean.autobagno, input_boolean.autocamera, input_boolean.autoterrazzo
+
+  - alias: Verifica Auto Luci ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.autostudio, input_boolean.autocucina, input_boolean.autoscale, input_boolean.autocorridoio, input_boolean.autobagno, input_boolean.autocamera, input_boolean.autoterrazzo
+      to: 'on'
+    action:
+      - service: automation.turn_off
+        entity_id: automation.auto_luci_on
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.automazioni
+      - service: automation.turn_on
+        entity_id: automation.auto_luci_on
+
+  - alias: Verifica Auto Luci OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.autostudio, input_boolean.autocucina, input_boolean.autoscale, input_boolean.autocorridoio, input_boolean.autobagno, input_boolean.autocamera, input_boolean.autoterrazzo
+      to: 'off'
+    action:
+      - service: automation.turn_off
+        entity_id: automation.auto_luci_off
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.automazioni
+      - service: automation.turn_on
+        entity_id: automation.auto_luci_off
+
+# Cromoterapia Terrazzo
+  - alias: Cromoterapia Terrazzo ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromoterrazzo
+      to: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.terrazzo_1, light.terrazzo_2, light.terrazzo_3
+          effect: 'Slowdown'
+
+  - alias: Cromoterapia Terrazzo OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromoterrazzo
+      to: 'off'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.terrazzo_1, light.terrazzo_2, light.terrazzo_3
+          effect: 'Stop'
+
+# Cromoterapia Sala
+  - alias: Cromoterapia Sala ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromosala
+      to: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.faretto, light.flos
+          effect: colorloop
+          brightness: 254
+          transition: 5
+
+  - alias: Cromoterapia Sala OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromosala
+      to: 'off'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.faretto, light.flos
+          effect: 'Stop'
+
+# Cromoterapia Camera
+  - alias: Cromoterapia Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromocamera
+      to: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.led, light.led_2
+          effect: colorloop
+          brightness: 254
+          transition: 5
+
+  - alias: Cromoterapia Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromocamera
+      to: 'off'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.led, light.led_2
+          effect: 'Stop'
+
+#Cromoterapia Bagno
+  - alias: Cromoterapia Bagno ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromobagno
+      to: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: switch.switch, switch.fibaro_system_fgs223_double_relay_switch
+      - service: switch.turn_on
+        entity_id: switch.plug_158d000154ae22
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.autobagno
+
+  - alias: Cromoterapia Bagno OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromobagno
+      to: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: switch.switch
+      - service: switch.turn_off
+        entity_id: switch.plug_158d000154ae22
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.autobagno
+
+# Cromoterapia Studio
+  - alias: Cromoterapia Studio ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromostudio
+      to: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.hue_color_lamp_1_2, light.hue_color_lamp_1
+          effect: colorloop
+          brightness: 254
+          transition: 10
+
+  - alias: Cromoterapia Studio OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.cromostudio
+      to: 'off'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.hue_color_lamp_1_2, light.hue_color_lamp_1
+          effect: 'Stop'
+
+##################### Switch #####################
+
+# Cube
+
+  - alias: Cube event flip90
+    trigger:
+      platform: event
+      event_type: cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00028f884c
+        action_type: flip90
+    action:
+      - service: homeassistant.toggle
+        entity_id: light.hue_color_lamp_1_2, light.hue_color_lamp_1
+
+  - alias: Cube event move
+    trigger:
+      platform: event
+      event_type: cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00028f884c
+        action_type: move
+    action:
+      - service: homeassistant.toggle
+        entity_id: light.hue_color_lamp_1_2, light.hue_color_lamp_1
+
+
+# Switch Porta Sala Click
+  - alias: Switch Porta Sala Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210eaab
+        click_type: single
+    action:
+      - service: cover.open_cover
+        entity_id: cover.apri_basculante
+
+# Switch Porta Sala Doppio Click
+  - alias: Switch Porta Sala Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210eaab
+        click_type: double
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.acasa
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+
+# Switch Garage Click
+  - alias: Switch Garage Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210e8db
+        click_type: single
+    action:
+      - service: cover.close_cover
+        entity_id: cover.apri_basculante
+
+  - alias: Switch Porta Sala Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000210e8db
+        click_type: double
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.acasa
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+
+# Switch Studio Click
+  - alias: Switch Studio Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0002006896
+        click_type: single
+    action:
+      - service: homeassistant.toggle
+        entity_id: light.hue_color_lamp_1_2, light.hue_color_lamp_1
+
+# Switch Studio Double Click
+  - alias: Switch Studio Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0002006896
+        click_type: double
+    action:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.cromostudio
+
+# Switch Studio Long Click
+  - alias: Switch Studio Long Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0002006896
+        click_type: long_click_press
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+# Switch Sala Click
+  - alias: Switch Sala Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d00013f6ec3
+        click_type: single
+    action:
+      - service: homeassistant.toggle
+        entity_id: light.flos, switch.fibaro_system_fgs223_double_relay_switch_3
+
+# Switch Sala Double Click
+  - alias: Switch Sala Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d00013f6ec3
+        click_type: double
+    action:
+      - service: homeassistant.turn_on
+        entity_id: light.flos, switch.fibaro_system_fgs223_double_relay_switch_3, light.faretto, switch.switch_3
+
+# Switch Sala Long Click
+  - alias: Switch Sala Long Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d00013f6ec3
+        click_type: long_click_press
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+# Switch Cucina Click
+  - alias: Switch Cucina Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870e3d
+        click_type: single
+    action:
+      - service: homeassistant.toggle
+        entity_id: switch.switch_3
+
+# Switch Cucina Double Click
+  - alias: Switch Cucina Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870e3d
+        click_type: double
+    action:
+      - service: homeassistant.turn_on
+        entity_id: light.flos, switch.fibaro_system_fgs223_double_relay_switch_3, light.faretto, switch.switch_3
+
+# Switch Cucina Long Click
+  - alias: Switch Cucina Long Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870e3d
+        click_type: long_click_press
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+# Switch Bagno Click
+  - alias: Switch Bagno Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d00019f8517
+        click_type: single
+    action:
+      - service: homeassistant.toggle
+        entity_id: switch.fibaro_system_fgs223_double_relay_switch
+
+# Switch Bagno Double Click
+  - alias: Switch Bagno Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d00019f8517
+        click_type: double
+    action:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.cromobagno
+
+# Switch Bagno Long Click
+  - alias: Switch Bagno Long Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d00019f8517
+        click_type: long_click_press
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+# Switch Letto Click
+  - alias: Switch Letto Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000186e79b
+        click_type: single
+    action:
+      - service: switch.toggle
+        entity_id: switch.plug_158d00015ef7bc
+
+# Switch Letto Double Click
+
+  - alias: Switch Letto Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000186e79b
+        click_type: double
+    action:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.allarmenotturno
+
+# Switch Letto Long Click
+  - alias: Switch Letto Long Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d000186e79b
+        click_type: long_click_press
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+# Switch Camera
+  - alias: Switch Camera Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870de7
+        click_type: single
+    action:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.tvcamera
+
+  - alias: Switch Camera Double Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870de7
+        click_type: double
+    action:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.climacamera
+
+  - alias: Switch Camera Long Click
+    trigger:
+      platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001870de7
+        click_type: long_click_press
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+
+##################### Notifiche #####################
+
+  - alias: Smetti di fumare
+    trigger:
+      platform: time
+      at: '10:30:00'
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          message: "Hai ancora {{ states.sensor.smetti_di_fumare_days.state }} giorni da fumatore bastardo."
+      - service: notify.telegram_bot
+        data:
+          message: "Hai ancora {{ states.sensor.smetti_di_fumare_days.state }} giorni da fumatore bastardo."
+
+  - alias: Space X Launch Notify
+    trigger:
+      - platform: template
+        value_template: '{{ (now().strftime("%s") | int + 600) == (states.sensor.spacex.state | int) }}'
+    action:
+      - service: script.rocket_man_notify
+
+  - alias: Test
+    trigger:
+    - platform: state
+      entity_id: input_boolean.test
+      to: 'on'
+    action:
+      - service: tts.google_say
+        entity_id:  media_player.tutta_la_casa
+        data_template:
+          message: "brao"
+
+  - alias: Actionable Notification Garage
+    initial_state: True
+    trigger:
+    - platform: state
+      entity_id: input_boolean.acasa
+      to: 'on'
+    action:
+      service: notify.ios_iphonex
+      data:
+        title: "Garage"
+        message: "Bentornato, apro il garage?"
+        data:
+          push:
+            badge: 0
+            category: 'garage'
+
+  - alias: Actionable Apertura Garage Notifica
+    initial_state: True
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: APRI_GARAGE
+    action:
+      - service: cover.open_cover
+        entity_id: cover.apri_basculante
+
+  - alias: Actionable Notification Buona Notte
+    initial_state: True
+    trigger:
+        platform: time
+        at: '23:30:00'
+    condition:
+      - condition: state
+        entity_id: media_player.tv_camera
+        state: 'playing'
+    action:
+      service: notify.ios_iphonex
+      data:
+        title: "Buonanotte"
+        message: "Vuoi che attivo l'allarme notturno?"
+        data:
+          push:
+            badge: 0
+            category: 'buonanotte'
+
+  - alias: Actionable Buona Notte Notifica
+    initial_state: True
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: BUONA_NOTTE
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.allarmenotturno
+
+  - alias: Telegram Bot Friz
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/hey'
+    action:
+      - service: notify.telegram_friz
+        data:
+          message: 'Ciao! Cosa devo fare?'
+          data:
+            keyboard:
+              - '/spegniallarme'
+              - '/attivaallarme'
+
+  - alias: Fratello Spegne Allarme
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/spegniallarme'
+    action:
+      - service: notify.telegram_friz
+        data:
+          message: Ok, ho spento l'allarme!
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmediurno
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmenotturno
+      - service: notify.telegram_bot
+        data:
+          message: Friz ha spento l'allarme!
+
+  - alias: Fratello Sbaglia e Attiva Allarme
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/attivaallarme'
+    condition:
+      - condition: state
+        entity_id: input_boolean.acasa
+        state: 'on'
+    action:
+      - service: notify.telegram_friz
+        data:
+          message: C'è tuo fratello a casa, non posso attivarlo!
+      - service: notify.telegram_bot
+        data:
+          message: Friz mi ha chiesto di attivare l'allarme ma non l'ho fatto dato che sei a casa!
+
+  - alias: Fratello Attiva Allarme
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/attivaallarme'
+    condition:
+      - condition: state
+        entity_id: input_boolean.acasa
+        state: 'off'
+    action:
+      - service: notify.telegram_friz
+        data:
+          message: Ok, ho attivato l'allarme
+      - service: notify.telegram_bot
+        data:
+          message: Friz ha attivato l'allarme
+
+  - alias: Telegram Cam
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/foto'
+    action:
+      - service: script.foto_telegram
+
+  - alias: Telegram GPS Update
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/posizione'
+    action:
+        service: notify.ios_iphonex
+        data:
+          message: "request_location_update"
+
+# Fine Lavatrice
+  - alias: Attiva Notifica lavatrice
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.neo_coolcam_power_plug_12a_power_3
+      above: '10'
+    action:
+      - service: automation.turn_on
+        entity_id: automation.notifica_fine_lavatrice
+
+  - alias: Notifica Fine Lavatrice
+    initial_state: False
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.neo_coolcam_power_plug_12a_power_3
+      below: '4'
+      for:
+        minutes: 3
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "La lavatrice ha finito!"
+          title: "Lavatrice"
+      - service: automation.turn_off
+        entity_id: automation.notifica_fine_lavatrice
+      - service: tts.google_say
+        entity_id:  media_player.tutta_la_casa
+        data_template:
+          message: "La Lavatrice ha finito!"
+      - service: notify.tvsala
+        data:
+          title: "Lavatrice"
+          message: "La lavatrice ha finito!"
+      - service: notify.telegram_bot
+        data:
+          message: La lavatrice ha finito!
+          title: "Lavatrice"
+
+# Fine Lavastoviglie
+  - alias: Attiva Notifica lavastoviglie
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.neo_coolcam_power_plug_12a_power_2
+      above: '10'
+    action:
+      - service: automation.turn_on
+        entity_id: automation.notifica_fine_lavastoviglie
+
+  - alias: Notifica Fine Lavastoviglie
+    initial_state: False
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.neo_coolcam_power_plug_12a_power_2
+      below: '1'
+      for:
+        minutes: 13
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "La lavastoviglie ha finito!"
+          title: "Lavastoviglie"
+      - service: automation.turn_off
+        entity_id: automation.notifica_fine_lavastoviglie
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "La Lavastoviglie ha finito!"
+      - service: notify.tvsala
+        data:
+          title: "Lavastoviglie"
+          message: "La lavastovigle ha fInito!"
+      - service: notify.telegram_bot
+        data:
+          message: La lavastoviglie ha finito!
+          title: "Lavastoviglie"
+
+# Aggiornamento Hass.io
+  - alias: Notifica aggiornamento
+    trigger:
+    - platform: state
+      entity_id: updater.updater
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
+      - service: notify.tvsala
+        data_template:
+          title: "Notifica"
+          message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
+      - service: notify.telegram_bot
+        data:
+          message: "È disponibile Home Assistant {{ states.updater.updater.state }}."
+
+# Avviso Traffico Lavoro
+  - alias: Coda da casa
+    initial_state: True
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.casa_ufficio
+      above: 45
+    condition:
+        condition: time
+        after: '07:45:00'
+        before: '09:00:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          title: "Probabile Coda!"
+          message: >
+            "Probabile coda, per arrivare in ufficio impiegherai {{ states.sensor.casa_ufficio.state }} minuti.
+      - service: notify.ios_iphone7
+        data_template:
+          title: "Probabile Coda!"
+          message: >
+            "Probabile coda, per arrivare in ufficio impiegherai{{ states.sensor.casa_ufficio.state }} minuti.
+      - service: notify.telegram_bot
+        data_template:
+          message: "Probabile coda, per arrivare in ufficio impiegherai {{ states.sensor.casa_ufficio.state }} minuti."
+
+  - alias: Coda da lavoro
+    initial_state: True
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.ufficio_casa
+      above: 45
+    condition:
+        condition: time
+        after: '18:00:00'
+        before: '19:30:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          title: "Probabile Coda!"
+          message: >
+            Probabile coda, per arrivare a casa impiegherai {{ states.sensor.ufficio_casa.state }} minuti.
+      - service: notify.ios_iphone7
+        data_template:
+          title: "Probabile Coda!"
+          message: >
+            Probabile coda, per arrivare a casa impiegherai {{ states.sensor.ufficio_casa.state }} minuti.
+      - service: notify.telegram_bot
+        data:
+          message: "Probabile coda, per arrivare a casa impiegherai {{ states.sensor.ufficio_casa.state }} minuti."
+
+# Avviso Tempo Percorrenza Lavoro
+  - alias: Percorrenza per Lavoro
+    trigger:
+      platform: state
+      entity_id: input_boolean.acasa
+      to: 'off'
+    condition:
+        condition: time
+        after: '07:30:00'
+        before: '10:00:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          title: "Percorrenza Ufficio"
+          message: >
+            Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti.
+      - service: notify.ios_iphone7
+        data_template:
+          title: "Percorrenza Ufficio"
+          message: >
+            Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti.
+      - service: notify.telegram_bot
+        data_template:
+          message: "Arrivo in ufficio previsto in {{ states.sensor.casa_ufficio.state }} minuti."
+
+  - alias: Percorrenza da Lavoro
+    trigger:
+      platform: state
+      entity_id: input_boolean.inufficio
+      to: 'off'
+    condition:
+        condition: time
+        after: '17:30:00'
+        before: '23:50:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          title: "Percorrenza Casa"
+          message: >
+            Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti.
+      - service: notify.ios_iphone7
+        data_template:
+          title: "Percorrenza Casa"
+          message: >
+            Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti.
+      - service: notify.telegram_bot
+        data_template:
+          message: "Arrivo a casa previsto in {{ states.sensor.ufficio_casa.state }} minuti."
+
+# Basculante
+  - alias: Apertura Basculante Garage
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Garage Aperto!"
+      - service: notify.ios_iphone7
+        data:
+          message: "Garage Aperto!"
+      - service: notify.telegram_bot
+        data:
+          message: Garage Aperto!
+
+  - alias: Allarme Basculante Garage
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+      to: 'off'
+    action:
+      - delay: '00:00:01'
+      - service: input_boolean.turn_on
+        entity_id:  input_boolean.allarmegarage
+
+  - alias: Dimenticata Basculante Aperta
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.acasa
+      to: 'off'
+    condition:
+      - condition: state
+        entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+        state: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Hai dimenticato il garage Aperto!"
+      - service: notify.ios_iphone7
+        data:
+          message: "Hai dimenticato il garage Aperto!"
+      - service: notify.telegram_bot
+        data:
+          message: Hai dimenticato il garage Aperto!
+
+# Pioggia
+  - alias: Pioggia
+    trigger:
+      platform: state
+      entity_id: binary_sensor.water_leak_sensor_158d00023a47c4
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "A casa sta piovendo!"
+      - service: notify.ios_iphone7
+        data:
+          message: "A casa sta piovendo!"
+      - service: notify.telegram_bot
+        data:
+          message: A casa sta piovendo!
+
+##################### Utility #####################
+
+#Check DNS UptimeRobot
+  - alias: CheckDNSUptimeRobot
+    trigger:
+      platform: state
+      entity_id: !secret dnsuptime
+      to: 'off'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Non riesco a contattare il tuo DNS"
+      - service: notify.ios_iphone7
+        data:
+          message: "Non riesco a contattare il tuo DNS"
+      - service: notify.telegram_bot
+        data:
+          message: "Non riesco a contattare il tuo DNS"
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Non riesco a contattare il tuo DNS"
+
+# Crypto Giornaliere
+  - alias: Set Crypto Fine
+    trigger:
+      platform: time
+      at: '00:00:01'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id:  input_number.crypto_fine
+        value: "{{ states.sensor.saldo_crypto.state | float }}"
+
+# Consumo Giornaliero
+  - alias: Set Consumo Inizio
+    trigger:
+      platform: time
+      at: '00:00:01'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_inizio
+        value: "{{ states.sensor.unknown_5.state | float }}"
+
+  - alias: Set Consumo Fine
+    trigger:
+      platform: time
+      at: '23:59:55'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_fine
+        value: "{{ states.sensor.unknown_5.state | float }}"
+
+  - alias: Set Consumo Giornaliero
+    trigger:
+      platform: time
+      at: '23:59:59'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_day
+        value: "{{ (states.input_number.consumo_fine.state | float) - (states.input_number.consumo_inizio.state | float) }}"
+
+# Consumo Mensile
+
+  - alias: Set Consumo Mensile Inizio
+    trigger:
+      platform: time
+      at: '00:00:06'
+    condition:
+      condition: template
+      value_template: '{{ now().strftime("%d") == "01" }}'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_mese_inizio
+        value: "{{ states.sensor.unknown_5.state | float }}"
+
+  - alias: Set Consumo Mensile Fine
+    trigger:
+      platform: time
+      at: '00:00:01'
+    condition:
+      condition: template
+      value_template: '{{ now().strftime("%d") == "01" }}'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_mese_fine
+        value: "{{ states.sensor.unknown_5.state | float }}"
+
+  - alias: Set Consumo Mensile
+    trigger:
+      platform: time
+      at: '00:00:03'
+    condition:
+      condition: template
+      value_template: '{{ now().strftime("%d") == "01" }}'
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.consumo_mese
+        value: "{{ (states.input_number.consumo_fine.state | float) - (states.input_number.consumo_inizio.state | float) }}"
+
+# HomeKit Start
+  - alias: 'Start HomeKit'
+    trigger:
+      - platform: event
+        event_type: zwave.network_ready
+      - platform: event
+        event_type: zwave.network_complete
+    action:
+      - delay: '00:01:00'
+      - service: homekit.start
+
+# Programmazione Franchino
+
+  - alias: Programmazione Franchino
+    trigger:
+      - platform: time
+        at: '17:05:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.autofranchino
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.acasa
+        state: 'off'
+    action:
+      - service: vacuum.start
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+
+  - alias: Notifica Fine Franchino
+    trigger:
+      - platform: state
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        from: 'cleaning'
+        to: 'returning'
+    action:
+      - service: notify.telegram_bot
+        data:
+          message: "Franchino ha appena finito di pulire {{ states.sensor.franchino_area_pulita.state }} mq in {{ states.sensor.franchino_tempo_pulizia.state }} minuti e gli rimane il {{ states.sensor.franchino_batteria.state }}% di batteria."
+
+# Clima Sala
+  - alias: Clima Sala ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasala
+      to: 'on'
+    action:
+      service: switch.turn_on
+      entity_id: switch.climasala
+
+  - alias: Clima Sala OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.climasala
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.climasala
+
+  - alias: Clima Super Sala ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.superclimasala
+      to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.superclimasala
+      - delay: '00:05:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.superclimasala
+
+  - alias: Clima Super Sala OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.superclimasala
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.superclimasala
+
+# Clima Camera
+  - alias: Clima Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.climacamera
+      to: 'on'
+    action:
+      service: switch.turn_on
+      entity_id: switch.climacamera
+
+  - alias: Clima Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.climacamera
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.climacamera
+
+  - alias: Clima Super Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.superclimacamera
+      to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.superclimacamera
+      - delay: '00:05:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.superclimacamera
+
+  - alias: Clima Super Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.superclimacamera
+      to: 'off'
+    action:
+      service: switch.turn_off
+      entity_id: switch.superclimacamera
+
+  - alias: Timer Clima Camera ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.timerclima
+      to: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.timer_climacamera
+
+  - alias: Timer Clima Camera OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.timerclima
+      to: 'off'
+    action:
+      - service: script.turn_off
+        entity_id: script.timer_climacamera
+
+# Power Telecamere ON
+  - alias: Telecamere ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.telecamere
+      to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6, switch.fibaro_system_fgs223_double_relay_switch_5
+
+# Power Telecamere OFF
+  - alias: Telecamere OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.telecamere
+      to: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.plug_158d0001289f89, switch.plug_158d00015e8298, switch.plug_158d000154b1f6, switch.fibaro_system_fgs223_double_relay_switch_5
+
+# Errore Spegnimento Telecamere
+  - alias: Errore Spegnimento Telecamere
+    initial_state: True
+    trigger:
+      platform: state
+      entity_id: input_boolean.telecamere
+      to: 'off'
+      for: '00:02:00'
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.cam_cucina
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.cam_corridoio
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.cam_sala_dx
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.cam_sala_sx
+          state: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.telecamere
+      - delay: '00:00:10'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.telecamere
+
+# Backup Automatico
+  - alias: Backup Automatico
+    trigger:
+      platform: time
+      at: '03:00:00'
+    action:
+      - service: hassio.snapshot_full
+        data_template:
+          name: Automated Backup {{ now().strftime('%Y-%m-%d') }}
+
+# Alert Spazio
+  - alias: Spazio Libero
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.disk_use_percent_
+      above: 85
+      below: 90
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Spazio libero sulla SD in esaurimento!"
+      - service: automation.turn_off
+        data:
+          entity_id: automation.backup_automatico
+      - service: notify.ios_iphonex
+        data:
+          message: "Backup Automatico disattivato"
+
+# Avvio Franchino Google Home
+  - alias: Franchino Google ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.franchinogoogle
+      to: 'on'
+    action:
+      service: vacuum.start
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+
+  - alias: Franchino Google OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.franchinogoogle
+      to: 'off'
+    action:
+      service: vacuum.return_to_base
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+
+  - alias: Spengi Franchino Google se spento
+    trigger:
+      platform: state
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+      to: 'docked'
+    action:
+      service: input_boolean.turn_off
+      entity_id: input_boolean.franchinogoogle
+
+  - alias: Accendi Franchino Google se acceso
+    trigger:
+      platform: state
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+      to: 'cleaning'
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.franchinogoogle
+
+# Shutdown PC Sala
+  - alias: Spegni PC Sala
+    trigger:
+      platform: state
+      entity_id: input_boolean.pcsala
+      to: 'off'
+    action:
+      service: hassio.addon_stdin
+      data:
+        addon: core_rpc_shutdown
+        input: nuc
+
+# Spazzatura
+
+  - alias: avviso_spazzatura
+    trigger:
+      platform: time
+      at: '22:30:00'
+    condition:
+      condition: time
+      weekday:
+        - tue
+        - thu
+        - sun
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          title: "Spazzatura"
+          message: >
+            {% if now().strftime('%A') == 'Tuesday' %}
+              Ricordati di portare fuori Carta e Indifferenziato!
+            {% elif now().strftime('%A') == 'Thursday' %}
+              Ricordati di portare fuori Plastica e Vetro!
+            {% elif now().strftime('%A') == 'Sunday' %}
+              Ricordati di portare fuori l'organico!
+            {% endif %}
+      - service: notify.telegram_bot
+        data_template:
+          message: >
+            {% if now().strftime('%A') == 'Tuesday' %}
+              Ricordati di portare fuori Carta e Indifferenziato!
+            {% elif now().strftime('%A') == 'Thursday' %}
+              Ricordati di portare fuori Plastica e Vetro!
+            {% elif now().strftime('%A') == 'Sunday' %}
+              Ricordati di portare fuori l'organico!
+            {% endif %}
+      - service: tts.google_say
+        entity_id:  media_player.tutta_la_casa
+        data_template:
+          message: >
+            {% if now().strftime('%A') == 'Tuesday' %}
+              Ricordati di portare fuori Carta e Indifferenziato!
+            {% elif now().strftime('%A') == 'Thursday' %}
+              Ricordati di portare fuori Plastica e Vetro!
+            {% elif now().strftime('%A') == 'Sunday' %}
+              Ricordati di portare fuori l'organico!
+            {% endif %}
+
+# Calendario
+  - alias: Reminder Calendario
+    trigger:
+      platform: state
+      entity_id: !secret gcalendarentity
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          message: !secret gcalmessageattribute
+      - service: notify.tvsala
+        data_template:
+          title: "Notifica"
+          message: !secret gcalmessageattribute
+      - service: notify.telegram_bot
+        data:
+          message: !secret gcalmessageattribute
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: !secret gcalmessageattribute
+
+  - alias: Reminder Calendario Feste
+    trigger:
+      platform: state
+      entity_id: calendar.festivita_in_italia
+      to: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data_template:
+          message: "Oggi è {{states.calendar.festivita_in_italia.attributes.message}}"
+      - service: notify.tvsala
+        data_template:
+          title: "Notifica"
+          message: "Oggi è {{states.calendar.festivita_in_italia.attributes.message}}"
+      - service: notify.telegram_bot
+        data:
+          message: "Oggi è {{states.calendar.festivita_in_italia.attributes.message}}"
+
+##################### Allarme #####################
+
+  - alias: Allarme Sensori
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507, binary_sensor.motion_sensor_158d00010c24fe, binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.allarmediurno
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.allarmenotturno
+          state: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Rilevato movimento in casa!!!"
+      - service: notify.ios_iphone7
+        data:
+          message: "Rilevato movimento in casa!!!"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.scattaallarme
+
+  - alias: Allarme Porte
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d000153ab76, binary_sensor.door_window_sensor_158d00013e3968
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.allarmediurno
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.allarmenotturno
+          state: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Rilevata apertura porta!!!"
+      - service: notify.ios_iphone7
+        data:
+          message: "Rilevata apertura porta!!!"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.scattaallarme
+
+  - alias: Allarme Basculante Garage
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0001a348e1
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.allarmediurno
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.allarmenotturno
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.allarmegarage
+          state: 'on'
+    action:
+      - service: notify.ios_iphonex
+        data:
+          message: "Rilevata apertura basculante!!!"
+      - service: notify.ios_iphone7
+        data:
+          message: "Rilevata apertura basculante!!!"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.scattaallarme
+
+  - alias: Allarme Notturno Inserito
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmenotturno
+      to: 'on'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.camera
+        data_template:
+          message: "Oggi hai consumato {{states('sensor.consumo_oggi') | float}} kilowatt, per una spesa pari a {{states('sensor.costo_consumo_oggi') | float}} Euro mentre il consumo di questo mese è di {{states('sensor.consumo_mensile_oggi') |float}} kilowatt e {{states('sensor.costo_consumo_mese_attuale') |float}} euro  Per quanto riguarda il tuo portafoglio stai {{states('sensor.perdi_guadagna')}} {{states('sensor.variazione_crypto_oggi')}}% rispetto alla chiusura di ieri."
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.telecamere
+      - service: light.turn_on
+        data:
+          entity_id: light.led, light.led_2, light.led_3
+          color_name: red
+      - delay: '00:00:03'
+      - service: light.turn_off
+        entity_id: light.led, light.led_2, light.led_3
+
+  - alias: Allarme Notturno Disinserito
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmenotturno
+      to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme_loop
+      - service: tts.google_say
+        entity_id: media_player.camera
+        data_template:
+          message: "Allarme Notturno Disinserito, Ieri hai consumato {{states('sensor.consumo_ieri_mean') | float}} kilowatt, per una spesa pari a {{states('sensor.costo_ieri_mean') | float}} Euro. Oggi stai già {{states('sensor.perdi_guadagna')}} {{states('sensor.variazione_crypto_oggi')}}%"
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.telecamere
+      - service: light.turn_on
+        data:
+          entity_id: light.led, light.led_2, light.led_3
+          color_name: white
+      - delay: '00:00:03'
+      - service: light.turn_off
+        entity_id: light.led, light.led_2, light.led_3
+
+  - alias: Disinserisci Allarme Notturno Automatico
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.allarmenotturno
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmenotturno
+
+  - alias: Allarme Diurno Inserito
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmediurno
+      to: 'on'
+    action:
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Allarme Diurno Inserito"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.telecamere
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmegarage
+
+  - alias: Allarme Diurno Disinserito
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmediurno
+      to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme_loop
+      - service: tts.google_say
+        entity_id: media_player.tutta_la_casa
+        data_template:
+          message: "Allarme Diurno Disinserito"
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.telecamere
+
+  - alias: Scatta Allarme ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.scattaallarme
+      to: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.scatta_allarme
+
+  - alias: Scatta Allarme OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.scattaallarme
+      to: 'off'
+    action:
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme_loop
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.tvsala
+
+  - alias: Spegni Allarme Diurno
+    trigger:
+      platform: state
+      entity_id: input_boolean.allarmediurno
+      to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.scattaallarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme
+      - service: script.turn_off
+        entity_id: script.scatta_allarme_loop
+
+  - alias: Spegni Allarme Dopo 5 Minuti
+    trigger:
+      platform: state
+      entity_id: input_boolean.scattaallarme
+      to: 'on'
+      for:
+        minutes: 5
+    action:
+      service: input_boolean.turn_off
+      entity_id: input_boolean.scattaallarme
+
+##################### Arrivo/Uscita da Casa #####################
+
+# A Casa ON
+  - alias: A Casa ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.acasa
+      to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.allarmediurno
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.sky
+
+# A Casa OFF
+  - alias: A Casa OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.acasa
+      to: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.allarmediurno
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.tvsala
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.primoarrivo
+
+# Apertura Porta Tramonto
+  - alias: Apertura Porta Arrivo Tramonto
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d000153ab76
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.primoarrivo
+        state: 'on'
+      - condition: state
+        entity_id: sun.sun
+        state: "below_horizon"
+    action:
+      - service: homeassistant.turn_on
+        entity_id: light.flos, switch.switch_3
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.primoarrivo
+
+# Apertura Porta Pre Tramonto
+  - alias: Apertura Porta Arrivo Pre Tramonto
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d000153ab76
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.primoarrivo
+        state: 'on'
+      - condition: state
+        entity_id: sun.sun
+        state: "above_horizon"
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.primoarrivo
+
+##################### Zone #####################
+
+#Andrea arriva a casa
+#  - alias: Andrea arriva a casa
+#    trigger:
+#        platform: state
+#        entity_id: input_boolean.acasa
+#        to: 'on'
+#    action:
+#        - service: notify.ios_iphonex
+#          data_template:
+#            message: "Andrea è arrivato a casa alle {{ states('sensor.time') }}"
+#            title: "A Casa"
+
+#Andrea esce da casa
+#  - alias: Andrea esce da casa
+#    trigger:
+#        platform: state
+#        entity_id: input_boolean.acasa
+#        to: 'off'
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è uscito da casa alle {{ states('sensor.time') }}"
+#          title: "Fuori Casa"
+
+#Andrea arriva in ufficio
+#  - alias: Andrea arriva in ufficio
+#    trigger:
+#        platform: state
+#        entity_id: input_boolean.inufficio
+#        to: 'on'
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è arrivato in ufficio alle {{ states('sensor.time') }}"
+#          title: "In Ufficio"
+
+#Andrea esce dall'ufficio
+#  - alias: Andrea esce dall'ufficio
+#    trigger:
+#       platform: state
+#        entity_id: input_boolean.inufficio
+#        to: 'off'
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è uscito dall'ufficio alle {{ states('sensor.time') }}"
+#          title: "Fuori Ufficio"
+
+#Andrea arriva a San Polo
+#  - alias: Andrea arriva a San Polo
+#    trigger:
+#        platform: zone
+#        event: enter
+#        zone: zone.genitori
+#        entity_id: device_tracker.iphonex
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è arrivato a San Polo alle {{ states('sensor.time') }}"
+#          title: "San Polo"
+
+#Andrea esce da San Polo
+# - alias: Andrea esce da San Polo
+#    trigger:
+#        platform: zone
+#        event: leave
+#        zone: zone.genitori
+#        entity_id: device_tracker.iphonex
+#    action:
+#        service: notify.ios_iphonex
+#        data_template:
+#          message: "Andrea è uscito da San Polo alle {{ states('sensor.time') }}"
+#          title: "San Polo"
+
+##################### IFTT #####################
+
+  - alias: Buonanotte
+    trigger:
+      platform: state
+      entity_id: input_boolean.buonanotte
+      to: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: group.luci
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.allarmenotturno
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.buonanotte
+
+  - alias: "Aggiorna Ultimo Movimento"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001e63075, sensor.motion_sensor_158d00013f8c44, binary_sensor.motion_sensor_158d000132e942, binary_sensor.motion_sensor_158d0001232507, binary_sensor.motion_sensor_158d00014dca3a, binary_sensor.motion_sensor_158d000120ac8c, binary_sensor.motion_sensor_158d0001136f8c, binary_sensor.motion_sensor_158d0001dac0bd, binary_sensor.motion_sensor_158d00010c24fe, binary_sensor.motion_sensor_158d000128d5d5, binary_sensor.motion_sensor_158d00012cbb86, binary_sensor.motion_sensor_158d00011c3211
+        to: 'on'
+    action:
+      - service: variable.set_variable
+        data:
+          variable: ultimo_movimento
+          attributes_template: >
+             {
+                "history_1": "{{ variable.state }}",
+                "history_2": "{{ variable.attributes.history_1 }}",
+                "history_3": "{{ variable.attributes.history_2 }}"
+              }
+        data_template:
+          value: "{{ trigger.to_state.attributes.friendly_name }}"
+
