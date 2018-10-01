@@ -14,6 +14,8 @@
 ![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Consumi.png)
 ## Multimedia
 ![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Multimedia.png)
+## SpaceX
+![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/SpaceX.png)
 ## Grafana
 ![SchedaHome](https://github.com/AndrePier/HomeAssistant/blob/master/image/Grafana.png)
 
